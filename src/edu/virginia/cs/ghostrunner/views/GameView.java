@@ -5,7 +5,6 @@ import java.util.Iterator;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
@@ -13,9 +12,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import edu.virginia.cs.ghostrunner.Game;
 import edu.virginia.cs.ghostrunner.GameOver;
-import edu.virginia.cs.ghostrunner.R;
 import edu.virginia.cs.ghostrunner.entities.Entity;
 import edu.virginia.cs.ghostrunner.entities.Ghost;
 import edu.virginia.cs.ghostrunner.entities.Player;
@@ -24,7 +21,7 @@ import edu.virginia.cs.ghostrunner.handlers.SurfaceThread;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private Paint p;
 	private DisplayMetrics dm;
-	private Game game;
+	// private Game game; //Not sure if this is needed anymore
 	private SurfaceThread thread;
 
 	private Player player;
@@ -32,7 +29,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	private void init() {
 		p = new Paint();
-		game = (Game) getContext();
+		//Game game = (Game) getContext(); // Not sure this even works and is
+											// probably dangerous to assume the
+											// context is a Game
 		getHolder().addCallback(this);
 		Log.v("GAME_VIEW", "Metrics: " + dm.widthPixels + ", "
 				+ dm.heightPixels);
@@ -96,7 +95,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			Entity tmp = iter.next();
 			if (player.getRect().intersect(tmp.getRect())) {
 				stop();
-				Log.v("STOP","THREAD STOPPED");
+				Log.v("STOP", "THREAD STOPPED");
 				Intent intent = new Intent(getContext(), GameOver.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				getContext().startActivity(intent);

@@ -7,7 +7,6 @@ import edu.virginia.cs.ghostrunner.R;
 import edu.virginia.cs.ghostrunner.views.GameView;
 
 public class Ghost extends Entity {
-	private GameView gameView;
 
 	public Ghost() {
 		super();

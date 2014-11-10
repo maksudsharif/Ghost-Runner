@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.Window;
-import edu.virginia.cs.ghostrunner.handlers.GameThread;
 import edu.virginia.cs.ghostrunner.handlers.mySensorListener;
 import edu.virginia.cs.ghostrunner.views.GameView;
 
@@ -16,8 +15,7 @@ public class Game extends Activity {
 	private SensorManager sensorManager;
 	private Sensor accelerometerSensor;
 	private GameView gameView;
-	private GameThread thread;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

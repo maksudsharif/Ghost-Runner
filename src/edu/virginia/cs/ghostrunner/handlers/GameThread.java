@@ -2,7 +2,6 @@ package edu.virginia.cs.ghostrunner.handlers;
 
 import android.os.AsyncTask;
 import edu.virginia.cs.ghostrunner.Game;
-import edu.virginia.cs.ghostrunner.entities.Ghost;
 import edu.virginia.cs.ghostrunner.views.GameView;
 /*
  * DON'T USE THIS CLASS, IT HAS BEEN REPLACED WITH SURFACETHREAD
