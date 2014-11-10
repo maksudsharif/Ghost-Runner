@@ -38,7 +38,7 @@ public class SurfaceThread extends Thread {
 
 						));
 					}
-					gameView.checkBounds();
+					//gameView.checkBounds(); //Call here or in View onDraw?
 					gameView.onDraw(c);
 
 				}

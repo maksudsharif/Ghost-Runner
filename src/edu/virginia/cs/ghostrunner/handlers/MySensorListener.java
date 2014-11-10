@@ -5,13 +5,13 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import edu.virginia.cs.ghostrunner.views.GameView;
 
-public class mySensorListener implements SensorEventListener {
+public class MySensorListener implements SensorEventListener {
 
 	private GameView gameView;
 
-	public mySensorListener(GameView view) {
-		gameView = view;
-	}
+	public MySensorListener(GameView gameView) {
+		this.gameView = gameView;
+		}
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
