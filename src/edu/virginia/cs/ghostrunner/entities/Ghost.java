@@ -36,10 +36,10 @@ public class Ghost extends Entity {
 	@Override
 	public void draw(Canvas c) {
 		// update the ghosts position
-		this.pos_y += 10;
+		this.pos_y += 5;
 		// set the ghost's position based on updated values
-		this.rect.set((int) pos_x - 50, (int) pos_y - 50, 50 + (int) pos_x,
-				50 + (int) pos_y);// this sets the size of the rectangle
+		this.rect.set((int) pos_x - 25, (int) pos_y - 25, 25 + (int) pos_x,
+				25 + (int) pos_y);// this sets the size of the rectangle
 		c.drawBitmap(bm, pos_x, pos_y, p);
 
 	}

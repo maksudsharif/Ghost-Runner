@@ -31,7 +31,7 @@ public class SurfaceThread extends Thread {
 				c = sh.lockCanvas(null);
 				synchronized (sh) {
 					// update ghosts
-					if (gameView.size() < 6) {
+					while (gameView.size() < 2) {
 						gameView.add(new Ghost(
 								(float) (Math.random() * gameView
 										.getWidthPixels()), 0, gameView

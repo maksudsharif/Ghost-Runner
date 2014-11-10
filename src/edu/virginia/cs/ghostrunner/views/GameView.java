@@ -131,13 +131,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 				Intent intent = new Intent(getContext(), GameOver.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				getContext().startActivity(intent);
-				/*
-				 * Remove Ghosts logic
-				 */
-				if (tmp.getY() > dm.heightPixels) {
-					iter.remove();
-					currentScore++;
-				}
+			}
+			/*
+			 * Remove Ghosts logic
+			 */
+			if (tmp.getY() > dm.heightPixels) {
+				iter.remove();
+				Log.v("ENTITY", "ghost removed");
+				currentScore++;
 			}
 		}
 	}

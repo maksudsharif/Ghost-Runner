@@ -20,8 +20,8 @@ public class Player extends Entity {
 
 	@Override
 	public void draw(Canvas c) {
-		rect.set((int) pos_x - 50, (int) pos_y - 50, 50 + (int) pos_x,
-				50 + (int) pos_y);
+		rect.set((int) pos_x - 25, (int) pos_y - 25, 25 + (int) pos_x,
+				25 + (int) pos_y);
 		c.drawBitmap(bm, pos_x, pos_y, p);
 
 	}
