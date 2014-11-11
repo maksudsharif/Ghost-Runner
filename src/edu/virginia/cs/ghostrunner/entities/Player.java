@@ -20,14 +20,14 @@ public class Player extends Entity {
 
 	@Override
 	public void draw(Canvas c) {
-		rect.set(
+		this.rect.set(
 				(int) pos_x - (int) (gameView.getWidthPixels() * Entity.SCALE),
 				(int) pos_y - (int) (gameView.getWidthPixels() * Entity.SCALE),
 				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_x,
 				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_y);
 		c.drawRect(rect, p);
-		c.drawBitmap(bm, (float) (pos_x - gameView.getWidthPixels()
-				* Entity.SCALE), (float) (pos_y - gameView.getWidthPixels()
-				* Entity.SCALE), p);
+//		c.drawBitmap(bm, (float) (pos_x - gameView.getWidthPixels()
+//				* Entity.SCALE), (float) (pos_y - gameView.getWidthPixels()
+//				* Entity.SCALE), p);
 	}
 }

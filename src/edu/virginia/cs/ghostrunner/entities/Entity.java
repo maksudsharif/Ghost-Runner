@@ -15,6 +15,7 @@ public abstract class Entity {
 	protected Paint p;
 	protected String difficulty;
 	protected final static double SCALE = 0.035;
+	protected final static double SPEED = .01;
 
 	protected Entity() {
 	} // Don't call this constructor

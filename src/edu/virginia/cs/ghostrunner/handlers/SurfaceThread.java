@@ -33,12 +33,14 @@ public class SurfaceThread extends Thread {
 				synchronized (sh) {
 					// update ghosts
 					//if (difficulty.equals("EASY")) {
-						while (gameView.size() < 6) {
-							gameView.add(new Ghost(
+						if (gameView.size() < 15) {
+							if (Math.random() > .99 && Math.random() > 0) {
+								gameView.add(new Ghost(
 									(float) (Math.random() * gameView
 											.getWidthPixels()), 0, gameView
 
 							));
+							}
 						}
 					//}
 					if (difficulty.equals("MEDIUM")) {}
