@@ -32,19 +32,20 @@ public class SurfaceThread extends Thread {
 				c = sh.lockCanvas(null);
 				synchronized (sh) {
 					// update ghosts
-					if (difficulty.equals("EASY")) {
-						while (gameView.size() < 2) {
+					//if (difficulty.equals("EASY")) {
+						while (gameView.size() < 6) {
 							gameView.add(new Ghost(
 									(float) (Math.random() * gameView
 											.getWidthPixels()), 0, gameView
 
 							));
 						}
-					}
+					//}
 					if (difficulty.equals("MEDIUM")) {}
 					if (difficulty.equals("HARD")) {}
 					// gameView.checkBounds(); //Call here or in View onDraw?
 					gameView.onDraw(c);
+					
 
 				}
 			} finally {

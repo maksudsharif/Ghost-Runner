@@ -171,6 +171,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 		//Draw Entities
 		for (Entity e : entities) {
 			e.draw(c);
+
 		}
 		
 		//TODO: Draw score - MOVE THIS OUT TO A VIEW AND ADD IT TO ACTIVITY
