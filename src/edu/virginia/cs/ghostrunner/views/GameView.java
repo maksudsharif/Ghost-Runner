@@ -68,14 +68,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 		if (difficulty.equals("EASY")) {
 			ghostspawnconstant = 1;
 			ghostspeedconstant = 1;
+			ghostfrequencyconstant = 1;
 		}
 		if (difficulty.equals("MEDIUM")) {
-			ghostspawnconstant = 1.5;
+			ghostspawnconstant = 1.3;
 			ghostspeedconstant = 1.5;
+			ghostfrequencyconstant = 1;
 		}	
 		if (difficulty.equals("HARD")) {
-			ghostspawnconstant = 2;
+			ghostspawnconstant = 1.5;
 			ghostspeedconstant = 2;
+			ghostfrequencyconstant = .98;
 		}
 		
 		thread = new SurfaceThread(getHolder(), this);

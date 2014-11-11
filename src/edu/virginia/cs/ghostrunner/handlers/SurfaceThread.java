@@ -38,7 +38,7 @@ public class SurfaceThread extends Thread {
 					
 						if (gameView.size() < (15 * gameView.getGhostspawnconstant())) {
 							Log.d("getGhostspawnconstant" , ""  + gameView.getGhostspawnconstant());
-							if (Math.random() > .96) {
+							if (Math.random() > (.96 * gameView.getGhostfrequencyconstant()) && Math.random() > (.40 * gameView.getGhostfrequencyconstant())) {
 								gameView.add(new Ghost(
 									(float) (Math.random() * gameView
 											.getWidthPixels()), 0, gameView
