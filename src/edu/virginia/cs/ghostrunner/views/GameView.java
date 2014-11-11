@@ -39,6 +39,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 	private String score;
 	
 	private String difficulty;
+	private double ghostspawnconstant;
+	private double ghostfrequencyconstant;
+	
+	private double ghostspeedconstant;
 	
 	private void init() {
 		p = new Paint();
@@ -60,10 +64,25 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 		sPaint.setColor(Color.BLACK);
 		sPaint.setTextSize(100);
 		sPaint.setTextAlign(Paint.Align.CENTER);
-
+		
+		if (difficulty.equals("EASY")) {
+			ghostspawnconstant = 1;
+			ghostspeedconstant = 1;
+		}
+		if (difficulty.equals("MEDIUM")) {
+			ghostspawnconstant = 1.5;
+			ghostspeedconstant = 1.5;
+		}	
+		if (difficulty.equals("HARD")) {
+			ghostspawnconstant = 2;
+			ghostspeedconstant = 2;
+		}
+		
 		thread = new SurfaceThread(getHolder(), this);
 		setFocusable(true);
 	}
+
+
 
 	/*
 	 * Constructors
@@ -114,6 +133,28 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 	public String getDifficulty(){
 		return difficulty;
 	}
+	public double getGhostspawnconstant() {
+		return ghostspawnconstant;
+	}
+
+	public void setGhostspawnconstant(double ghostspawnconstant) {
+		this.ghostspawnconstant = ghostspawnconstant;
+	}
+
+	public double getGhostspeedconstant() {
+		return ghostspeedconstant;
+	}
+
+	public void setGhostspeedconstant(double ghostspeedconstant) {
+		this.ghostspeedconstant = ghostspeedconstant;
+	}
+	public double getGhostfrequencyconstant() {
+		return ghostfrequencyconstant;
+	}
+	public void setGhostfrequencyconstant(double ghostfrequencyconstant) {
+		this.ghostfrequencyconstant = ghostfrequencyconstant;
+	}
+
 
 	/*
 	 * Other helper methods

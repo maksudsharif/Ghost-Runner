@@ -2,6 +2,7 @@ package edu.virginia.cs.ghostrunner.handlers;
 
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import edu.virginia.cs.ghostrunner.entities.Ghost;
 import edu.virginia.cs.ghostrunner.views.GameView;
@@ -11,11 +12,13 @@ public class SurfaceThread extends Thread {
 	private GameView gameView;
 	private boolean running = false;
 	private String difficulty;
+	
 
 	public SurfaceThread(SurfaceHolder sh, GameView gameView) {
 		this.sh = sh;
 		this.gameView = gameView;
 		difficulty = gameView.getDifficulty();
+		
 	}
 
 	public void setRunning(boolean b) {
@@ -32,9 +35,10 @@ public class SurfaceThread extends Thread {
 				c = sh.lockCanvas(null);
 				synchronized (sh) {
 					// update ghosts
-					//if (difficulty.equals("EASY")) {
-						if (gameView.size() < 15) {
-							if (Math.random() > .99 && Math.random() > 0) {
+					
+						if (gameView.size() < (15 * gameView.getGhostspawnconstant())) {
+							Log.d("getGhostspawnconstant" , ""  + gameView.getGhostspawnconstant());
+							if (Math.random() > .96) {
 								gameView.add(new Ghost(
 									(float) (Math.random() * gameView
 											.getWidthPixels()), 0, gameView
@@ -42,9 +46,8 @@ public class SurfaceThread extends Thread {
 							));
 							}
 						}
-					//}
-					if (difficulty.equals("MEDIUM")) {}
-					if (difficulty.equals("HARD")) {}
+				
+					
 					// gameView.checkBounds(); //Call here or in View onDraw?
 					gameView.onDraw(c);
 					

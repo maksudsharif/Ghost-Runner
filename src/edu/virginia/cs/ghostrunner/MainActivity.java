@@ -14,15 +14,16 @@ public class MainActivity extends Activity {
 	public enum Difficulty {
 		EASY, MEDIUM, HARD
 	}
-
 	private Difficulty diff = Difficulty.EASY;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
-		extra = "Easy";
+		
+		extra = "EASY";
 
 	}
 
