@@ -21,6 +21,7 @@ import android.view.View.OnTouchListener;
 import edu.virginia.cs.ghostrunner.GameOver;
 import edu.virginia.cs.ghostrunner.entities.Entity;
 import edu.virginia.cs.ghostrunner.entities.Ghost;
+import edu.virginia.cs.ghostrunner.entities.Item;
 import edu.virginia.cs.ghostrunner.entities.Player;
 import edu.virginia.cs.ghostrunner.handlers.SurfaceThread;
 
@@ -33,7 +34,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 	private SurfaceThread thread;
 
 	private Player player;
-	private ArrayList<Entity> entities; //Should contain ghosts/items/etc
+	
+	private ArrayList<Entity> ghosts; //Should contain ghosts and friendly ghosts
+	private ArrayList<Item> items; //Should contain items
 	
 	private int currentScore;
 	private String score;
@@ -58,7 +61,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 								// onDraw instead of calling own methods
 
 		player = new Player(dm.widthPixels / 2, dm.heightPixels / 2, this);
-		entities = new ArrayList<Entity>();
+		ghosts = new ArrayList<Entity>();
+		items = new ArrayList<Item>();
 		
 		currentScore = 0;
 		score = "";
@@ -118,7 +122,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 	 * Getters and Setters
 	 */
 	public int size() {
-		return entities.size();
+		return ghosts.size();
 	}
 
 	public int getWidthPixels() {
@@ -159,20 +163,29 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 	public void setGhostfrequencyconstant(double ghostfrequencyconstant) {
 		this.ghostfrequencyconstant = ghostfrequencyconstant;
 	}
+	public ArrayList<Item> getItems() {
+		return items;
+	}
+
 
 
 	/*
 	 * Other helper methods
 	 */
 	public void add(Entity g) {
-		entities.add(g);
+		if (g instanceof Ghost) {
+			ghosts.add(g);
+		}
+		if (g instanceof Item) {
+			items.add((Item) g);
+		}
 	}
 	
 	/*
 	 * Bounds
 	 */
 	public void checkBounds() {
-		Iterator<Entity> iter = entities.iterator();
+		Iterator<Entity> iter = ghosts.iterator();
 		Rect playerRect;
 		while (iter.hasNext()) {
 			Entity tmp = iter.next();
@@ -215,7 +228,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 		player.draw(c);
 		
 		//Draw Entities
-		for (Entity e : entities) {
+		for (Entity e : ghosts) {
 			e.draw(c);
 
 		}
@@ -262,7 +275,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 		int y = (int) event.getY();
 		// Probably should make this Synchronized
 		// Check if the click lands within a ghost
-		for (Entity e : entities) {
+		for (Entity e : ghosts) {
 			if (e instanceof Ghost) {
 				Rect tmp = e.getRect();
 				if (tmp.contains(x, y)) {
@@ -282,7 +295,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 
 	public boolean performClick(Ghost g) {
 		super.performClick();
-		entities.remove(g); // Possible synchronization problems
+		ghosts.remove(g); // Possible synchronization problems
 		currentScore += 5;
 		return true;
 	}

@@ -46,20 +46,20 @@ public class SurfaceThread extends Thread {
 
 							));
 							}
-							
-						//Spawn Items
-						if (Math.random() > .40 && Math.random() > .40) {
-							gameView.add(new SmallGhostsItem ((float) Math.random() * gameView.getWidthPixels(), 0, gameView));
 						}
+						//Spawn Items
+						if (gameView.getItems().size() < 3) {
+							if (Math.random() > .40 && Math.random() > .40) {
+								gameView.add(new SmallGhostsItem ((float) Math.random() * gameView.getWidthPixels(), 0, gameView));
+								Log.d("ItemAdded" , "SmallGhostsItem");
+							}
 						}
 				
-					
-					// gameView.checkBounds(); //Call here or in View onDraw?
-					gameView.onDraw(c);
-					
-
 				}
-			} finally {
+					// gameView.checkBounds(); //Call here or in View onDraw?
+					gameView.onDraw(c);	
+			}
+			 finally {
 				if (c != null) {
 					sh.unlockCanvasAndPost(c);
 				}

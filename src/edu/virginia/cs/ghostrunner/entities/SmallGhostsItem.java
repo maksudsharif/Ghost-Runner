@@ -17,20 +17,20 @@ public class SmallGhostsItem extends Item {
 		this.timer = 1000;
 		bm = BitmapFactory.decodeResource(gameView.getContext().getResources(),
 				R.drawable.ic_launcher);
-		this.p = new Paint(Color.CYAN);
+		this.p = new Paint(Color.WHITE);
 	}
 
 	@Override
 	public void draw(Canvas c) {
 		// For now, just update speed same as ghosts.
-		this.pos_y += this.pos_y += (int) (gameView.getWidthPixels() * Entity.SPEED)
+		this.pos_y += (int) (gameView.getWidthPixels() * Entity.SPEED)
 				* gameView.getGhostspeedconstant();
 		this.rect.set((int) pos_x
 				- (int) (gameView.getWidthPixels() * Entity.SCALE), (int) pos_y
 				- (int) (gameView.getWidthPixels() * Entity.SCALE),
 				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_x,
 				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_y);
-
+		c.drawRect(this.rect, this.p);
 	}
 
 }
