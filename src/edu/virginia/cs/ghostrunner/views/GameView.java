@@ -237,7 +237,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 	public boolean performClick(Ghost g) {
 		super.performClick();
 		entities.remove(g); // Possible synchronization problems
-		currentScore++;
+		currentScore += 5;
 		return true;
 	}
 }
