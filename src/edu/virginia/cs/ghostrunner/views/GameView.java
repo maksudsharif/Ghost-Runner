@@ -3,6 +3,7 @@ package edu.virginia.cs.ghostrunner.views;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -36,7 +37,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 	
 	private int currentScore;
 	private String score;
-
+	
+	private String difficulty;
+	
 	private void init() {
 		p = new Paint();
 		//Game game = (Game) getContext(); // Not sure this even works and is
@@ -68,19 +71,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 	public GameView(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		dm = context.getResources().getDisplayMetrics();
+		difficulty = ((Activity)context).getIntent().getStringExtra("difficulty");
 		init();
 	}
 
 	public GameView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		dm = context.getResources().getDisplayMetrics();
-
+		difficulty = ((Activity)context).getIntent().getStringExtra("difficulty");
 		init();
 	}
 
 	public GameView(Context context) {
 		super(context);
 		dm = context.getResources().getDisplayMetrics();
+		difficulty = ((Activity)context).getIntent().getStringExtra("difficulty");
+		Log.v("GV INTENT", "GameView diff: "+difficulty);
 		init();
 	}
 
@@ -104,6 +110,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 
 	public Paint getPaint() {
 		return p;
+	}
+	public String getDifficulty(){
+		return difficulty;
 	}
 
 	/*
@@ -187,6 +196,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
+		Log.v("SURFACE", "Surface Destroyed");
 		boolean retry = true;
 		thread.setRunning(false);
 		while (retry) {

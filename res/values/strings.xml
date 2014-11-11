@@ -8,7 +8,7 @@
     <string name="play">play</string>
     <string name="high_score">0</string>
     <string name="final_score">0</string>
-    <string name="difficulty">easy</string>
+    <string name="difficulty">EASY</string>
     <string name="start">Start Game</string>
     <string name="gameover">GAME OVER!</string>
 

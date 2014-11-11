@@ -2,7 +2,6 @@ package edu.virginia.cs.ghostrunner.entities;
 
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.util.Log;
 import edu.virginia.cs.ghostrunner.R;
 import edu.virginia.cs.ghostrunner.views.GameView;
 
@@ -10,18 +9,6 @@ public class Ghost extends Entity {
 
 	public Ghost() {
 		super();
-	}
-
-	public Ghost(GameView gameView) {
-		this.gameView = gameView;
-		Log.v("GHOST_CONSTRUCTOR", "DM WIDTH: "+gameView.getWidthPixels());
-		int val = (int) (Math.random() * gameView.getWidthPixels());
-		Log.v("GHOST_CONSTRUCTOR", "GHOST X PRESOLVE: "+val);
-		this.pos_x = val;
-		this.pos_y = 0;
-
-		bm = BitmapFactory.decodeResource(gameView.getContext().getResources(),
-				R.drawable.ic_launcher);
 	}
 
 	public Ghost(float x, float y, GameView gameView) {

@@ -15,12 +15,18 @@ public class Game extends Activity {
 	private Sensor accelerometerSensor;
 	private MySensorListener sensorListener;
 	private GameView gameView;
+	private String difficulty;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_game);
+		
+		//Get difficulty
+		//difficulty = getIntent().getStringExtra("difficulty");
+		
+		Log.v("DIFF","DIFF: "+difficulty);
 		
 		Log.v("GAME", "Creating GameView.");
 		gameView = new GameView(this);
@@ -43,12 +49,14 @@ public class Game extends Activity {
 
 	@Override
 	protected void onPause() {
+		Log.v("Activity", "onPause() called Game Activity");
 		super.onPause();
 		sensorManager.unregisterListener(sensorListener);
 	}
 
 	@Override
 	protected void onResume() {
+		Log.v("Activity", "onResume() called Game Activity");
 		super.onResume();
 		sensorManager.registerListener(sensorListener, accelerometerSensor,
 				SensorManager.SENSOR_DELAY_GAME);

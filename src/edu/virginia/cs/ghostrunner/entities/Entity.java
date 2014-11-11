@@ -13,6 +13,7 @@ public abstract class Entity {
 	protected GameView gameView;
 	protected Bitmap bm;
 	protected Paint p;
+	protected String difficulty;
 
 	protected Entity() {
 	} // Don't call this constructor
@@ -23,6 +24,7 @@ public abstract class Entity {
 		pos_y = y;
 		this.gameView = gameView;
 		p = gameView.getPaint();
+		difficulty = gameView.getDifficulty();
 	}
 
 	public Rect getRect() {

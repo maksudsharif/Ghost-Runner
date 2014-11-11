@@ -10,11 +10,12 @@ public class SurfaceThread extends Thread {
 	private SurfaceHolder sh;
 	private GameView gameView;
 	private boolean running = false;
+	private String difficulty;
 
 	public SurfaceThread(SurfaceHolder sh, GameView gameView) {
 		this.sh = sh;
 		this.gameView = gameView;
-
+		difficulty = gameView.getDifficulty();
 	}
 
 	public void setRunning(boolean b) {
@@ -31,14 +32,18 @@ public class SurfaceThread extends Thread {
 				c = sh.lockCanvas(null);
 				synchronized (sh) {
 					// update ghosts
-					while (gameView.size() < 2) {
-						gameView.add(new Ghost(
-								(float) (Math.random() * gameView
-										.getWidthPixels()), 0, gameView
+					if (difficulty.equals("EASY")) {
+						while (gameView.size() < 2) {
+							gameView.add(new Ghost(
+									(float) (Math.random() * gameView
+											.getWidthPixels()), 0, gameView
 
-						));
+							));
+						}
 					}
-					//gameView.checkBounds(); //Call here or in View onDraw?
+					if (difficulty.equals("MEDIUM")) {}
+					if (difficulty.equals("HARD")) {}
+					// gameView.checkBounds(); //Call here or in View onDraw?
 					gameView.onDraw(c);
 
 				}
