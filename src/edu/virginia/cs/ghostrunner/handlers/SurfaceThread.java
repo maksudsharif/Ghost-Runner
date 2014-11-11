@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import edu.virginia.cs.ghostrunner.entities.Ghost;
+import edu.virginia.cs.ghostrunner.entities.SmallGhostsItem;
 import edu.virginia.cs.ghostrunner.views.GameView;
 
 public class SurfaceThread extends Thread {
@@ -45,6 +46,11 @@ public class SurfaceThread extends Thread {
 
 							));
 							}
+							
+						//Spawn Items
+						if (Math.random() > .40 && Math.random() > .40) {
+							gameView.add(new SmallGhostsItem ((float) Math.random() * gameView.getWidthPixels(), 0, gameView));
+						}
 						}
 				
 					

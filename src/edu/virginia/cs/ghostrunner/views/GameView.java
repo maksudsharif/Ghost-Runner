@@ -39,10 +39,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 	private String score;
 	
 	private String difficulty;
+	//changed with difficulty
 	private double ghostspawnconstant;
 	private double ghostfrequencyconstant;
-	
 	private double ghostspeedconstant;
+	 
+	
 	
 	private void init() {
 		p = new Paint();
@@ -162,7 +164,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 	/*
 	 * Other helper methods
 	 */
-	public void add(Ghost g) {
+	public void add(Entity g) {
 		entities.add(g);
 	}
 	
