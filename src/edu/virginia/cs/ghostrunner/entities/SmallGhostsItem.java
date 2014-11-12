@@ -9,7 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 
 public class SmallGhostsItem extends Item {
-	private int timer;
+	
 
 	public SmallGhostsItem(float x, float y, GameView gameView) {
 		super(x, y, gameView);
@@ -19,9 +19,10 @@ public class SmallGhostsItem extends Item {
 		bm = BitmapFactory.decodeResource(gameView.getContext().getResources(),
 				R.drawable.ic_launcher);
 		
-		this.p = new Paint(Color.RED);
+		this.p = new Paint();
+		this.p.setColor(Color.RED);
 		this.p.setStyle(Style.FILL);
-		this.p.setStrokeWidth(1);
+		this.p.setStrokeWidth(10);
 	}
 
 	@Override
@@ -33,7 +34,12 @@ public class SmallGhostsItem extends Item {
 				- (int) (gameView.getWidthPixels() * Entity.SCALE),
 				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_x,
 				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_y);
+		//this.p.setColor(Color.CYAN);
 		c.drawRect(this.rect, this.p);
+	}
+	@Override
+	public void intersected() {
+		//TODO: implement this
 	}
 
 }

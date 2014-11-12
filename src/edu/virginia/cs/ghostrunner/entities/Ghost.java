@@ -18,7 +18,8 @@ public class Ghost extends Entity {
 		super(x, y, gameView);
 		this.pos_x = (int) (Math.random() * gameView.getWidthPixels());
 		this.pos_y = 0;
-		this.p = new Paint(Color.BLACK);
+		this.p = new Paint();
+		this.p.setColor(Color.BLACK);
 		p.setStyle(Style.FILL);
 		p.setStrokeWidth(3);
 		

@@ -19,9 +19,9 @@ public class Player extends Entity {
 
 	public Player(float x, float y, GameView gameView) {
 		super(x, y, gameView);
-		this.p = new Paint(Color.GRAY);
+		this.p = new Paint();
+		this.p.setColor(Color.GRAY);
 		this.p.setStyle(Style.FILL);
-		this.p.setStrokeWidth(3);
 		
 		bm = BitmapFactory.decodeResource(gameView.getContext().getResources(),
 				R.drawable.ic_launcher);

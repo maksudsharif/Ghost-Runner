@@ -173,12 +173,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 	/*
 	 * Other helper methods
 	 */
-	public void add(Entity g) {
-		if (g instanceof Ghost) {
-			ghosts.add(g);
+	public void add(Entity e) {
+		if (e instanceof Ghost) {
+			ghosts.add(e);
 		}
-		if (g instanceof SmallGhostsItem) {
-			items.add((Item) g);
+		if (e instanceof SmallGhostsItem) {
+			items.add((Item) e);
 		}
 	}
 	
@@ -201,6 +201,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				getContext().startActivity(intent);
 			}
+			
 			/*
 			 * Remove Ghosts logic
 			 */
@@ -208,6 +209,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 				iter.remove();
 				Log.v("ENTITY", "ghost removed");
 				currentScore++;
+			}
+		}
+		Iterator<Item> iter2 = items.iterator();
+		while (iter2.hasNext()) {
+			Item tmp2 = iter2.next();
+			playerRect = player.getRect();
+			/*
+			 * Start the items intersected method
+			 */
+			if (playerRect.intersect(tmp2.getRect())) {
+				//TODO: implement intersected() method 
+				tmp2.intersected(); 
 			}
 		}
 	}
