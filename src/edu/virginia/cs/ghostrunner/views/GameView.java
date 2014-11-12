@@ -259,7 +259,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		if (thread.getState() == Thread.State.TERMINATED) {
+		if (!thread.isAlive() || thread == null) {
 			thread = new SurfaceThread(getHolder(), this);
 		}
 		thread.setRunning(true);
@@ -274,16 +274,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		Log.v("SURFACE", "Surface Destroyed");
-		boolean retry = true;
-		thread.setRunning(false);
-		while (retry) {
-			try {
-				thread.join();
-				retry = false;
-			} catch (InterruptedException e) {
-
-			}
-		}
+		stop();
 	}
 
 	@Override
