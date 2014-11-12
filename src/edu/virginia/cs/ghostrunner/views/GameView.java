@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -30,6 +31,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		OnTouchListener {
 	private Paint p;
 	private Paint sPaint;
+	private Typeface tf;
 
 	private DisplayMetrics dm;
 	// private Game game; //Not sure if this is needed anymore
@@ -64,6 +66,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		// setWillNotDraw(false); // Not needed unless you want SurfaceView to
 		// call
 		// onDraw instead of calling own methods
+		tf = Typeface.createFromAsset(getContext().getAssets(),
+				"fonts/font.TTF");
 
 		player = new Player(dm.widthPixels / 2, dm.heightPixels / 2, this);
 		ghosts = new ArrayList<Entity>();
@@ -130,7 +134,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	public int size() {
 		return ghosts.size();
 	}
-	public ArrayList<Integer> getScores(){
+
+	public ArrayList<Integer> getScores() {
 		return scores;
 	}
 
@@ -265,11 +270,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 			i.draw(c);
 		}
 
-		// TODO: Draw score - MOVE THIS OUT TO A VIEW AND ADD IT TO ACTIVITY
 		score = "Score: " + currentScore;
+		sPaint.setTextSize(35f);
+		sPaint.setTypeface(tf);
 		c.drawText(score, 0, score.length(),
-				(float) (this.getMeasuredWidth() / 2),
-				(float) (.05 * this.getMeasuredHeight()), sPaint);
+				(float) (this.getMeasuredWidth() - score.length() * 15),// Change
+																		// this
+																		// scale
+																		// value
+																		// to be
+																		// a
+																		// constant
+																		// we
+																		// can
+																		// change?
+				(float) (Entity.SCALE * this.getMeasuredHeight()), sPaint);
 
 	}
 
@@ -291,7 +306,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		Log.v("SURFACE", "Surface Destroyed");
 		stop();
-		if(currentScore != 0)
+		if (currentScore != 0)
 			scores.add(currentScore);
 	}
 

@@ -14,8 +14,8 @@ public abstract class Entity {
 	protected Bitmap bm;
 	protected Paint p;
 	protected String difficulty;
-	protected static double SCALE = 0.035;
-	protected static double SPEED = .01;
+	public static double SCALE = 0.035;
+	public static double SPEED = .01;
 
 	protected Entity() {
 	} // Don't call this constructor
