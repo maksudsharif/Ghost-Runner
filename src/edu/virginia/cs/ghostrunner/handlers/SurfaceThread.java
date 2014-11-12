@@ -49,10 +49,10 @@ public class SurfaceThread extends Thread {
 						}
 						//Spawn Items
 						if (gameView.getItems().size() < 3) {
-							if (Math.random() > .40 && Math.random() > .40) {
+							//if (Math.random() > .40 && Math.random() > .40) {
 								gameView.add(new SmallGhostsItem ((float) Math.random() * gameView.getWidthPixels(), 0, gameView));
 								Log.d("ItemAdded" , "SmallGhostsItem");
-							}
+							//}
 						}
 				
 				}

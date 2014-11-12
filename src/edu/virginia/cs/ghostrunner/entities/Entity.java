@@ -25,7 +25,7 @@ public abstract class Entity {
 		pos_x = x;
 		pos_y = y;
 		this.gameView = gameView;
-		p = gameView.getPaint();
+		p = null;
 		difficulty = gameView.getDifficulty();
 	}
 

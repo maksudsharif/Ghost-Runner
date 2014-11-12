@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 
 public class SmallGhostsItem extends Item {
 	private int timer;
@@ -17,14 +18,16 @@ public class SmallGhostsItem extends Item {
 		this.timer = 1000;
 		bm = BitmapFactory.decodeResource(gameView.getContext().getResources(),
 				R.drawable.ic_launcher);
-		this.p = new Paint(Color.WHITE);
+		
+		this.p = new Paint(Color.RED);
+		this.p.setStyle(Style.FILL);
+		this.p.setStrokeWidth(1);
 	}
 
 	@Override
 	public void draw(Canvas c) {
 		// For now, just update speed same as ghosts.
-		this.pos_y += (int) (gameView.getWidthPixels() * Entity.SPEED)
-				* gameView.getGhostspeedconstant();
+		this.pos_y += (int) (gameView.getWidthPixels() * Entity.SPEED) * gameView.getGhostspeedconstant();
 		this.rect.set((int) pos_x
 				- (int) (gameView.getWidthPixels() * Entity.SCALE), (int) pos_y
 				- (int) (gameView.getWidthPixels() * Entity.SCALE),

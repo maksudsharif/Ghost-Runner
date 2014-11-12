@@ -2,6 +2,9 @@ package edu.virginia.cs.ghostrunner.entities;
 
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import edu.virginia.cs.ghostrunner.R;
 import edu.virginia.cs.ghostrunner.views.GameView;
 
@@ -15,7 +18,10 @@ public class Ghost extends Entity {
 		super(x, y, gameView);
 		this.pos_x = (int) (Math.random() * gameView.getWidthPixels());
 		this.pos_y = 0;
-
+		this.p = new Paint(Color.BLACK);
+		p.setStyle(Style.FILL);
+		p.setStrokeWidth(3);
+		
 		bm = BitmapFactory.decodeResource(gameView.getContext().getResources(),
 				R.drawable.ic_launcher);
 	}
@@ -31,7 +37,7 @@ public class Ghost extends Entity {
 				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_x,
 				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_y);// this sets the size of the rectangle
 //		c.drawBitmap(bm, pos_x - 25, pos_y - 25, p);
-		c.drawRect(rect, p);
+		c.drawRect(this.rect, this.p);
 	}
 
 }

@@ -2,11 +2,12 @@ package edu.virginia.cs.ghostrunner.entities;
 
 import edu.virginia.cs.ghostrunner.views.GameView;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 
 public class Item extends Entity {
 
 	public Item(float x, float y, GameView gameView) {
-		// TODO Auto-generated constructor stub
+		super(x, y, gameView);
 	}
 
 	@Override

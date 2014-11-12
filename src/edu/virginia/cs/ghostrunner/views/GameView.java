@@ -23,6 +23,7 @@ import edu.virginia.cs.ghostrunner.entities.Entity;
 import edu.virginia.cs.ghostrunner.entities.Ghost;
 import edu.virginia.cs.ghostrunner.entities.Item;
 import edu.virginia.cs.ghostrunner.entities.Player;
+import edu.virginia.cs.ghostrunner.entities.SmallGhostsItem;
 import edu.virginia.cs.ghostrunner.handlers.SurfaceThread;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnTouchListener {
@@ -176,7 +177,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 		if (g instanceof Ghost) {
 			ghosts.add(g);
 		}
-		if (g instanceof Item) {
+		if (g instanceof SmallGhostsItem) {
 			items.add((Item) g);
 		}
 	}
@@ -232,6 +233,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 			e.draw(c);
 
 		}
+		for (Item i : items) {
+			i.draw(c);
+		}
 		
 		//TODO: Draw score - MOVE THIS OUT TO A VIEW AND ADD IT TO ACTIVITY
 		score = "Score: " + currentScore;
@@ -275,12 +279,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 		int y = (int) event.getY();
 		// Probably should make this Synchronized
 		// Check if the click lands within a ghost
-		for (Entity e : ghosts) {
-			if (e instanceof Ghost) {
-				Rect tmp = e.getRect();
+		for (Entity g : ghosts) {
+		//	if (e instanceof Ghost) {    //not necessary anymore, handle ghosts and items separately
+				Rect tmp = g.getRect();
 				if (tmp.contains(x, y)) {
-					return performClick((Ghost) e);
+					return performClick((Ghost) g);
 				}
+		//	}
+		}
+		for (Item i : items) {
+			Rect tmp = i.getRect();
+			if (tmp.contains(x, y)) {
+				return performClick(i);
 			}
 		}
 		v.performClick(); // Required for some reason
@@ -293,10 +303,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 		return super.performClick();
 	}
 
-	public boolean performClick(Ghost g) {
+	public boolean performClick(Entity e) {
 		super.performClick();
-		ghosts.remove(g); // Possible synchronization problems
-		currentScore += 5;
+		if (e instanceof Ghost) {
+			ghosts.remove(e); // Possible synchronization problems
+			currentScore += 5;
+		}
+		if (e instanceof Item) {
+			//call some method on that item that activates it. Add some points?
+		}
+		
 		return true;
 	}
 }
