@@ -310,7 +310,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 			currentScore += 5;
 		}
 		if (e instanceof Item) {
-			//call some method on that item that activates it. Add some points?
+			ghosts.remove(e); // Possible synchronization problems
+		//TODO: call some method on that item that activates it. Add some points?
+			currentScore += 1000;
 		}
 		
 		return true;
