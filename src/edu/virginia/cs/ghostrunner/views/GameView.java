@@ -26,52 +26,56 @@ import edu.virginia.cs.ghostrunner.entities.Player;
 import edu.virginia.cs.ghostrunner.entities.SmallGhostsItem;
 import edu.virginia.cs.ghostrunner.handlers.SurfaceThread;
 
-public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnTouchListener {
+public class GameView extends SurfaceView implements SurfaceHolder.Callback,
+		OnTouchListener {
 	private Paint p;
 	private Paint sPaint;
-	
+
 	private DisplayMetrics dm;
 	// private Game game; //Not sure if this is needed anymore
 	private SurfaceThread thread;
 
 	private Player player;
-	
-	private ArrayList<Entity> ghosts; //Should contain ghosts and friendly ghosts
-	private ArrayList<Item> items; //Should contain items
-	
+
+	private ArrayList<Entity> ghosts; // Should contain ghosts and friendly
+										// ghosts
+	private ArrayList<Item> items; // Should contain items
+
 	private int currentScore;
 	private String score;
-	
+
 	private String difficulty;
-	//changed with difficulty
+	// changed with difficulty
 	private double ghostspawnconstant;
 	private double ghostfrequencyconstant;
 	private double ghostspeedconstant;
-	 
-	
-	
+
+	// scores
+	private static ArrayList<Integer> scores = new ArrayList<Integer>();
+
 	private void init() {
 		p = new Paint();
-		//Game game = (Game) getContext(); // Not sure this even works and is
-											// probably dangerous to assume the
-											// context is a Game
-		getHolder().addCallback(this); //Needed for SurfaceView to render
+		// Game game = (Game) getContext(); // Not sure this even works and is
+		// probably dangerous to assume the
+		// context is a Game
+		getHolder().addCallback(this); // Needed for SurfaceView to render
 		setOnTouchListener(this);
 
-		//setWillNotDraw(false); // Not needed unless you want SurfaceView to call
-								// onDraw instead of calling own methods
+		// setWillNotDraw(false); // Not needed unless you want SurfaceView to
+		// call
+		// onDraw instead of calling own methods
 
 		player = new Player(dm.widthPixels / 2, dm.heightPixels / 2, this);
 		ghosts = new ArrayList<Entity>();
 		items = new ArrayList<Item>();
-		
+
 		currentScore = 0;
 		score = "";
 		sPaint = new Paint();
 		sPaint.setColor(Color.BLACK);
 		sPaint.setTextSize(100);
 		sPaint.setTextAlign(Paint.Align.CENTER);
-		
+
 		if (difficulty.equals("EASY")) {
 			ghostspawnconstant = 1;
 			ghostspeedconstant = 1;
@@ -81,18 +85,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 			ghostspawnconstant = 1.3;
 			ghostspeedconstant = 1.5;
 			ghostfrequencyconstant = 1;
-		}	
+		}
 		if (difficulty.equals("HARD")) {
 			ghostspawnconstant = 1.5;
 			ghostspeedconstant = 2;
 			ghostfrequencyconstant = .98;
 		}
-		
+
 		thread = new SurfaceThread(getHolder(), this);
 		setFocusable(true);
 	}
-
-
 
 	/*
 	 * Constructors
@@ -100,22 +102,25 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 	public GameView(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		dm = context.getResources().getDisplayMetrics();
-		difficulty = ((Activity)context).getIntent().getStringExtra("difficulty");
+		difficulty = ((Activity) context).getIntent().getStringExtra(
+				"difficulty");
 		init();
 	}
 
 	public GameView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		dm = context.getResources().getDisplayMetrics();
-		difficulty = ((Activity)context).getIntent().getStringExtra("difficulty");
+		difficulty = ((Activity) context).getIntent().getStringExtra(
+				"difficulty");
 		init();
 	}
 
 	public GameView(Context context) {
 		super(context);
 		dm = context.getResources().getDisplayMetrics();
-		difficulty = ((Activity)context).getIntent().getStringExtra("difficulty");
-		Log.v("GV INTENT", "GameView diff: "+difficulty);
+		difficulty = ((Activity) context).getIntent().getStringExtra(
+				"difficulty");
+		Log.v("GV INTENT", "GameView diff: " + difficulty);
 		init();
 	}
 
@@ -125,6 +130,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 	public int size() {
 		return ghosts.size();
 	}
+	public ArrayList<Integer> getScores(){
+		return scores;
+	}
 
 	public int getWidthPixels() {
 		return dm.widthPixels;
@@ -133,6 +141,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 	public int getHeightPixels() {
 		return dm.heightPixels;
 	}
+
 	public Player getPlayer() {
 		return player;
 	}
@@ -140,9 +149,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 	public Paint getPaint() {
 		return p;
 	}
-	public String getDifficulty(){
+
+	public String getDifficulty() {
 		return difficulty;
 	}
+
 	public double getGhostspawnconstant() {
 		return ghostspawnconstant;
 	}
@@ -158,17 +169,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 	public void setGhostspeedconstant(double ghostspeedconstant) {
 		this.ghostspeedconstant = ghostspeedconstant;
 	}
+
 	public double getGhostfrequencyconstant() {
 		return ghostfrequencyconstant;
 	}
+
 	public void setGhostfrequencyconstant(double ghostfrequencyconstant) {
 		this.ghostfrequencyconstant = ghostfrequencyconstant;
 	}
+
 	public ArrayList<Item> getItems() {
 		return items;
 	}
-
-
 
 	/*
 	 * Other helper methods
@@ -181,7 +193,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 			items.add((Item) e);
 		}
 	}
-	
+
 	/*
 	 * Bounds
 	 */
@@ -196,12 +208,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 			 */
 			if (playerRect.intersect(tmp.getRect())) {
 				stop(); // Stop Thread
+				if (currentScore != 0)
+					scores.add(currentScore);
 				Log.v("STOP", "THREAD STOPPED");
 				Intent intent = new Intent(getContext(), GameOver.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				intent.putIntegerArrayListExtra("scores", scores);
 				getContext().startActivity(intent);
 			}
-			
+
 			/*
 			 * Remove Ghosts logic
 			 */
@@ -219,8 +234,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 			 * Start the items intersected method
 			 */
 			if (playerRect.intersect(tmp2.getRect())) {
-				//TODO: implement intersected() method 
-				tmp2.intersected(); 
+				// TODO: implement intersected() method
+				tmp2.intersected();
 			}
 		}
 	}
@@ -231,7 +246,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 
 	public void onDraw(Canvas c) {
 		super.onDraw(c);
-		
+
 		// Draw Background
 		c.drawColor(0xFFCC9900);
 
@@ -240,8 +255,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 
 		// Draw player
 		player.draw(c);
-		
-		//Draw Entities
+
+		// Draw Entities
 		for (Entity e : ghosts) {
 			e.draw(c);
 
@@ -249,11 +264,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 		for (Item i : items) {
 			i.draw(c);
 		}
-		
-		//TODO: Draw score - MOVE THIS OUT TO A VIEW AND ADD IT TO ACTIVITY
+
+		// TODO: Draw score - MOVE THIS OUT TO A VIEW AND ADD IT TO ACTIVITY
 		score = "Score: " + currentScore;
-		c.drawText(score, 0, score.length(), (float) (this.getMeasuredWidth()
-				/2) , (float) (.05 * this.getMeasuredHeight()), sPaint);
+		c.drawText(score, 0, score.length(),
+				(float) (this.getMeasuredWidth() / 2),
+				(float) (.05 * this.getMeasuredHeight()), sPaint);
 
 	}
 
@@ -275,6 +291,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		Log.v("SURFACE", "Surface Destroyed");
 		stop();
+		if(currentScore != 0)
+			scores.add(currentScore);
 	}
 
 	@Override
@@ -284,12 +302,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 		// Probably should make this Synchronized
 		// Check if the click lands within a ghost
 		for (Entity g : ghosts) {
-		//	if (e instanceof Ghost) {    //not necessary anymore, handle ghosts and items separately
-				Rect tmp = g.getRect();
-				if (tmp.contains(x, y)) {
-					return performClick((Ghost) g);
-				}
-		//	}
+			// if (e instanceof Ghost) { //not necessary anymore, handle ghosts
+			// and items separately
+			Rect tmp = g.getRect();
+			if (tmp.contains(x, y)) {
+				return performClick((Ghost) g);
+			}
+			// }
 		}
 		for (Item i : items) {
 			Rect tmp = i.getRect();
@@ -315,10 +334,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, OnT
 		}
 		if (e instanceof Item) {
 			ghosts.remove(e); // Possible synchronization problems
-		//TODO: call some method on that item that activates it. Add some points?
+			// TODO: call some method on that item that activates it. Add some
+			// points?
 			currentScore += 1000;
 		}
-		
+
 		return true;
 	}
 }

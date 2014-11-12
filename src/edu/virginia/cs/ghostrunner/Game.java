@@ -1,7 +1,12 @@
 package edu.virginia.cs.ghostrunner;
 
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
@@ -16,6 +21,7 @@ public class Game extends Activity {
 	private MySensorListener sensorListener;
 	private GameView gameView;
 	private String difficulty;
+	private ArrayList<Integer> scores;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +38,6 @@ public class Game extends Activity {
 		gameView = new GameView(this);
 		Log.v("GAME", "GameView created.");
 		
-		
-
 		sensorManager = ((SensorManager) getSystemService(Context.SENSOR_SERVICE));
 		sensorListener = new MySensorListener(gameView);
 		accelerometerSensor = sensorManager
@@ -60,6 +64,19 @@ public class Game extends Activity {
 		super.onResume();
 		sensorManager.registerListener(sensorListener, accelerometerSensor,
 				SensorManager.SENSOR_DELAY_GAME);
+	}
+	@Override
+	protected void onStop(){
+		super.onStop();
+		ArrayList<Integer> scores = gameView.getScores();
+		StringBuilder values = new StringBuilder();
+		for(Integer i : scores){
+			values.append(i).append(",");
+		}
+		SharedPreferences data = getSharedPreferences("data", 0);
+		Editor ed = data.edit();
+		ed.putString("scores", values.toString());
+		ed.commit();
 	}
 
 }
