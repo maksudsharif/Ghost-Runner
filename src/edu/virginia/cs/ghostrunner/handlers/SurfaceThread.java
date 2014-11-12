@@ -1,7 +1,12 @@
 package edu.virginia.cs.ghostrunner.handlers;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import edu.virginia.cs.ghostrunner.entities.Ghost;
@@ -13,12 +18,36 @@ public class SurfaceThread extends Thread {
 	private GameView gameView;
 	private boolean running = false;
 	private String difficulty;
+	private ArrayList<Float[]> scorePopUp;
+	private Paint animPaint;
 
 	public SurfaceThread(SurfaceHolder sh, GameView gameView) {
 		this.sh = sh;
 		this.gameView = gameView;
 		difficulty = gameView.getDifficulty();
+		scorePopUp = new ArrayList<Float[]>();
+		animPaint = new Paint();
+		animPaint.setColor(Color.BLACK);
+	}
 
+	public void addScorePopUp(Ghost g) {
+		Float[] tmp = new Float[3];
+		tmp[0] = g.getX();
+		tmp[1] = g.getY();
+		tmp[2] = g.getScoreValue();
+		scorePopUp.add(tmp);
+	}
+
+	public void updateAnim(long delta) {
+		if (delta > 1) {
+			synchronized (scorePopUp) {
+				Iterator<Float[]> iter = scorePopUp.iterator();
+				while (iter.hasNext()) {
+					iter.next();
+					iter.remove();
+				}
+			}
+		}
 	}
 
 	public void setRunning(boolean b) {
@@ -38,8 +67,6 @@ public class SurfaceThread extends Thread {
 
 					if (gameView.size() < (15 * gameView
 							.getGhostspawnconstant())) {
-						Log.d("getGhostspawnconstant",
-								"" + gameView.getGhostspawnconstant());
 						if (Math.random() > (.96 * gameView
 								.getGhostfrequencyconstant())
 								&& Math.random() > (.40 * gameView
@@ -48,7 +75,7 @@ public class SurfaceThread extends Thread {
 									(float) (Math.random() * gameView
 											.getWidthPixels()), 0, gameView
 
-							));
+									));
 						}
 					}
 					// Spawn Items

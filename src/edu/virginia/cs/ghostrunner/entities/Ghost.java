@@ -40,5 +40,9 @@ public class Ghost extends Entity {
 //		c.drawBitmap(bm, pos_x - 25, pos_y - 25, p);
 		c.drawRect(this.rect, this.p);
 	}
+	
+	public float getScoreValue(){
+		return 5.0f;
+	}
 
 }

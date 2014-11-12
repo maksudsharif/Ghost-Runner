@@ -44,6 +44,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	private ArrayList<Item> items; // Should contain items
 
 	private int currentScore;
+	private int lastScore;
 	private String score;
 
 	private String difficulty;
@@ -74,6 +75,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		items = new ArrayList<Item>();
 
 		currentScore = 0;
+		lastScore = 0;
 		score = "";
 		sPaint = new Paint();
 		sPaint.setColor(Color.BLACK);
@@ -262,9 +264,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		player.draw(c);
 
 		// Draw Entities
+		synchronized(ghosts){
 		for (Entity e : ghosts) {
 			e.draw(c);
 
+		}
 		}
 		for (Item i : items) {
 			i.draw(c);
@@ -274,17 +278,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		sPaint.setTextSize(35f);
 		sPaint.setTypeface(tf);
 		c.drawText(score, 0, score.length(),
-				(float) (this.getMeasuredWidth() - score.length() * 15),// Change
-																		// this
-																		// scale
-																		// value
-																		// to be
-																		// a
-																		// constant
-																		// we
-																		// can
-																		// change?
+				(float) (this.getMeasuredWidth() - score.length() * 15),
 				(float) (Entity.SCALE * this.getMeasuredHeight()), sPaint);
+		if (lastScore >= 0) {
+			c.drawText("+ " + lastScore,
+					(float) (this.getMeasuredWidth() - score.length() * 15),
+					(float) (Entity.SCALE * this.getMeasuredHeight()) + 30,
+					sPaint);
+		}
 
 	}
 
@@ -344,14 +345,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	public boolean performClick(Entity e) {
 		super.performClick();
 		if (e instanceof Ghost) {
+			thread.addScorePopUp((Ghost) e);
 			ghosts.remove(e); // Possible synchronization problems
 			currentScore += 5;
+			lastScore = 5;
 		}
 		if (e instanceof Item) {
 			ghosts.remove(e); // Possible synchronization problems
 			// TODO: call some method on that item that activates it. Add some
 			// points?
 			currentScore += 1000;
+			lastScore = 1000;
 		}
 
 		return true;
