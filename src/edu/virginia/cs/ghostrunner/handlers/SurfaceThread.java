@@ -78,18 +78,7 @@ public class SurfaceThread extends Thread {
 
 									));
 						}
-<<<<<<< Updated upstream
 					}
-					// Spawn Items
-					if (gameView.getItems().size() < 3) {
-						// if (Math.random() > .40 && Math.random() > .40) {
-						gameView.add(new SmallGhostsItem((float) Math.random()
-								* gameView.getWidthPixels(), 0, gameView));
-						Log.d("ItemAdded", "SmallGhostsItem");
-						// }
-					}
-
-=======
 						//Spawn Items
 						if (gameView.getItems().size() < 3) {
 							if (Math.random() > .96 && Math.random() > .90) { //spawn some item
@@ -105,7 +94,6 @@ public class SurfaceThread extends Thread {
 							}
 						}
 				
->>>>>>> Stashed changes
 				}
 				if (c != null)
 					gameView.onDraw(c);

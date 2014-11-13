@@ -188,12 +188,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	public ArrayList<Item> getItems() {
 		return items;
 	}
-<<<<<<< Updated upstream
-=======
+
 	public ArrayList<Entity> getGhosts() {
 		return ghosts;
 	}
->>>>>>> Stashed changes
+
 
 	/*
 	 * Other helper methods
@@ -247,12 +246,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 			 * Start the items intersected method
 			 */
 			if (playerRect.intersect(tmp2.getRect())) {
-<<<<<<< Updated upstream
 				// TODO: implement intersected() method
 				tmp2.intersected();
-=======
-				tmp2.intersected(); 
->>>>>>> Stashed changes
+
 			}
 			/*
 			 * remove item logic
@@ -293,7 +289,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		}
 
 		score = "Score: " + currentScore;
-<<<<<<< Updated upstream
+
 		sPaint.setTextSize(35f);
 		sPaint.setTypeface(tf);
 		c.drawText(score, 0, score.length(),
@@ -306,10 +302,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 					sPaint);
 		}
 
-=======
-		c.drawText(score, 0, score.length(), (float) (this.getMeasuredWidth()
-				/2) , (float) (.05 * this.getMeasuredHeight()), sPaint);
->>>>>>> Stashed changes
 	}
 
 	@Override
