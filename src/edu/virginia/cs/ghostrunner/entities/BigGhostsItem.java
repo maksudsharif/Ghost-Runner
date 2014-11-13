@@ -39,8 +39,10 @@ public class BigGhostsItem extends Item {
 	}
 	@Override
 	public void intersected() {
-		//TODO: implement this
+		//progressive implementation *note* can't remove
 		Ghost.SCALE = 1.02 * Ghost.SCALE;
+		// hard coded implementation
+	//	Ghost.SCALE = .040;
 	}
 
 }

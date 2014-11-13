@@ -246,8 +246,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 			 * Start the items intersected method
 			 */
 			if (playerRect.intersect(tmp2.getRect())) {
-				// TODO: implement intersected() method
 				tmp2.intersected();
+			//	iter2.remove();
 
 			}
 			/*

@@ -10,8 +10,10 @@ import android.graphics.Paint;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import edu.virginia.cs.ghostrunner.entities.BigGhostsItem;
+import edu.virginia.cs.ghostrunner.entities.BigPlayerItem;
 import edu.virginia.cs.ghostrunner.entities.Ghost;
 import edu.virginia.cs.ghostrunner.entities.SmallGhostsItem;
+import edu.virginia.cs.ghostrunner.entities.SmallPlayerItem;
 import edu.virginia.cs.ghostrunner.views.GameView;
 
 public class SurfaceThread extends Thread {
@@ -82,15 +84,27 @@ public class SurfaceThread extends Thread {
 						//Spawn Items
 						if (gameView.getItems().size() < 3) {
 							if (Math.random() > .96 && Math.random() > .90) { //spawn some item
-								if (Math.random() > .50) {
+								/*
+								 *  handle the frequency each item spawns
+								 */
+								double rndItem = Math.random();
+								if (rndItem < .25) {
 									gameView.add(new SmallGhostsItem ((float) Math.random() * gameView.getWidthPixels(), 0, gameView));
 									Log.d("ItemAdded" , "SmallGhostsItem");
 								}
-								if (Math.random() < .50) {
+								if (rndItem > .25 && rndItem < .50) {
 									gameView.add(new BigGhostsItem ((float) Math.random() * gameView.getWidthPixels(), 0, gameView));
 									Log.d("ItemAdded" , "BigGhostsItem");
 								}
-							//}
+								if (rndItem  > .50 && rndItem < .75) {
+									gameView.add(new BigPlayerItem ((float) Math.random() * gameView.getWidthPixels(), 0, gameView));
+									Log.d("ItemAdded" , "BigPlayerItem");
+								}
+								if (rndItem  > .75 && rndItem < 1) {
+									gameView.add(new SmallPlayerItem ((float) Math.random() * gameView.getWidthPixels(), 0, gameView));
+									Log.d("ItemAdded" , "SmallPlayerItem");
+								}
+							
 							}
 						}
 				
