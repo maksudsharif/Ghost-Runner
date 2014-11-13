@@ -2,26 +2,17 @@ package edu.virginia.cs.ghostrunner.entities;
 
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-
-import android.graphics.Rect;
-
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import edu.virginia.cs.ghostrunner.R;
 import edu.virginia.cs.ghostrunner.views.GameView;
 
-public class Player extends Entity {
-	protected static double SCALE = 0.035;
-
-	public Player() { // Don't call this constructor
-		super();
-	}
-
-	public Player(float x, float y, GameView gameView) {
+public class SmallPlayerItem extends Item {
+	public SmallPlayerItem(float x, float y, GameView gameView) {
 		super(x, y, gameView);
 		this.p = new Paint();
-		this.p.setColor(Color.GRAY);
+		this.p.setColor(Color.WHITE);
 		this.p.setStyle(Style.FILL);
 		
 		bm = BitmapFactory.decodeResource(gameView.getContext().getResources(),
@@ -31,11 +22,12 @@ public class Player extends Entity {
 
 	@Override
 	public void draw(Canvas c) {
+		this.pos_y += (int) (gameView.getWidthPixels() * Entity.SPEED) * gameView.getGhostspeedconstant();
 		this.rect.set((int) pos_x
-				- (int) (gameView.getWidthPixels() * Player.SCALE), (int) pos_y
-				- (int) (gameView.getWidthPixels() * Player.SCALE),
-				(int) (gameView.getWidthPixels() * Player.SCALE) + (int) pos_x,
-				(int) (gameView.getWidthPixels() * Player.SCALE) + (int) pos_y);
+				- (int) (gameView.getWidthPixels() * Entity.SCALE), (int) pos_y
+				- (int) (gameView.getWidthPixels() * Entity.SCALE),
+				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_x,
+				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_y);
 
 		 c.drawRect(this.rect, this.p);
 		
@@ -43,5 +35,12 @@ public class Player extends Entity {
 //				* Entity.SCALE), (float) (pos_y - gameView.getWidthPixels()
 //				* Entity.SCALE), p);
 
+	}
+	@Override
+	public void intersected() {
+		//progressive implementation *note* can't remove
+		Player.SCALE = .98 * Player.SCALE;
+		// hard coded implementation
+		//Player.SCALE = .030;
 	}
 }

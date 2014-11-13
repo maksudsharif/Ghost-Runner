@@ -9,7 +9,9 @@ import edu.virginia.cs.ghostrunner.R;
 import edu.virginia.cs.ghostrunner.views.GameView;
 
 public class Ghost extends Entity {
-
+	protected static double SCALE = 0.035;
+	public static double SPEED = .01;
+	
 	public Ghost() {
 		super();
 	}
@@ -26,17 +28,25 @@ public class Ghost extends Entity {
 		bm = BitmapFactory.decodeResource(gameView.getContext().getResources(),
 				R.drawable.ic_launcher);
 	}
+	
+	public static double getSCALE() {
+		return SCALE;
+	}
+
+	public static void setSCALE(double sCALE) {
+		SCALE = sCALE;
+	}
 
 	@Override
 	public void draw(Canvas c) {
 		// update the ghosts position
-		this.pos_y += (int) (gameView.getWidthPixels() * Entity.SPEED) * gameView.getGhostspeedconstant();
+		this.pos_y += (int) (gameView.getWidthPixels() * Ghost.SPEED) * gameView.getGhostspeedconstant();
 		// set the ghost's position based on updated values
 		this.rect.set(
-				(int) pos_x - (int) (gameView.getWidthPixels() * Entity.SCALE),
-				(int) pos_y - (int) (gameView.getWidthPixels() * Entity.SCALE),
-				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_x,
-				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_y);// this sets the size of the rectangle
+				(int) pos_x - (int) (gameView.getWidthPixels() * Ghost.SCALE),
+				(int) pos_y - (int) (gameView.getWidthPixels() * Ghost.SCALE),
+				(int) (gameView.getWidthPixels() * Ghost.SCALE) + (int) pos_x,
+				(int) (gameView.getWidthPixels() * Ghost.SCALE) + (int) pos_y);// this sets the size of the rectangle
 //		c.drawBitmap(bm, pos_x - 25, pos_y - 25, p);
 		c.drawRect(this.rect, this.p);
 	}
