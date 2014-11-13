@@ -8,10 +8,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 
-public class SmallGhostsItem extends Item {
+public class BigGhostsItem extends Item {
 	
 
-	public SmallGhostsItem(float x, float y, GameView gameView) {
+	public BigGhostsItem(float x, float y, GameView gameView) {
 		super(x, y, gameView);
 		this.pos_x = (int) (Math.random() * gameView.getWidthPixels());
 		this.pos_y = 0;
@@ -20,7 +20,7 @@ public class SmallGhostsItem extends Item {
 				R.drawable.ic_launcher);
 		
 		this.p = new Paint();
-		this.p.setColor(Color.RED);
+		this.p.setColor(Color.CYAN);
 		this.p.setStyle(Style.FILL);
 		this.p.setStrokeWidth(10);
 	}
@@ -40,7 +40,7 @@ public class SmallGhostsItem extends Item {
 	@Override
 	public void intersected() {
 		//TODO: implement this
-		Ghost.SCALE = .98 * Ghost.SCALE;
+		Ghost.SCALE = 1.02 * Ghost.SCALE;
 	}
 
 }

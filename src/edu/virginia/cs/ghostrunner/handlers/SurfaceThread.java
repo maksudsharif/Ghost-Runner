@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.SurfaceHolder;
+import edu.virginia.cs.ghostrunner.entities.BigGhostsItem;
 import edu.virginia.cs.ghostrunner.entities.Ghost;
 import edu.virginia.cs.ghostrunner.entities.SmallGhostsItem;
 import edu.virginia.cs.ghostrunner.views.GameView;
@@ -77,6 +78,7 @@ public class SurfaceThread extends Thread {
 
 									));
 						}
+<<<<<<< Updated upstream
 					}
 					// Spawn Items
 					if (gameView.getItems().size() < 3) {
@@ -87,6 +89,23 @@ public class SurfaceThread extends Thread {
 						// }
 					}
 
+=======
+						//Spawn Items
+						if (gameView.getItems().size() < 3) {
+							if (Math.random() > .96 && Math.random() > .90) { //spawn some item
+								if (Math.random() > .90) {
+									gameView.add(new SmallGhostsItem ((float) Math.random() * gameView.getWidthPixels(), 0, gameView));
+									Log.d("ItemAdded" , "SmallGhostsItem");
+								}
+								if (Math.random() < .90) {
+									gameView.add(new BigGhostsItem ((float) Math.random() * gameView.getWidthPixels(), 0, gameView));
+									Log.d("ItemAdded" , "BigGhostsItem");
+								}
+							//}
+							}
+						}
+				
+>>>>>>> Stashed changes
 				}
 				if (c != null)
 					gameView.onDraw(c);

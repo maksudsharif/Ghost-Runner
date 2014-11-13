@@ -12,6 +12,7 @@ import edu.virginia.cs.ghostrunner.R;
 import edu.virginia.cs.ghostrunner.views.GameView;
 
 public class Player extends Entity {
+	protected static double SCALE = 0.035;
 
 	public Player() { // Don't call this constructor
 		super();
@@ -31,10 +32,10 @@ public class Player extends Entity {
 	@Override
 	public void draw(Canvas c) {
 		this.rect.set((int) pos_x
-				- (int) (gameView.getWidthPixels() * Entity.SCALE), (int) pos_y
-				- (int) (gameView.getWidthPixels() * Entity.SCALE),
-				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_x,
-				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_y);
+				- (int) (gameView.getWidthPixels() * Player.SCALE), (int) pos_y
+				- (int) (gameView.getWidthPixels() * Player.SCALE),
+				(int) (gameView.getWidthPixels() * Player.SCALE) + (int) pos_x,
+				(int) (gameView.getWidthPixels() * Player.SCALE) + (int) pos_y);
 
 		 c.drawRect(this.rect, this.p);
 		
