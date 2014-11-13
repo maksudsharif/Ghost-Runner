@@ -8,12 +8,13 @@ import android.graphics.Paint.Style;
 import edu.virginia.cs.ghostrunner.R;
 import edu.virginia.cs.ghostrunner.views.GameView;
 
-public class SlowGhostsItem extends Item {
-	public SlowGhostsItem(float x, float y, GameView gameView) {
+public class HalfScoreItem extends Item {
+	public HalfScoreItem (float x, float y, GameView gameView) {
 		super(x, y, gameView);
 		this.p = new Paint();
-		this.p.setColor(Color.GREEN);
+		this.p.setColor(Color.MAGENTA);
 		this.p.setStyle(Style.FILL);
+		this.p.setStrokeWidth(2);
 
 		bm = BitmapFactory.decodeResource(gameView.getContext().getResources(),
 				R.drawable.ic_launcher);
@@ -40,10 +41,8 @@ public class SlowGhostsItem extends Item {
 
 	@Override
 	public void intersected() {
-		// progressive implementation *note* can't remove
-		Ghost.SPEED = .99 * Ghost.SPEED;
+		if (GameView.getSCORECONSTANT() > .5)
+			GameView.setSCORECONSTANT(GameView.getSCORECONSTANT() * .5);
 		
-		// hard coded implementation
-		// Ghost.SCALE = .040;
 	}
 }

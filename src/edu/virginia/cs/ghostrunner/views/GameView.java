@@ -53,7 +53,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	private double ghostfrequencyconstant;
 	private double ghostspeedconstant;
 
+
 	// scores
+	private static double SCORECONSTANT = 1;
 	private static ArrayList<Integer> scores = new ArrayList<Integer>();
 
 	private void init() {
@@ -192,7 +194,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	public ArrayList<Entity> getGhosts() {
 		return ghosts;
 	}
+	public static double getSCORECONSTANT() {
+		return SCORECONSTANT;
+	}
 
+	public static void setSCORECONSTANT(double sCORECONSTANT) {
+		SCORECONSTANT = sCORECONSTANT;
+	}
 
 	/*
 	 * Other helper methods
@@ -235,7 +243,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 			if (tmp.getY() > dm.heightPixels) {
 				iter.remove();
 				Log.v("ENTITY", "ghost removed");
-				currentScore++;
+				currentScore+= 1 * GameView.SCORECONSTANT;
 			}
 		}
 		Iterator<Item> iter2 = items.iterator();
@@ -362,17 +370,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		if (e instanceof Ghost) {
 			thread.addScorePopUp((Ghost) e);
 			ghosts.remove(e); // Possible synchronization problems
-			currentScore += 5;
+			currentScore += 5 * GameView.SCORECONSTANT;
 			lastScore = 5;
 		}
-		if (e instanceof Item) {
-			ghosts.remove(e); // Possible synchronization problems
-			// TODO: call some method on that item that activates it. Add some
-			// points?
-			currentScore += 1000;
-			lastScore = 1000;
-		}
-
 		return true;
 	}
 }
