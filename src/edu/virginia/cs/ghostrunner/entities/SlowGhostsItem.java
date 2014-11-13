@@ -8,13 +8,13 @@ import android.graphics.Paint.Style;
 import edu.virginia.cs.ghostrunner.R;
 import edu.virginia.cs.ghostrunner.views.GameView;
 
-public class BigPlayerItem extends Item {
-	public BigPlayerItem(float x, float y, GameView gameView) {
+public class SlowGhostsItem extends Item {
+	public SlowGhostsItem(float x, float y, GameView gameView) {
 		super(x, y, gameView);
 		this.p = new Paint();
-		this.p.setColor(Color.BLUE);
+		this.p.setColor(Color.GREEN);
 		this.p.setStyle(Style.FILL);
-		
+
 		bm = BitmapFactory.decodeResource(gameView.getContext().getResources(),
 				R.drawable.ic_launcher);
 
@@ -22,26 +22,27 @@ public class BigPlayerItem extends Item {
 
 	@Override
 	public void draw(Canvas c) {
-		this.pos_y += (int) (gameView.getWidthPixels() * Entity.SPEED) * gameView.getGhostspeedconstant();
+		this.pos_y += (int) (gameView.getWidthPixels() * Entity.SPEED)
+				* gameView.getGhostspeedconstant();
 		this.rect.set((int) pos_x
 				- (int) (gameView.getWidthPixels() * Entity.SCALE), (int) pos_y
 				- (int) (gameView.getWidthPixels() * Entity.SCALE),
 				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_x,
 				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_y);
 
-		 c.drawRect(this.rect, this.p);
-		
-//		c.drawBitmap(bm, (float) (pos_x - gameView.getWidthPixels()
-//				* Entity.SCALE), (float) (pos_y - gameView.getWidthPixels()
-//				* Entity.SCALE), p);
+		c.drawRect(this.rect, this.p);
+
+		// c.drawBitmap(bm, (float) (pos_x - gameView.getWidthPixels()
+		// * Entity.SCALE), (float) (pos_y - gameView.getWidthPixels()
+		// * Entity.SCALE), p);
 
 	}
+
 	@Override
 	public void intersected() {
-		//progressive implementation *note* can't remove
-		Player.SCALE = 1.02 * Player.SCALE;
+		// progressive implementation *note* can't remove
+		Ghost.SPEED = .99 * Ghost.SPEED;
 		// hard coded implementation
-		//Player.SCALE = .040;
+		// Player.SCALE = .040;
 	}
 }
-
