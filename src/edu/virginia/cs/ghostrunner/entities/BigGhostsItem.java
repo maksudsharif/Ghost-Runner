@@ -20,7 +20,7 @@ public class BigGhostsItem extends Item {
 				R.drawable.ic_launcher);
 		
 		this.p = new Paint();
-		this.p.setColor(Color.CYAN);
+		this.p.setColor(Color.YELLOW);
 		this.p.setStyle(Style.FILL);
 		this.p.setStrokeWidth(10);
 	}
@@ -34,7 +34,7 @@ public class BigGhostsItem extends Item {
 				- (int) (gameView.getWidthPixels() * Entity.SCALE),
 				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_x,
 				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_y);
-		//this.p.setColor(Color.CYAN);
+		
 		c.drawRect(this.rect, this.p);
 	}
 	@Override

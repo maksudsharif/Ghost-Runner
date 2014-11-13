@@ -201,7 +201,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		if (e instanceof Ghost) {
 			ghosts.add(e);
 		}
-		if (e instanceof SmallGhostsItem) {
+		if (e instanceof Item) {
 			items.add((Item) e);
 		}
 	}

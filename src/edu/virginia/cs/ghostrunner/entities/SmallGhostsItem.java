@@ -34,7 +34,7 @@ public class SmallGhostsItem extends Item {
 				- (int) (gameView.getWidthPixels() * Entity.SCALE),
 				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_x,
 				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_y);
-		//this.p.setColor(Color.CYAN);
+	
 		c.drawRect(this.rect, this.p);
 	}
 	@Override
