@@ -6,6 +6,8 @@ import java.util.Iterator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -20,11 +22,12 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import edu.virginia.cs.ghostrunner.GameOver;
+import edu.virginia.cs.ghostrunner.R;
+import edu.virginia.cs.ghostrunner.entities.AnimatedEntity;
 import edu.virginia.cs.ghostrunner.entities.Entity;
 import edu.virginia.cs.ghostrunner.entities.Ghost;
 import edu.virginia.cs.ghostrunner.entities.Item;
 import edu.virginia.cs.ghostrunner.entities.Player;
-import edu.virginia.cs.ghostrunner.entities.SmallGhostsItem;
 import edu.virginia.cs.ghostrunner.handlers.SurfaceThread;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback,
@@ -38,6 +41,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	private SurfaceThread thread;
 
 	private Player player;
+	public AnimatedEntity aGhost;
 
 	private ArrayList<Entity> ghosts; // Should contain ghosts and friendly
 										// ghosts
@@ -53,12 +57,30 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	private double ghostfrequencyconstant;
 	private double ghostspeedconstant;
 
-
 	// scores
 	private static double SCORECONSTANT = 1;
 	private static ArrayList<Integer> scores = new ArrayList<Integer>();
 
 	private void init() {
+		// Test animations
+		Bitmap ghost1 = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
+				getContext().getResources(), R.drawable.ghostanim), (int) (this
+				.getMeasuredWidth() * 0.3),
+				(int) (this.getMeasuredHeight() * 0.3), true);
+		/*
+		 * Animated ghost test
+		 * ------------------------------------------------------------------------------------------------------------------
+		 */
+		aGhost = new AnimatedEntity(ghost1,
+				this.getMeasuredWidth() / 2,  //pos_x
+				this.getMeasuredHeight() / 2, //pos_y
+				32,32, 						  //sprite width/height (doesn't really matter because it is resized later)
+				5, 14, 						  //FPS of the animation, number of total "frames" or images per spritesheet
+				this						  //GameView reference
+				);
+		/*
+		 * ------------------------------------------------------------------------------------------- ---------------------
+		 */
 		p = new Paint();
 		// Game game = (Game) getContext(); // Not sure this even works and is
 		// probably dangerous to assume the
@@ -194,6 +216,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	public ArrayList<Entity> getGhosts() {
 		return ghosts;
 	}
+
 	public static double getSCORECONSTANT() {
 		return SCORECONSTANT;
 	}
@@ -243,7 +266,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 			if (tmp.getY() > dm.heightPixels) {
 				iter.remove();
 				Log.v("ENTITY", "ghost removed");
-				currentScore+= 1 * GameView.SCORECONSTANT;
+				currentScore += 1 * GameView.SCORECONSTANT;
 			}
 		}
 		Iterator<Item> iter2 = items.iterator();
@@ -255,7 +278,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 			 */
 			if (playerRect.intersect(tmp2.getRect())) {
 				tmp2.intersected();
-			//	iter2.remove();
+				// iter2.remove();
 
 			}
 			/*
@@ -266,7 +289,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 				Log.v("ENTITY", "item removed");
 			}
 		}
-		
+
 	}
 
 	public void stop() {
@@ -279,6 +302,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		// Draw Background
 		c.drawColor(0xFFCC9900);
 
+		//draw test animation entity
+		aGhost.draw(c);
 		// Check bounds
 		checkBounds();
 
@@ -286,11 +311,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		player.draw(c);
 
 		// Draw Entities
-		synchronized(ghosts){
-		for (Entity e : ghosts) {
-			e.draw(c);
+		synchronized (ghosts) {
+			for (Entity e : ghosts) {
+				e.draw(c);
 
-		}
+			}
 		}
 		for (Item i : items) {
 			i.draw(c);

@@ -24,14 +24,12 @@ public class SurfaceThread extends Thread {
 	private SurfaceHolder sh;
 	private GameView gameView;
 	private boolean running = false;
-	private String difficulty;
 	private ArrayList<Float[]> scorePopUp;
 	private Paint animPaint;
 
 	public SurfaceThread(SurfaceHolder sh, GameView gameView) {
 		this.sh = sh;
 		this.gameView = gameView;
-		difficulty = gameView.getDifficulty();
 		scorePopUp = new ArrayList<Float[]>();
 		animPaint = new Paint();
 		animPaint.setColor(Color.BLACK);
@@ -70,8 +68,11 @@ public class SurfaceThread extends Thread {
 			try {
 				c = sh.lockCanvas(null);
 				synchronized (sh) {
-					// update ghosts
 
+					// update Animation Entities
+					gameView.aGhost.update(System.currentTimeMillis());
+
+					// update ghosts
 					if (gameView.size() < (15 * gameView
 							.getGhostspawnconstant())) {
 						if (Math.random() > (.96 * gameView
@@ -82,52 +83,77 @@ public class SurfaceThread extends Thread {
 									(float) (Math.random() * gameView
 											.getWidthPixels()), 0, gameView
 
-									));
+							));
 						}
 					}
-						//Spawn Items
-						if (gameView.getItems().size() < 7) {
-							if (Math.random() > .96 && Math.random() > .90) { //spawn some item
-								/*
-								 *  handle the frequency each item spawns
-								 */
-								double rndItem = Math.random();
-								float numItems = 8;
-								if (rndItem < (1 / numItems)) {
-									gameView.add(new SmallGhostsItem ((float) Math.random() * gameView.getWidthPixels(), 0, gameView));
-									Log.d("ItemAdded" , "SmallGhostsItem");
-								}
-								if (rndItem > (1 / numItems) && rndItem < 2 * (1 / numItems)) {
-									gameView.add(new BigGhostsItem ((float) Math.random() * gameView.getWidthPixels(), 0, gameView));
-									Log.d("ItemAdded" , "BigGhostsItem");
-								}
-								if (rndItem  > 2 * (1 / numItems) && rndItem < 3 * (1 / numItems)) {
-									gameView.add(new BigPlayerItem ((float) Math.random() * gameView.getWidthPixels(), 0, gameView));
-									Log.d("ItemAdded" , "BigPlayerItem");
-								}
-								if (rndItem  > 3 * (1 / numItems) && rndItem < 4 * (1 / numItems)) {
-									gameView.add(new SmallPlayerItem ((float) Math.random() * gameView.getWidthPixels(), 0, gameView));
-									Log.d("ItemAdded" , "SmallPlayerItem");
-								}
-								if(rndItem  > 4 * (1 / numItems) && rndItem < 5 * (1 / numItems)) {
-									gameView.add(new FastGhostsItem ((float) Math.random() * gameView.getWidthPixels(), 0, gameView));
-									Log.d("ItemAdded" , "FastGhostsItem");
-								}
-								if (rndItem  > 5 * (1 / numItems) && rndItem < 6 * (1 / numItems)) {
-									gameView.add(new SlowGhostsItem ((float) Math.random() * gameView.getWidthPixels(), 0, gameView));
-									Log.d("ItemAdded" , "SlowGhostsItem");
-								}
-								if (rndItem  > 6 * (1 / numItems) && rndItem < 7 * (1 / numItems)) {
-									gameView.add(new DoubleScoreItem ((float) Math.random() * gameView.getWidthPixels(), 0, gameView));
-									Log.d("ItemAdded" , "DoubleScoreItem");
-								}
-								if (rndItem  > 7 * (1 / numItems) && rndItem < 8 * (1 / numItems)) {
-									gameView.add(new HalfScoreItem ((float) Math.random() * gameView.getWidthPixels(), 0, gameView));
-									Log.d("ItemAdded" , "HalfScoreItem");
-								}
+					// Spawn Items
+					if (gameView.getItems().size() < 7) {
+						if (Math.random() > .96 && Math.random() > .90) { // spawn
+																			// some
+																			// item
+							/*
+							 * handle the frequency each item spawns
+							 */
+							double rndItem = Math.random();
+							float numItems = 8;
+							if (rndItem < (1 / numItems)) {
+								gameView.add(new SmallGhostsItem((float) Math
+										.random() * gameView.getWidthPixels(),
+										0, gameView));
+								Log.d("ItemAdded", "SmallGhostsItem");
+							}
+							if (rndItem > (1 / numItems)
+									&& rndItem < 2 * (1 / numItems)) {
+								gameView.add(new BigGhostsItem((float) Math
+										.random() * gameView.getWidthPixels(),
+										0, gameView));
+								Log.d("ItemAdded", "BigGhostsItem");
+							}
+							if (rndItem > 2 * (1 / numItems)
+									&& rndItem < 3 * (1 / numItems)) {
+								gameView.add(new BigPlayerItem((float) Math
+										.random() * gameView.getWidthPixels(),
+										0, gameView));
+								Log.d("ItemAdded", "BigPlayerItem");
+							}
+							if (rndItem > 3 * (1 / numItems)
+									&& rndItem < 4 * (1 / numItems)) {
+								gameView.add(new SmallPlayerItem((float) Math
+										.random() * gameView.getWidthPixels(),
+										0, gameView));
+								Log.d("ItemAdded", "SmallPlayerItem");
+							}
+							if (rndItem > 4 * (1 / numItems)
+									&& rndItem < 5 * (1 / numItems)) {
+								gameView.add(new FastGhostsItem((float) Math
+										.random() * gameView.getWidthPixels(),
+										0, gameView));
+								Log.d("ItemAdded", "FastGhostsItem");
+							}
+							if (rndItem > 5 * (1 / numItems)
+									&& rndItem < 6 * (1 / numItems)) {
+								gameView.add(new SlowGhostsItem((float) Math
+										.random() * gameView.getWidthPixels(),
+										0, gameView));
+								Log.d("ItemAdded", "SlowGhostsItem");
+							}
+							if (rndItem > 6 * (1 / numItems)
+									&& rndItem < 7 * (1 / numItems)) {
+								gameView.add(new DoubleScoreItem((float) Math
+										.random() * gameView.getWidthPixels(),
+										0, gameView));
+								Log.d("ItemAdded", "DoubleScoreItem");
+							}
+							if (rndItem > 7 * (1 / numItems)
+									&& rndItem < 8 * (1 / numItems)) {
+								gameView.add(new HalfScoreItem((float) Math
+										.random() * gameView.getWidthPixels(),
+										0, gameView));
+								Log.d("ItemAdded", "HalfScoreItem");
 							}
 						}
-				
+					}
+
 				}
 				if (c != null)
 					gameView.onDraw(c);
