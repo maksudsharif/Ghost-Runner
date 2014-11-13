@@ -1,8 +1,7 @@
 package edu.virginia.cs.ghostrunner.entities;
 
-import edu.virginia.cs.ghostrunner.views.GameView;
 import android.graphics.Canvas;
-import android.graphics.Rect;
+import edu.virginia.cs.ghostrunner.views.GameView;
 
 public class Item extends Entity {
 	protected int timer;

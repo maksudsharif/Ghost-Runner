@@ -1,7 +1,6 @@
 package edu.virginia.cs.ghostrunner;
 
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,7 +20,6 @@ public class Game extends Activity {
 	private MySensorListener sensorListener;
 	private GameView gameView;
 	private String difficulty;
-	private ArrayList<Integer> scores;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

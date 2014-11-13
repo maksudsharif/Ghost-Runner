@@ -2,9 +2,6 @@ package edu.virginia.cs.ghostrunner.entities;
 
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-
-import android.graphics.Rect;
-
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
