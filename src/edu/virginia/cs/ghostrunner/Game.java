@@ -62,6 +62,7 @@ public class Game extends Activity {
 		super.onResume();
 		sensorManager.registerListener(sensorListener, accelerometerSensor,
 				SensorManager.SENSOR_DELAY_GAME);
+		
 	}
 	@Override
 	protected void onStop(){

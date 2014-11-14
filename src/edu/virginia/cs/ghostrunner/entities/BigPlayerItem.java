@@ -39,7 +39,7 @@ public class BigPlayerItem extends Item {
 	@Override
 	public void intersected() {
 		//progressive implementation *note* can't remove
-		Player.SCALE = 1.02 * Player.SCALE;
+		Player.setSCALE(1.02 * Player.getSCALE());
 		// hard coded implementation
 		//Player.SCALE = .040;
 	}

@@ -400,4 +400,24 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		}
 		return true;
 	}
+	public void resetConstants() {
+		if (difficulty.equals("EASY")) {
+			ghostspawnconstant = 1;
+			ghostspeedconstant = 1;
+			ghostfrequencyconstant = 1;
+		}
+		if (difficulty.equals("MEDIUM")) {
+			ghostspawnconstant = 1.3;
+			ghostspeedconstant = 1.5;
+			ghostfrequencyconstant = 1;
+		}
+		if (difficulty.equals("HARD")) {
+			ghostspawnconstant = 1.5;
+			ghostspeedconstant = 2;
+			ghostfrequencyconstant = .98;
+		}
+		this.player.setSCALE(0.035);
+		Ghost.setSCALE(0.035);
+		Ghost.setSPEED(.01);
+	}
 }

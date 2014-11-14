@@ -10,7 +10,7 @@ import edu.virginia.cs.ghostrunner.views.GameView;
 
 public class Ghost extends Entity {
 	protected static double SCALE = 0.035;
-	public static double SPEED = .01;
+	protected static double SPEED = .01;
 	
 	public Ghost() {
 		super();
@@ -29,13 +29,7 @@ public class Ghost extends Entity {
 				R.drawable.ic_launcher);
 	}
 	
-	public static double getSCALE() {
-		return SCALE;
-	}
-
-	public static void setSCALE(double sCALE) {
-		SCALE = sCALE;
-	}
+	
 
 	@Override
 	public void draw(Canvas c) {
@@ -51,6 +45,21 @@ public class Ghost extends Entity {
 		c.drawRect(this.rect, this.p);
 	}
 	
+	
+	public static double getSPEED() {
+		return SPEED;
+	}
+
+	public static void setSPEED(double sPEED) {
+		SPEED = sPEED;
+	}
+	public static double getSCALE() {
+		return SCALE;
+	}
+
+	public static void setSCALE(double sCALE) {
+		SCALE = sCALE;
+	}
 	public float getScoreValue(){
 		return 5.0f;
 	}
