@@ -11,5 +11,8 @@
     <string name="difficulty">EASY</string>
     <string name="start">Start Game</string>
     <string name="gameover">GAME OVER!</string>
+    <string name="title_activity_splash">Splash</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_splash_screen">SplashScreen</string>
 
 </resources>
