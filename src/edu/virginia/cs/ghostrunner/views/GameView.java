@@ -416,7 +416,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 			ghostspeedconstant = 2;
 			ghostfrequencyconstant = .98;
 		}
-		this.player.setSCALE(0.035);
+		Player.setSCALE(0.035);
 		Ghost.setSCALE(0.035);
 		Ghost.setSPEED(.01);
 	}
