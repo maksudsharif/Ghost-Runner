@@ -370,6 +370,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 			// and items separately
 			Rect tmp = g.getRect();
 			if (tmp.contains(x, y)) {
+				
 				return performClick((Ghost) g);
 			}
 			// }
@@ -394,7 +395,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		super.performClick();
 		if (e instanceof Ghost) {
 			thread.addScorePopUp((Ghost) e);
-			ghosts.remove(e); // Possible synchronization problems
+			/*
+			 * Make the string appear, make the ghost's rect 0x0
+			 */
+			ghosts.remove(e); // Possible synchronization problems, get rid of this.
 			currentScore += 5 * GameView.SCORECONSTANT;
 			lastScore = 5;
 		}
