@@ -224,6 +224,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	public static void setSCORECONSTANT(double sCORECONSTANT) {
 		SCORECONSTANT = sCORECONSTANT;
 	}
+	public int getCurrentScore() {
+		return currentScore;
+	}
+
+	public void setCurrentScore(int currentScore) {
+		this.currentScore = currentScore;
+	}
 
 	/*
 	 * Other helper methods

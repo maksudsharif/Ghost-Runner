@@ -95,7 +95,7 @@ public class SurfaceThread extends Thread {
 							 * handle the frequency each item spawns
 							 */
 							double rndItem = Math.random();
-							float numItems = 8;
+							float numItems = 9;
 							if (rndItem < (1 / numItems)) {
 								gameView.add(new SmallGhostsItem((float) Math
 										.random() * gameView.getWidthPixels(),
@@ -150,6 +150,13 @@ public class SurfaceThread extends Thread {
 										.random() * gameView.getWidthPixels(),
 										0, gameView));
 								Log.d("ItemAdded", "HalfScoreItem");
+							}
+							if (rndItem > 8 * (1 / numItems)
+									&& rndItem < 9 * (1 / numItems)) {
+								gameView.add(new HalfScoreItem((float) Math
+										.random() * gameView.getWidthPixels(),
+										0, gameView));
+								Log.d("ItemAdded", "BombItem");
 							}
 						}
 					}
