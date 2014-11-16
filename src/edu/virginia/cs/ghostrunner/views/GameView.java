@@ -374,14 +374,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		// Probably should make this Synchronized
 		// Check if the click lands within a ghost
 		for (Entity g : ghosts) {
-			// if (e instanceof Ghost) { //not necessary anymore, handle ghosts
-			// and items separately
+		
 			Rect tmp = g.getRect();
 			if (tmp.contains(x, y)) {
 
 				return performClick((Ghost) g);
 			}
-			// }
+		
 		}
 		for (Item i : items) {
 			Rect tmp = i.getRect();
@@ -405,7 +404,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 			/*
 			 * Make the string appear, make the ghost's rect 0x0
 			 */
-			ghosts.remove(e); // Possible synchronization problems, get rid of
+			syncGhosts.remove(e); // Possible synchronization problems, get rid of
 								// this.
 			currentScore += 5 * GameView.SCORECONSTANT;
 			lastScore = 5;

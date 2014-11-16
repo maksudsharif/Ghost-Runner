@@ -16,11 +16,11 @@ public class BombItem extends Item {
 		super(x, y, gameView);
 		innerRect = new Rect();
 		this.p = new Paint();
-		this.p.setColor(Color.RED);
+		this.p.setColor(Color.WHITE);
 		this.p.setStyle(Style.FILL);
 		this.p2 = new Paint();
 		this.p.setColor(Color.BLACK);
-		this.p.setStyle(Style.FILL);
+		this.p.setStyle(Style.STROKE);
 		bm = BitmapFactory.decodeResource(gameView.getContext().getResources(),
 				R.drawable.ic_launcher);
 
@@ -35,8 +35,8 @@ public class BombItem extends Item {
 				- (int) (gameView.getWidthPixels() * Entity.SCALE),
 				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_x,
 				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_y);
-		this.innerRect.set(this.rect);
-		innerRect.inset((int) (this.rect.width() * .1), (int) (this.rect.height() * .1));
+//		this.innerRect.set(this.rect);
+		innerRect.inset((int) (this.rect.width() * .2), (int) (this.rect.height() * .2));
 		c.drawRect(this.rect, this.p);
 		c.drawRect(this.innerRect, this.p2);
 
@@ -48,8 +48,8 @@ public class BombItem extends Item {
 
 	@Override
 	public void intersected() {
-		for (int i = 0; i < gameView.getGhosts().size(); ++i) {
-			gameView.getGhosts().remove(i);
+		for (int i = 0; i < gameView.getSynced().size(); ++i) {
+			gameView.getSynced().remove(i);
 			gameView.setCurrentScore(gameView.getCurrentScore() + 10);
 		}
 		for (int i = 0; i < gameView.getItems().size(); ++i) {
