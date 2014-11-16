@@ -1,8 +1,5 @@
 package edu.virginia.cs.ghostrunner.handlers;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -24,35 +21,13 @@ public class SurfaceThread extends Thread {
 	private SurfaceHolder sh;
 	private GameView gameView;
 	private boolean running = false;
-	private ArrayList<Float[]> scorePopUp;
 	private Paint animPaint;
 
 	public SurfaceThread(SurfaceHolder sh, GameView gameView) {
 		this.sh = sh;
 		this.gameView = gameView;
-		scorePopUp = new ArrayList<Float[]>();
 		animPaint = new Paint();
 		animPaint.setColor(Color.BLACK);
-	}
-
-	public void addScorePopUp(Ghost g) {
-		Float[] tmp = new Float[3];
-		tmp[0] = g.getX();
-		tmp[1] = g.getY();
-		tmp[2] = g.getScoreValue();
-		scorePopUp.add(tmp);
-	}
-
-	public void updateAnim(long delta) {
-		if (delta > 1) {
-			synchronized (scorePopUp) {
-				Iterator<Float[]> iter = scorePopUp.iterator();
-				while (iter.hasNext()) {
-					iter.next();
-					iter.remove();
-				}
-			}
-		}
 	}
 
 	public void setRunning(boolean b) {
@@ -70,7 +45,7 @@ public class SurfaceThread extends Thread {
 				synchronized (sh) {
 
 					// update Animation Entities
-					gameView.aGhost.update(System.currentTimeMillis());
+					// gameView.aGhost.update(System.currentTimeMillis());
 
 					// update ghosts
 					if (gameView.size() < (15 * gameView

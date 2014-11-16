@@ -63,21 +63,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 
 	private void init() {
 		// Test animations
-		Bitmap ghost1 = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
+/*		Bitmap ghost1 = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
 				getContext().getResources(), R.drawable.ghostanim), (int) (this
 				.getMeasuredWidth() * 0.3),
-				(int) (this.getMeasuredHeight() * 0.3), true);
+				(int) (this.getMeasuredHeight() * 0.3), true);*/
 		/*
 		 * Animated ghost test
 		 * ------------------------------------------------------------------------------------------------------------------
 		 */
-		aGhost = new AnimatedEntity(ghost1,
+		/*aGhost = new AnimatedEntity(ghost1,
 				this.getMeasuredWidth() / 2,  //pos_x
 				this.getMeasuredHeight() / 2, //pos_y
 				32,32, 						  //sprite width/height (doesn't really matter because it is resized later)
 				5, 14, 						  //FPS of the animation, number of total "frames" or images per spritesheet
 				this						  //GameView reference
-				);
+				);*/
 		/*
 		 * ------------------------------------------------------------------------------------------- ---------------------
 		 */
@@ -310,7 +310,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		c.drawColor(0xFFCC9900);
 
 		//draw test animation entity
-		aGhost.draw(c);
+		//aGhost.draw(c);
 		// Check bounds
 		checkBounds();
 
@@ -401,7 +401,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	public boolean performClick(Entity e) {
 		super.performClick();
 		if (e instanceof Ghost) {
-			thread.addScorePopUp((Ghost) e);
 			/*
 			 * Make the string appear, make the ghost's rect 0x0
 			 */
