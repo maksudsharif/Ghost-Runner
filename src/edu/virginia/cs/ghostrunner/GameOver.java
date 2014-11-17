@@ -3,6 +3,7 @@ package edu.virginia.cs.ghostrunner;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ public class GameOver extends Activity {
 		
 		//Load scores from file
 		ArrayList<Integer> scores = load();
+		Collections.sort(scores, Collections.reverseOrder());
 		//Show scores somehow
 		Log.v("GAME OVER", scores.toString());
 		TextView scoreList = (TextView) findViewById(R.id.scoreList);
