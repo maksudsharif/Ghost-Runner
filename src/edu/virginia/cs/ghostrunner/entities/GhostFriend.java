@@ -32,7 +32,7 @@ public class GhostFriend extends Item {
 	}
 	@Override
 	public void draw(Canvas c) {
-		this.pos_y += (int) (gameView.getWidthPixels() * Entity.SPEED) * gameView.getGhostspeedconstant();
+		this.pos_y += (int) (gameView.getWidthPixels() * Entity.SPEED) * gameView.getGhostSpeedConstant();
 		this.rect.set((int) pos_x
 				- (int) (gameView.getWidthPixels() * Entity.SCALE), (int) pos_y
 				- (int) (gameView.getWidthPixels() * Entity.SCALE),
