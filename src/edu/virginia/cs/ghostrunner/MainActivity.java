@@ -35,9 +35,7 @@ public class MainActivity extends Activity {
 	}
 
 	public void difficultyButtonClicked(View button) {
-		button.animate().rotationX(360);
-		button.refreshDrawableState();
-		// TODO: Do something to change Difficulty
+		MainActivity.buttonAnimate(button);
 		if (diff == Difficulty.EASY) {
 			diff = Difficulty.MEDIUM;
 		} else if (diff == Difficulty.MEDIUM) {
@@ -47,5 +45,8 @@ public class MainActivity extends Activity {
 
 		((Button) button).setText(String.valueOf(diff));
 		extra = String.valueOf(((Button) button).getText());
+	}
+	public static void buttonAnimate(View b) {
+		b.animate().rotationX(b.getRotationX() + 360);
 	}
 }
