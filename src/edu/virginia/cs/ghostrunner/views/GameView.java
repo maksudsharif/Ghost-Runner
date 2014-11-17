@@ -1,7 +1,11 @@
 package edu.virginia.cs.ghostrunner.views;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import android.app.Activity;
@@ -45,6 +49,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 
 	private CopyOnWriteArrayList<Item> items; // Should contain items
 
+	private final String FILENAME = "scores_file";
 	private int currentScore;
 	private int lastScore;
 	private String score;
@@ -60,6 +65,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	private static ArrayList<Integer> scores = new ArrayList<Integer>();
 
 	private void init() {
+		scores = load();
+		if (scores == null) {
+			scores = new ArrayList<Integer>();
+		}
+
 		p = new Paint();
 
 		getHolder().addCallback(this); // Needed for SurfaceView to render
@@ -225,6 +235,42 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		}
 	}
 
+	public void save() {
+		try {
+			FileOutputStream fo = getContext().openFileOutput(FILENAME,
+					Context.MODE_PRIVATE);
+			ObjectOutputStream os = new ObjectOutputStream(fo);
+			//Only show keep top 5
+			if(scores.size() > 0){
+				Collections.sort(scores);
+				scores.remove(0);
+			}
+
+			os.writeObject(scores);
+			os.close();
+			fo.close();
+		} catch (Exception e) {
+			Log.v("SAVE", "Score save failed");
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public ArrayList<Integer> load() {
+		ArrayList<Integer> loaded = null;
+		try {
+			FileInputStream fi = getContext().openFileInput(FILENAME);
+			ObjectInputStream os = new ObjectInputStream(fi);
+			loaded = (ArrayList<Integer>) os.readObject();
+			os.close();
+			fi.close();
+		} catch (Exception e) {
+			Log.v("LOAD", "Score load failed");
+			return null;
+		}
+		return loaded;
+
+	}
+
 	/*
 	 * Bounds
 	 */
@@ -257,9 +303,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		for (Entity e : ghosts) {
 			if (playerRect.intersect(e.getRect())) {
 				stop();
+				scores.add(currentScore);
+				save();
 				Intent intent = new Intent(getContext(), GameOver.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				// intent.putIntegerArrayListExtra("scores", scores);
 				getContext().startActivity(intent);
 			}
 
@@ -280,27 +327,27 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 				Log.v("ENTITY", "item removed");
 			}
 		}
-		
-//		Iterator<Item> iter2 = items.iterator();
-//		while (iter2.hasNext()) {
-//			Item tmp2 = iter2.next();
-//			playerRect = player.getRect();
-//			/*
-//			 * Start the items intersected method
-//			 */
-//			if (playerRect.intersect(tmp2.getRect())) {
-//				tmp2.intersected();
-//				// iter2.remove();
-//
-//			}
-//			/*
-//			 * remove item logic
-//			 */
-//			if (tmp2.getY() > dm.heightPixels) {
-//				iter2.remove();
-//				Log.v("ENTITY", "item removed");
-//			}
-//		} 
+
+		// Iterator<Item> iter2 = items.iterator();
+		// while (iter2.hasNext()) {
+		// Item tmp2 = iter2.next();
+		// playerRect = player.getRect();
+		// /*
+		// * Start the items intersected method
+		// */
+		// if (playerRect.intersect(tmp2.getRect())) {
+		// tmp2.intersected();
+		// // iter2.remove();
+		//
+		// }
+		// /*
+		// * remove item logic
+		// */
+		// if (tmp2.getY() > dm.heightPixels) {
+		// iter2.remove();
+		// Log.v("ENTITY", "item removed");
+		// }
+		// }
 
 	}
 
@@ -312,13 +359,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		super.onDraw(c);
 
 		// Draw Background
-		// c.drawColor(0xFFCC9900);
 		c.drawColor(Color.parseColor("#34495e"));
-		// draw test animation entity
-		// aGhost.draw(c);
+
 		// Check bounds
 		checkBounds();
-		
 
 		// Draw player
 		player.draw(c);
@@ -338,7 +382,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		}
 
 		score = "Score: " + currentScore;
-		
+
 		sPaint.setTextSize(35f);
 		sPaint.setTypeface(tf);
 		c.drawText(score, 0, score.length(),
@@ -394,7 +438,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 				return performClick(i);
 			}
 		}
-		
 
 		v.performClick(); // Required for some reason
 		return false;

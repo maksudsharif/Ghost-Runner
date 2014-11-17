@@ -1,11 +1,7 @@
 package edu.virginia.cs.ghostrunner;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
@@ -58,19 +54,6 @@ public class Game extends Activity {
 	@Override
 	protected void onStop() {
 		super.onStop();
-		save();
-	}
-
-	public void save() {
-		ArrayList<Integer> scores = gameView.getScores();
-		StringBuilder values = new StringBuilder();
-		for (Integer i : scores) {
-			values.append(i).append(",");
-		}
-		SharedPreferences data = getSharedPreferences("data", 0);
-		Editor ed = data.edit();
-		ed.putString("scores", values.toString());
-		ed.commit();
 	}
 
 	public GameView getGameView() {
