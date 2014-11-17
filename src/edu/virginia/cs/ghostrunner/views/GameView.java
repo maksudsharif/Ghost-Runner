@@ -26,6 +26,7 @@ import edu.virginia.cs.ghostrunner.R;
 import edu.virginia.cs.ghostrunner.entities.AnimatedEntity;
 import edu.virginia.cs.ghostrunner.entities.Entity;
 import edu.virginia.cs.ghostrunner.entities.Ghost;
+import edu.virginia.cs.ghostrunner.entities.GhostFriend;
 import edu.virginia.cs.ghostrunner.entities.Item;
 import edu.virginia.cs.ghostrunner.entities.Player;
 import edu.virginia.cs.ghostrunner.handlers.SurfaceThread;
@@ -231,6 +232,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	public void add(Entity e) {
 		if (e instanceof Ghost) {
 			ghosts.add(e);
+		}
+		if (e instanceof GhostFriend) {
+			items.add((Item) e);
 		}
 		if (e instanceof Item) {
 			items.add((Item) e);
