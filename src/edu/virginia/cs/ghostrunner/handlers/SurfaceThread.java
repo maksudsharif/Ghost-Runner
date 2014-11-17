@@ -1,8 +1,5 @@
 package edu.virginia.cs.ghostrunner.handlers;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,6 +8,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import edu.virginia.cs.ghostrunner.entities.BigGhostsItem;
 import edu.virginia.cs.ghostrunner.entities.BigPlayerItem;
+import edu.virginia.cs.ghostrunner.entities.BombItem;
 import edu.virginia.cs.ghostrunner.entities.DoubleScoreItem;
 import edu.virginia.cs.ghostrunner.entities.FastGhostsItem;
 import edu.virginia.cs.ghostrunner.entities.Ghost;
@@ -24,35 +22,13 @@ public class SurfaceThread extends Thread {
 	private SurfaceHolder sh;
 	private GameView gameView;
 	private boolean running = false;
-	private ArrayList<Float[]> scorePopUp;
 	private Paint animPaint;
 
 	public SurfaceThread(SurfaceHolder sh, GameView gameView) {
 		this.sh = sh;
 		this.gameView = gameView;
-		scorePopUp = new ArrayList<Float[]>();
 		animPaint = new Paint();
 		animPaint.setColor(Color.BLACK);
-	}
-
-	public void addScorePopUp(Ghost g) {
-		Float[] tmp = new Float[3];
-		tmp[0] = g.getX();
-		tmp[1] = g.getY();
-		tmp[2] = g.getScoreValue();
-		scorePopUp.add(tmp);
-	}
-
-	public void updateAnim(long delta) {
-		if (delta > 1) {
-			synchronized (scorePopUp) {
-				Iterator<Float[]> iter = scorePopUp.iterator();
-				while (iter.hasNext()) {
-					iter.next();
-					iter.remove();
-				}
-			}
-		}
 	}
 
 	public void setRunning(boolean b) {
@@ -68,22 +44,19 @@ public class SurfaceThread extends Thread {
 			try {
 				c = sh.lockCanvas(null);
 				synchronized (sh) {
+					double spawn = gameView.getGhostSpawnConstant();
+					double freq = gameView.getGhostFrequencyConstant();
 
 					// update Animation Entities
-					gameView.aGhost.update(System.currentTimeMillis());
+					// gameView.aGhost.update(System.currentTimeMillis());
 
 					// update ghosts
-					if (gameView.size() < (15 * gameView
-							.getGhostspawnconstant())) {
-						if (Math.random() > (.96 * gameView
-								.getGhostfrequencyconstant())
-								&& Math.random() > (.40 * gameView
-										.getGhostfrequencyconstant())) {
+					if (gameView.size() < (15 * spawn)) {
+						if (Math.random() > (.96 * freq)
+								&& Math.random() > (.40 * freq)) {
 							gameView.add(new Ghost(
 									(float) (Math.random() * gameView
-											.getWidthPixels()), 0, gameView
-
-							));
+											.getWidthPixels()), -500, gameView));
 						}
 					}
 					// Spawn Items
@@ -95,7 +68,7 @@ public class SurfaceThread extends Thread {
 							 * handle the frequency each item spawns
 							 */
 							double rndItem = Math.random();
-							float numItems = 8;
+							float numItems = 9;
 							if (rndItem < (1 / numItems)) {
 								gameView.add(new SmallGhostsItem((float) Math
 										.random() * gameView.getWidthPixels(),
@@ -150,6 +123,13 @@ public class SurfaceThread extends Thread {
 										.random() * gameView.getWidthPixels(),
 										0, gameView));
 								Log.d("ItemAdded", "HalfScoreItem");
+							}
+							if (rndItem > 8 * (1 / numItems)
+									&& rndItem < 9 * (1 / numItems)) {
+								gameView.add(new BombItem((float) Math
+										.random() * gameView.getWidthPixels(),
+										0, gameView));
+								Log.d("ItemAdded", "BombItem");
 							}
 						}
 					}

@@ -14,19 +14,18 @@ public class MainActivity extends Activity {
 	public enum Difficulty {
 		EASY, MEDIUM, HARD
 	}
+
 	private Difficulty diff = Difficulty.EASY;
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
-		
+
 		extra = "EASY";
 
 	}
-
 	public void startGame(View button) {
 		Intent intent = new Intent(this, Game.class);
 		intent.putExtra("difficulty", extra);
@@ -35,9 +34,7 @@ public class MainActivity extends Activity {
 	}
 
 	public void difficultyButtonClicked(View button) {
-		button.animate().rotationX(360);
-		button.refreshDrawableState();
-		// TODO: Do something to change Difficulty
+		MainActivity.buttonAnimate(button);
 		if (diff == Difficulty.EASY) {
 			diff = Difficulty.MEDIUM;
 		} else if (diff == Difficulty.MEDIUM) {
@@ -48,4 +45,11 @@ public class MainActivity extends Activity {
 		((Button) button).setText(String.valueOf(diff));
 		extra = String.valueOf(((Button) button).getText());
 	}
+	public static void buttonAnimate(View b) {
+		b.animate().rotationX(b.getRotationX() + 360);
+	}
+	
+
+	
+	
 }

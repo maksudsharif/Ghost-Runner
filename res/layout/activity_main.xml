@@ -2,16 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    android:background="#34495e"
     tools:context="${relativePackage}.${activityClass}" >
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="52dp"
-        android:text="@string/app_name" />
 
     <Button
         android:id="@+id/button1"
@@ -32,5 +25,16 @@
         android:layout_marginTop="24dp"
         android:onClick="difficultyButtonClicked"
         android:text="@string/difficulty" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="166dp"
+        android:text="@string/app_name"
+        android:textColor="#ecf0f1"
+        android:textSize="30sp" />
 
 </RelativeLayout>

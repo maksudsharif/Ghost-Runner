@@ -1,13 +1,16 @@
 package edu.virginia.cs.ghostrunner.views;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collections;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -22,7 +25,6 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import edu.virginia.cs.ghostrunner.GameOver;
-import edu.virginia.cs.ghostrunner.R;
 import edu.virginia.cs.ghostrunner.entities.AnimatedEntity;
 import edu.virginia.cs.ghostrunner.entities.Entity;
 import edu.virginia.cs.ghostrunner.entities.Ghost;
@@ -44,60 +46,44 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	private Player player;
 	public AnimatedEntity aGhost;
 
-	private ArrayList<Entity> ghosts; // Should contain ghosts and friendly
-										// ghosts
-	private ArrayList<Item> items; // Should contain items
+	private CopyOnWriteArrayList<Entity> ghosts;
 
+	private CopyOnWriteArrayList<Item> items; // Should contain items
+
+	private final String FILENAME = "scores_file";
 	private int currentScore;
 	private int lastScore;
 	private String score;
 
 	private String difficulty;
 	// changed with difficulty
-	private double ghostspawnconstant;
-	private double ghostfrequencyconstant;
-	private double ghostspeedconstant;
+	private double ghostSpawnConstant;
+	private double ghostFrequencyConstant;
+	private double ghostSpeedConstant;
 
 	// scores
-	private static double SCORECONSTANT = 1;
+	private double scoreConstant = 1;
 	private static ArrayList<Integer> scores = new ArrayList<Integer>();
 
 	private void init() {
-		// Test animations
-		Bitmap ghost1 = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(
-				getContext().getResources(), R.drawable.ghostanim), (int) (this
-				.getMeasuredWidth() * 0.3),
-				(int) (this.getMeasuredHeight() * 0.3), true);
-		/*
-		 * Animated ghost test
-		 * ------------------------------------------------------------------------------------------------------------------
-		 */
-		aGhost = new AnimatedEntity(ghost1,
-				this.getMeasuredWidth() / 2,  //pos_x
-				this.getMeasuredHeight() / 2, //pos_y
-				32,32, 						  //sprite width/height (doesn't really matter because it is resized later)
-				5, 14, 						  //FPS of the animation, number of total "frames" or images per spritesheet
-				this						  //GameView reference
-				);
-		/*
-		 * ------------------------------------------------------------------------------------------- ---------------------
-		 */
+		scores = load();
+		if (scores == null) {
+			scores = new ArrayList<Integer>();
+		}
+
 		p = new Paint();
-		// Game game = (Game) getContext(); // Not sure this even works and is
-		// probably dangerous to assume the
-		// context is a Game
+
 		getHolder().addCallback(this); // Needed for SurfaceView to render
 		setOnTouchListener(this);
 
-		// setWillNotDraw(false); // Not needed unless you want SurfaceView to
-		// call
-		// onDraw instead of calling own methods
+		// setWillNotDraw(false);
+
 		tf = Typeface.createFromAsset(getContext().getAssets(),
 				"fonts/font.TTF");
 
 		player = new Player(dm.widthPixels / 2, dm.heightPixels / 2, this);
-		ghosts = new ArrayList<Entity>();
-		items = new ArrayList<Item>();
+		ghosts = new CopyOnWriteArrayList<Entity>();
+		items = new CopyOnWriteArrayList<Item>();
 
 		currentScore = 0;
 		lastScore = 0;
@@ -108,19 +94,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		sPaint.setTextAlign(Paint.Align.CENTER);
 
 		if (difficulty.equals("EASY")) {
-			ghostspawnconstant = 1;
-			ghostspeedconstant = 1;
-			ghostfrequencyconstant = 1;
+			ghostSpawnConstant = 1;
+			ghostSpeedConstant = 1;
+			ghostFrequencyConstant = 1;
 		}
 		if (difficulty.equals("MEDIUM")) {
-			ghostspawnconstant = 1.3;
-			ghostspeedconstant = 1.5;
-			ghostfrequencyconstant = 1;
+			ghostSpawnConstant = 1.3;
+			ghostSpeedConstant = 1.5;
+			ghostFrequencyConstant = 1;
 		}
 		if (difficulty.equals("HARD")) {
-			ghostspawnconstant = 1.5;
-			ghostspeedconstant = 2;
-			ghostfrequencyconstant = .98;
+			ghostSpawnConstant = 1.5;
+			ghostSpeedConstant = 2;
+			ghostFrequencyConstant = .98;
 		}
 
 		thread = new SurfaceThread(getHolder(), this);
@@ -186,44 +172,56 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		return difficulty;
 	}
 
-	public double getGhostspawnconstant() {
-		return ghostspawnconstant;
+	public double getGhostSpawnConstant() {
+		return ghostSpawnConstant;
 	}
 
-	public void setGhostspawnconstant(double ghostspawnconstant) {
-		this.ghostspawnconstant = ghostspawnconstant;
+	public void setGhostSpawnConstant(double ghostSpawnConstant) {
+		this.ghostSpawnConstant = ghostSpawnConstant;
 	}
 
-	public double getGhostspeedconstant() {
-		return ghostspeedconstant;
+	public double getGhostSpeedConstant() {
+		return ghostSpeedConstant;
 	}
 
-	public void setGhostspeedconstant(double ghostspeedconstant) {
-		this.ghostspeedconstant = ghostspeedconstant;
+	public void setGhostSpeedConstant(double ghostSpeedConstant) {
+		this.ghostSpeedConstant = ghostSpeedConstant;
 	}
 
-	public double getGhostfrequencyconstant() {
-		return ghostfrequencyconstant;
+	public double getGhostFrequencyConstant() {
+		return ghostFrequencyConstant;
 	}
 
-	public void setGhostfrequencyconstant(double ghostfrequencyconstant) {
-		this.ghostfrequencyconstant = ghostfrequencyconstant;
+	public void setGhostfrequencyconstant(double ghostFrequencyConstant) {
+		this.ghostFrequencyConstant = ghostFrequencyConstant;
 	}
 
-	public ArrayList<Item> getItems() {
+	public CopyOnWriteArrayList<Item> getItems() {
 		return items;
 	}
 
-	public ArrayList<Entity> getGhosts() {
+	public CopyOnWriteArrayList<Entity> getGhosts() {
 		return ghosts;
 	}
 
-	public static double getSCORECONSTANT() {
-		return SCORECONSTANT;
+	public CopyOnWriteArrayList<Entity> getSynced() {
+		return ghosts;
 	}
 
-	public static void setSCORECONSTANT(double sCORECONSTANT) {
-		SCORECONSTANT = sCORECONSTANT;
+	public double getScoreConstant() {
+		return scoreConstant;
+	}
+
+	public void setScoreConstant(double scoreConstant) {
+		this.scoreConstant = scoreConstant;
+	}
+
+	public int getCurrentScore() {
+		return currentScore;
+	}
+
+	public void setCurrentScore(int currentScore) {
+		this.currentScore = currentScore;
 	}
 
 	/*
@@ -241,58 +239,119 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		}
 	}
 
+	public void save() {
+		try {
+			FileOutputStream fo = getContext().openFileOutput(FILENAME,
+					Context.MODE_PRIVATE);
+			ObjectOutputStream os = new ObjectOutputStream(fo);
+			//Only show keep top 5
+			if(scores.size() > 0){
+				Collections.sort(scores);
+				scores.remove(0);
+			}
+
+			os.writeObject(scores);
+			os.close();
+			fo.close();
+		} catch (Exception e) {
+			Log.v("SAVE", "Score save failed");
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public ArrayList<Integer> load() {
+		ArrayList<Integer> loaded = null;
+		try {
+			FileInputStream fi = getContext().openFileInput(FILENAME);
+			ObjectInputStream os = new ObjectInputStream(fi);
+			loaded = (ArrayList<Integer>) os.readObject();
+			os.close();
+			fi.close();
+		} catch (Exception e) {
+			Log.v("LOAD", "Score load failed");
+			return null;
+		}
+		return loaded;
+
+	}
+
 	/*
 	 * Bounds
 	 */
 	public void checkBounds() {
-		Iterator<Entity> iter = ghosts.iterator();
+		// Iterator<Entity> iter = ghosts.iterator();
+
 		Rect playerRect;
-		while (iter.hasNext()) {
-			Entity tmp = iter.next();
-			playerRect = player.getRect();
-			/*
-			 * Start GameOver Activity
-			 */
-			if (playerRect.intersect(tmp.getRect())) {
-				stop(); // Stop Thread
-				if (currentScore != 0)
-					scores.add(currentScore);
-				Log.v("STOP", "THREAD STOPPED");
+		/*
+		 * while (iter.hasNext()) { Entity tmp = iter.next(); playerRect =
+		 * player.getRect();
+		 * 
+		 * Start GameOver Activity
+		 * 
+		 * if (playerRect.intersect(tmp.getRect())) { stop(); // Stop Thread if
+		 * (currentScore != 0) scores.add(currentScore); Log.v("STOP",
+		 * "THREAD STOPPED"); Intent intent = new Intent(getContext(),
+		 * GameOver.class); intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		 * intent.putIntegerArrayListExtra("scores", scores);
+		 * getContext().startActivity(intent); }
+		 * 
+		 * 
+		 * Remove Ghosts logic
+		 * 
+		 * if (tmp.getY() > dm.heightPixels) { iter.remove(); Log.v("ENTITY",
+		 * "ghost removed"); currentScore += 1 * GameView.SCORECONSTANT; } }
+		 */
+
+		// Sync fix
+		playerRect = player.getRect();
+		for (Entity e : ghosts) {
+			if (playerRect.intersect(e.getRect())) {
+				stop();
+				scores.add(currentScore);
+				save();
 				Intent intent = new Intent(getContext(), GameOver.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				intent.putIntegerArrayListExtra("scores", scores);
 				getContext().startActivity(intent);
 			}
 
-			/*
-			 * Remove Ghosts logic
-			 */
-			if (tmp.getY() > dm.heightPixels) {
-				iter.remove();
+			if (e.getY() > dm.heightPixels) {
+				ghosts.remove(e);
 				Log.v("ENTITY", "ghost removed");
-				currentScore += 1 * GameView.SCORECONSTANT;
+				currentScore += 2 * scoreConstant;
+				lastScore = (int) (2 * scoreConstant);
 			}
 		}
-		Iterator<Item> iter2 = items.iterator();
-		while (iter2.hasNext()) {
-			Item tmp2 = iter2.next();
+		for (Item i : items) {
 			playerRect = player.getRect();
-			/*
-			 * Start the items intersected method
-			 */
-			if (playerRect.intersect(tmp2.getRect())) {
-				tmp2.intersected();
-				// iter2.remove();
-
+			if (playerRect.intersect(i.getRect())) {
+				i.intersected();
 			}
-			/*
-			 * remove item logic
-			 */
-			if (tmp2.getY() > dm.heightPixels) {
-				iter2.remove();
+			if (i.getY() > dm.heightPixels) {
+				items.remove(i);
 				Log.v("ENTITY", "item removed");
 			}
 		}
+
+		// Iterator<Item> iter2 = items.iterator();
+		// while (iter2.hasNext()) {
+		// Item tmp2 = iter2.next();
+		// playerRect = player.getRect();
+		// /*
+		// * Start the items intersected method
+		// */
+		// if (playerRect.intersect(tmp2.getRect())) {
+		// tmp2.intersected();
+		// // iter2.remove();
+		//
+		// }
+		// /*
+		// * remove item logic
+		// */
+		// if (tmp2.getY() > dm.heightPixels) {
+		// iter2.remove();
+		// Log.v("ENTITY", "item removed");
+		// }
+		// }
 
 	}
 
@@ -304,10 +363,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		super.onDraw(c);
 
 		// Draw Background
-		c.drawColor(0xFFCC9900);
+		c.drawColor(Color.parseColor("#34495e"));
 
-		//draw test animation entity
-		aGhost.draw(c);
 		// Check bounds
 		checkBounds();
 
@@ -315,12 +372,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		player.draw(c);
 
 		// Draw Entities
-		synchronized (ghosts) {
-			for (Entity e : ghosts) {
-				e.draw(c);
 
-			}
+		/*
+		 * for (Entity e : ghosts) { e.draw(c); }
+		 */
+
+		for (Entity e : ghosts) {
+			e.draw(c);
 		}
+
 		for (Item i : items) {
 			i.draw(c);
 		}
@@ -367,16 +427,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	public boolean onTouch(View v, MotionEvent event) {
 		int x = (int) event.getX();
 		int y = (int) event.getY();
+		Log.v("TOUCH", "touch registered");
 		// Probably should make this Synchronized
 		// Check if the click lands within a ghost
 		for (Entity g : ghosts) {
-			// if (e instanceof Ghost) { //not necessary anymore, handle ghosts
-			// and items separately
 			Rect tmp = g.getRect();
 			if (tmp.contains(x, y)) {
 				return performClick((Ghost) g);
 			}
-			// }
 		}
 		for (Item i : items) {
 			Rect tmp = i.getRect();
@@ -384,9 +442,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 				return performClick(i);
 			}
 		}
+
 		v.performClick(); // Required for some reason
 		return false;
-
 	}
 
 	@Override
@@ -397,30 +455,35 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	public boolean performClick(Entity e) {
 		super.performClick();
 		if (e instanceof Ghost) {
-			thread.addScorePopUp((Ghost) e);
-			ghosts.remove(e); // Possible synchronization problems
-			currentScore += 5 * GameView.SCORECONSTANT;
+			/*
+			 * Make the string appear, make the ghost's rect 0x0
+			 */
+			ghosts.remove(e);
+			Log.v("REMOVE", "ghost removed touch");
+			currentScore += 5 * scoreConstant;
 			lastScore = 5;
 		}
 		return true;
 	}
+
 	public void resetConstants() {
 		if (difficulty.equals("EASY")) {
-			ghostspawnconstant = 1;
-			ghostspeedconstant = 1;
-			ghostfrequencyconstant = 1;
+			ghostSpawnConstant = 1;
+			ghostSpeedConstant = 1;
+			ghostFrequencyConstant = 1;
 		}
 		if (difficulty.equals("MEDIUM")) {
-			ghostspawnconstant = 1.3;
-			ghostspeedconstant = 1.5;
-			ghostfrequencyconstant = 1;
+			ghostSpawnConstant = 1.3;
+			ghostSpeedConstant = 1.5;
+			ghostFrequencyConstant = 1;
 		}
 		if (difficulty.equals("HARD")) {
-			ghostspawnconstant = 1.5;
-			ghostspeedconstant = 2;
-			ghostfrequencyconstant = .98;
+			ghostSpawnConstant = 1.5;
+			ghostSpeedConstant = 2;
+			ghostFrequencyConstant = .98;
 		}
-		this.player.setSCALE(0.035);
+		setScoreConstant(1);
+		Player.setSCALE(0.035);
 		Ghost.setSCALE(0.035);
 		Ghost.setSPEED(.01);
 	}

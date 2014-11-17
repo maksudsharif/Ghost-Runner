@@ -28,7 +28,7 @@ public class SmallGhostsItem extends Item {
 	@Override
 	public void draw(Canvas c) {
 		// For now, just update speed same as ghosts.
-		this.pos_y += (int) (gameView.getWidthPixels() * Entity.SPEED) * gameView.getGhostspeedconstant();
+		this.pos_y += (int) (gameView.getWidthPixels() * Entity.SPEED) * gameView.getGhostSpeedConstant();
 		this.rect.set((int) pos_x
 				- (int) (gameView.getWidthPixels() * Entity.SCALE), (int) pos_y
 				- (int) (gameView.getWidthPixels() * Entity.SCALE),

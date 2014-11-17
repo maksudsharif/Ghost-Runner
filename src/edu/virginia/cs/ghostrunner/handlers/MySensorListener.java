@@ -11,7 +11,7 @@ public class MySensorListener implements SensorEventListener {
 
 	public MySensorListener(GameView gameView) {
 		this.gameView = gameView;
-		}
+	}
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
@@ -45,8 +45,6 @@ public class MySensorListener implements SensorEventListener {
 
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

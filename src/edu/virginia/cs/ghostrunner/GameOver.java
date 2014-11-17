@@ -1,37 +1,35 @@
 package edu.virginia.cs.ghostrunner;
 
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
+import java.util.Collections;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.widget.TextView;
 
 public class GameOver extends Activity {
-	private ArrayList<Integer> scores;
+	private final String FILENAME = "scores_file";
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_game_over);
-
-		// retrieve high scores
-		try { // in a try statement for now in order to not break anything for
-				// now
-			SharedPreferences data = getSharedPreferences("data", 0);
-			scores = new ArrayList<Integer>();
-			String str = data.getString("scores", "");
-			StringTokenizer st = new StringTokenizer(str, ",");
-			while (st.hasMoreTokens()) {
-				scores.add(Integer.parseInt(st.nextToken()));
-			}
-		} catch (Exception e) {
-			Log.v("HIGH SCORE", "Problem in high scores");
-		}
-		// TODO: show scores somehow
+		
+		//Load scores from file
+		ArrayList<Integer> scores = load();
+		Collections.sort(scores, Collections.reverseOrder());
+		//Show scores somehow
+		Log.v("GAME OVER", scores.toString());
+		TextView scoreList = (TextView) findViewById(R.id.scoreList);
+		scoreList.setText(scores.toString());
 	}
 
 	@Override
@@ -52,4 +50,22 @@ public class GameOver extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
+	@SuppressWarnings("unchecked")
+	public ArrayList<Integer> load() {
+		ArrayList<Integer> loaded = null;
+		try {
+			FileInputStream fi = openFileInput(FILENAME);
+			ObjectInputStream os = new ObjectInputStream(fi);
+			loaded = (ArrayList<Integer>) os.readObject();
+			os.close();
+			fi.close();
+		} catch (Exception e) {
+			Log.v("LOAD", "Score load failed");
+			return null;
+		}
+		return loaded;
+
+	}
+
 }

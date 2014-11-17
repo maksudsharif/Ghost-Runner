@@ -9,13 +9,14 @@ import edu.virginia.cs.ghostrunner.R;
 import edu.virginia.cs.ghostrunner.views.GameView;
 
 public class Ghost extends Entity {
+	
 	protected static double SCALE = 0.035;
 	protected static double SPEED = .01;
-	
+	String scoreDisplay;
 	public Ghost() {
 		super();
 	}
-
+	
 	public Ghost(float x, float y, GameView gameView) {
 		super(x, y, gameView);
 		this.pos_x = (int) (Math.random() * gameView.getWidthPixels());
@@ -24,7 +25,7 @@ public class Ghost extends Entity {
 		this.p.setColor(Color.BLACK);
 		p.setStyle(Style.FILL);
 		p.setStrokeWidth(3);
-		
+		scoreDisplay = new String ();
 		bm = BitmapFactory.decodeResource(gameView.getContext().getResources(),
 				R.drawable.ic_launcher);
 	}
@@ -34,7 +35,7 @@ public class Ghost extends Entity {
 	@Override
 	public void draw(Canvas c) {
 		// update the ghosts position
-		this.pos_y += (int) (gameView.getWidthPixels() * Ghost.SPEED) * gameView.getGhostspeedconstant();
+		this.pos_y += (int) (gameView.getWidthPixels() * Ghost.SPEED) * gameView.getGhostSpeedConstant();
 		// set the ghost's position based on updated values
 		this.rect.set(
 				(int) pos_x - (int) (gameView.getWidthPixels() * Ghost.SCALE),
@@ -63,5 +64,14 @@ public class Ghost extends Entity {
 	public float getScoreValue(){
 		return 5.0f;
 	}
+
+	public String getScoreDisplay() {
+		return scoreDisplay;
+	}
+
+	public void setScoreDisplay(String scoreDisplay) {
+		this.scoreDisplay = scoreDisplay;
+	}
+	
 
 }
