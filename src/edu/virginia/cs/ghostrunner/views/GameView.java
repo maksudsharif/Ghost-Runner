@@ -41,8 +41,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	private Player player;
 	public AnimatedEntity aGhost;
 
-	private ArrayList<Entity> ghosts; // Should contain ghosts and friendly
-	private CopyOnWriteArrayList<Entity> syncGhosts;
+	private CopyOnWriteArrayList<Entity> ghosts;
 
 	private ArrayList<Item> items; // Should contain items
 
@@ -72,8 +71,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 				"fonts/font.TTF");
 
 		player = new Player(dm.widthPixels / 2, dm.heightPixels / 2, this);
-		ghosts = new ArrayList<Entity>();
-		syncGhosts = new CopyOnWriteArrayList<Entity>();
+		ghosts = new CopyOnWriteArrayList<Entity>();
 		items = new ArrayList<Item>();
 
 		currentScore = 0;
@@ -191,12 +189,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		return items;
 	}
 
-	public ArrayList<Entity> getGhosts() {
+	public CopyOnWriteArrayList<Entity> getGhosts() {
 		return ghosts;
 	}
 
 	public CopyOnWriteArrayList<Entity> getSynced() {
-		return syncGhosts;
+		return ghosts;
 	}
 
 	public double getScoreConstant() {
@@ -220,7 +218,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	 */
 	public void add(Entity e) {
 		if (e instanceof Ghost) {
-			syncGhosts.add(e);
+			ghosts.add(e);
 		}
 		if (e instanceof Item) {
 			items.add((Item) e);
@@ -256,7 +254,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 
 		// Sync fix
 		playerRect = player.getRect();
-		for (Entity e : syncGhosts) {
+		for (Entity e : ghosts) {
 			if (playerRect.intersect(e.getRect())) {
 				stop();
 				Intent intent = new Intent(getContext(), GameOver.class);
@@ -266,7 +264,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 			}
 
 			if (e.getY() > dm.heightPixels) {
-				syncGhosts.remove(e);
+				ghosts.remove(e);
 				Log.v("ENTITY", "ghost removed");
 				currentScore += 1 * scoreConstant;
 				lastScore = (int) (1 * scoreConstant);
@@ -320,7 +318,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		 * for (Entity e : ghosts) { e.draw(c); }
 		 */
 
-		for (Entity e : syncGhosts) {
+		for (Entity e : ghosts) {
 			e.draw(c);
 		}
 
@@ -370,6 +368,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	public boolean onTouch(View v, MotionEvent event) {
 		int x = (int) event.getX();
 		int y = (int) event.getY();
+		Log.v("TOUCH", "touch registered");
 		// Probably should make this Synchronized
 		// Check if the click lands within a ghost
 		for (Entity g : ghosts) {
@@ -403,9 +402,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 			/*
 			 * Make the string appear, make the ghost's rect 0x0
 			 */
-			syncGhosts.remove(e); // Possible synchronization problems, get rid
-									// of
-									// this.
+			ghosts.remove(e);
+			Log.v("REMOVE", "ghost removed touch");
 			currentScore += 5 * scoreConstant;
 			lastScore = 5;
 		}
