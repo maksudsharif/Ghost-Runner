@@ -15,40 +15,41 @@ import edu.virginia.cs.ghostrunner.R;
 import edu.virginia.cs.ghostrunner.views.GameView;
 
 public class GhostFriend extends Item {
-	
+
 	private Player player;
 	private ArrayList<Entity> ghosts;
 	private DisplayMetrics dm;
-
 
 	public GhostFriend(float x, float y, GameView gameView) {
 		super(x, y, gameView);
 		this.p = new Paint();
 		this.p.setColor(Color.MAGENTA);
 		this.p.setStyle(Style.FILL);
-		
+
 		bm = BitmapFactory.decodeResource(gameView.getContext().getResources(),
 				R.drawable.ic_launcher);
 	}
+
 	@Override
 	public void draw(Canvas c) {
-		this.pos_y += (int) (gameView.getWidthPixels() * Entity.SPEED) * gameView.getGhostSpeedConstant();
+		this.pos_y += (int) (gameView.getWidthPixels() * Entity.SPEED)
+				* gameView.getGhostSpeedConstant();
 		this.rect.set((int) pos_x
 				- (int) (gameView.getWidthPixels() * Entity.SCALE), (int) pos_y
 				- (int) (gameView.getWidthPixels() * Entity.SCALE),
 				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_x,
 				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_y);
 
-		 c.drawRect(this.rect, this.p);
-		
-//		c.drawBitmap(bm, (float) (pos_x - gameView.getWidthPixels()
-//				* Entity.SCALE), (float) (pos_y - gameView.getWidthPixels()
-//				* Entity.SCALE), p);
+		c.drawRect(this.rect, this.p);
+
+		// c.drawBitmap(bm, (float) (pos_x - gameView.getWidthPixels()
+		// * Entity.SCALE), (float) (pos_y - gameView.getWidthPixels()
+		// * Entity.SCALE), p);
 
 	}
+
 	@Override
 	public void intersected() {
-		int n = 0;
 		Rect playerRect;
 		Iterator<Entity> iter = ghosts.iterator();
 		while (iter.hasNext()) {
@@ -57,12 +58,12 @@ public class GhostFriend extends Item {
 			if (playerRect.intersect(tmp.getRect())) {
 				iter.remove();
 				Log.v("ENTITY", "ghost removed");
-				++n;
+				gameView.setCurrentScore(gameView.getCurrentScore() + 5);
+			}
+			for (Entity e : gameView.getItems()) {
+				gameView.getItems().remove(e);
 			}
 		}
-		if(n != 0 ) {
-			//ghost friend leaves
-		}
+
 	}
-	
 }
