@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import edu.virginia.cs.ghostrunner.entities.BigGhostsItem;
 import edu.virginia.cs.ghostrunner.entities.BigPlayerItem;
+import edu.virginia.cs.ghostrunner.entities.BombItem;
 import edu.virginia.cs.ghostrunner.entities.DoubleScoreItem;
 import edu.virginia.cs.ghostrunner.entities.FastGhostsItem;
 import edu.virginia.cs.ghostrunner.entities.Ghost;
@@ -55,7 +56,7 @@ public class SurfaceThread extends Thread {
 								&& Math.random() > (.40 * freq)) {
 							gameView.add(new Ghost(
 									(float) (Math.random() * gameView
-											.getWidthPixels()), 0, gameView));
+											.getWidthPixels()), -500, gameView));
 						}
 					}
 					// Spawn Items
@@ -125,7 +126,7 @@ public class SurfaceThread extends Thread {
 							}
 							if (rndItem > 8 * (1 / numItems)
 									&& rndItem < 9 * (1 / numItems)) {
-								gameView.add(new HalfScoreItem((float) Math
+								gameView.add(new BombItem((float) Math
 										.random() * gameView.getWidthPixels(),
 										0, gameView));
 								Log.d("ItemAdded", "BombItem");

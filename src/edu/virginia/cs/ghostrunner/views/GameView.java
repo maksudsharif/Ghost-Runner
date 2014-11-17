@@ -43,7 +43,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 
 	private CopyOnWriteArrayList<Entity> ghosts;
 
-	private ArrayList<Item> items; // Should contain items
+	private CopyOnWriteArrayList<Item> items; // Should contain items
 
 	private int currentScore;
 	private int lastScore;
@@ -72,7 +72,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 
 		player = new Player(dm.widthPixels / 2, dm.heightPixels / 2, this);
 		ghosts = new CopyOnWriteArrayList<Entity>();
-		items = new ArrayList<Item>();
+		items = new CopyOnWriteArrayList<Item>();
 
 		currentScore = 0;
 		lastScore = 0;
@@ -185,7 +185,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		this.ghostFrequencyConstant = ghostFrequencyConstant;
 	}
 
-	public ArrayList<Item> getItems() {
+	public CopyOnWriteArrayList<Item> getItems() {
 		return items;
 	}
 
@@ -270,27 +270,37 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 				lastScore = (int) (2 * scoreConstant);
 			}
 		}
-
-		Iterator<Item> iter2 = items.iterator();
-		while (iter2.hasNext()) {
-			Item tmp2 = iter2.next();
+		for (Item i : items) {
 			playerRect = player.getRect();
-			/*
-			 * Start the items intersected method
-			 */
-			if (playerRect.intersect(tmp2.getRect())) {
-				tmp2.intersected();
-				// iter2.remove();
-
+			if (playerRect.intersect(i.getRect())) {
+				i.intersected();
 			}
-			/*
-			 * remove item logic
-			 */
-			if (tmp2.getY() > dm.heightPixels) {
-				iter2.remove();
+			if (i.getY() > dm.heightPixels) {
+				items.remove(i);
 				Log.v("ENTITY", "item removed");
 			}
 		}
+		
+//		Iterator<Item> iter2 = items.iterator();
+//		while (iter2.hasNext()) {
+//			Item tmp2 = iter2.next();
+//			playerRect = player.getRect();
+//			/*
+//			 * Start the items intersected method
+//			 */
+//			if (playerRect.intersect(tmp2.getRect())) {
+//				tmp2.intersected();
+//				// iter2.remove();
+//
+//			}
+//			/*
+//			 * remove item logic
+//			 */
+//			if (tmp2.getY() > dm.heightPixels) {
+//				iter2.remove();
+//				Log.v("ENTITY", "item removed");
+//			}
+//		} 
 
 	}
 
@@ -308,6 +318,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		// aGhost.draw(c);
 		// Check bounds
 		checkBounds();
+		
 
 		// Draw player
 		player.draw(c);
@@ -327,7 +338,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		}
 
 		score = "Score: " + currentScore;
-
+		
 		sPaint.setTextSize(35f);
 		sPaint.setTypeface(tf);
 		c.drawText(score, 0, score.length(),

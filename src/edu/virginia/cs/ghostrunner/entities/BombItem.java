@@ -16,7 +16,7 @@ public class BombItem extends Item {
 		super(x, y, gameView);
 		innerRect = new Rect();
 		this.p = new Paint();
-		this.p.setColor(Color.WHITE);
+		this.p.setColor(Color.RED);
 		this.p.setStyle(Style.FILL);
 		this.p2 = new Paint();
 		this.p.setColor(Color.BLACK);
@@ -48,12 +48,12 @@ public class BombItem extends Item {
 
 	@Override
 	public void intersected() {
-		for (int i = 0; i < gameView.getSynced().size(); ++i) {
-			gameView.getSynced().remove(i);
+		for (Entity e : gameView.getSynced()) {
+			gameView.getGhosts().remove(e);
 			gameView.setCurrentScore(gameView.getCurrentScore() + 10);
 		}
-		for (int i = 0; i < gameView.getItems().size(); ++i) {
-			gameView.getItems().remove(i);
+		for (Entity e : gameView.getItems()) {
+			gameView.getItems().remove(e);
 		}
 		/*
 		 * TODO: DISPLAY SOME MESSAGE LIKE "BOMB"
