@@ -52,12 +52,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 
 	private String difficulty;
 	// changed with difficulty
-	private double ghostspawnconstant;
-	private double ghostfrequencyconstant;
-	private double ghostspeedconstant;
+	private double ghostSpawnConstant;
+	private double ghostFrequencyConstant;
+	private double ghostSpeedConstant;
 
 	// scores
-	private static double SCORECONSTANT = 1;
+	private double scoreConstant = 1;
 	private static ArrayList<Integer> scores = new ArrayList<Integer>();
 
 	private void init() {
@@ -85,19 +85,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		sPaint.setTextAlign(Paint.Align.CENTER);
 
 		if (difficulty.equals("EASY")) {
-			ghostspawnconstant = 1;
-			ghostspeedconstant = 1;
-			ghostfrequencyconstant = 1;
+			ghostSpawnConstant = 1;
+			ghostSpeedConstant = 1;
+			ghostFrequencyConstant = 1;
 		}
 		if (difficulty.equals("MEDIUM")) {
-			ghostspawnconstant = 1.3;
-			ghostspeedconstant = 1.5;
-			ghostfrequencyconstant = 1;
+			ghostSpawnConstant = 1.3;
+			ghostSpeedConstant = 1.5;
+			ghostFrequencyConstant = 1;
 		}
 		if (difficulty.equals("HARD")) {
-			ghostspawnconstant = 1.5;
-			ghostspeedconstant = 2;
-			ghostfrequencyconstant = .98;
+			ghostSpawnConstant = 1.5;
+			ghostSpeedConstant = 2;
+			ghostFrequencyConstant = .98;
 		}
 
 		thread = new SurfaceThread(getHolder(), this);
@@ -163,28 +163,28 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		return difficulty;
 	}
 
-	public double getGhostspawnconstant() {
-		return ghostspawnconstant;
+	public double getGhostSpawnConstant() {
+		return ghostSpawnConstant;
 	}
 
-	public void setGhostspawnconstant(double ghostspawnconstant) {
-		this.ghostspawnconstant = ghostspawnconstant;
+	public void setGhostSpawnConstant(double ghostSpawnConstant) {
+		this.ghostSpawnConstant = ghostSpawnConstant;
 	}
 
-	public double getGhostspeedconstant() {
-		return ghostspeedconstant;
+	public double getGhostSpeedConstant() {
+		return ghostSpeedConstant;
 	}
 
-	public void setGhostspeedconstant(double ghostspeedconstant) {
-		this.ghostspeedconstant = ghostspeedconstant;
+	public void setGhostSpeedConstant(double ghostSpeedConstant) {
+		this.ghostSpeedConstant = ghostSpeedConstant;
 	}
 
-	public double getGhostfrequencyconstant() {
-		return ghostfrequencyconstant;
+	public double getGhostFrequencyConstant() {
+		return ghostFrequencyConstant;
 	}
 
-	public void setGhostfrequencyconstant(double ghostfrequencyconstant) {
-		this.ghostfrequencyconstant = ghostfrequencyconstant;
+	public void setGhostfrequencyconstant(double ghostFrequencyConstant) {
+		this.ghostFrequencyConstant = ghostFrequencyConstant;
 	}
 
 	public ArrayList<Item> getItems() {
@@ -199,12 +199,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		return syncGhosts;
 	}
 
-	public static double getSCORECONSTANT() {
-		return SCORECONSTANT;
+	public double getScoreConstant() {
+		return scoreConstant;
 	}
 
-	public static void setSCORECONSTANT(double sCORECONSTANT) {
-		SCORECONSTANT = sCORECONSTANT;
+	public void setScoreConstant(double scoreConstant) {
+		this.scoreConstant = scoreConstant;
 	}
 
 	public int getCurrentScore() {
@@ -220,7 +220,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	 */
 	public void add(Entity e) {
 		if (e instanceof Ghost) {
-			// ghosts.add(e);
 			syncGhosts.add(e);
 		}
 		if (e instanceof Item) {
@@ -269,8 +268,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 			if (e.getY() > dm.heightPixels) {
 				syncGhosts.remove(e);
 				Log.v("ENTITY", "ghost removed");
-				currentScore += 1 * GameView.SCORECONSTANT;
-				lastScore = (int) (1 * GameView.SCORECONSTANT);
+				currentScore += 1 * scoreConstant;
+				lastScore = (int) (1 * scoreConstant);
 			}
 		}
 
@@ -317,11 +316,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 
 		// Draw Entities
 
-		/*for (Entity e : ghosts) {
-			e.draw(c);
-		}*/
-		
-		for(Entity e : syncGhosts){
+		/*
+		 * for (Entity e : ghosts) { e.draw(c); }
+		 */
+
+		for (Entity e : syncGhosts) {
 			e.draw(c);
 		}
 
@@ -374,13 +373,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		// Probably should make this Synchronized
 		// Check if the click lands within a ghost
 		for (Entity g : ghosts) {
-		
+
 			Rect tmp = g.getRect();
 			if (tmp.contains(x, y)) {
 
 				return performClick((Ghost) g);
 			}
-		
+
 		}
 		for (Item i : items) {
 			Rect tmp = i.getRect();
@@ -404,9 +403,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 			/*
 			 * Make the string appear, make the ghost's rect 0x0
 			 */
-			syncGhosts.remove(e); // Possible synchronization problems, get rid of
-								// this.
-			currentScore += 5 * GameView.SCORECONSTANT;
+			syncGhosts.remove(e); // Possible synchronization problems, get rid
+									// of
+									// this.
+			currentScore += 5 * scoreConstant;
 			lastScore = 5;
 		}
 		return true;
@@ -414,21 +414,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 
 	public void resetConstants() {
 		if (difficulty.equals("EASY")) {
-			ghostspawnconstant = 1;
-			ghostspeedconstant = 1;
-			ghostfrequencyconstant = 1;
+			ghostSpawnConstant = 1;
+			ghostSpeedConstant = 1;
+			ghostFrequencyConstant = 1;
 		}
 		if (difficulty.equals("MEDIUM")) {
-			ghostspawnconstant = 1.3;
-			ghostspeedconstant = 1.5;
-			ghostfrequencyconstant = 1;
+			ghostSpawnConstant = 1.3;
+			ghostSpeedConstant = 1.5;
+			ghostFrequencyConstant = 1;
 		}
 		if (difficulty.equals("HARD")) {
-			ghostspawnconstant = 1.5;
-			ghostspeedconstant = 2;
-			ghostfrequencyconstant = .98;
+			ghostSpawnConstant = 1.5;
+			ghostSpeedConstant = 2;
+			ghostFrequencyConstant = .98;
 		}
-		GameView.setSCORECONSTANT(1);
+		setScoreConstant(1);
 		Player.setSCALE(0.035);
 		Ghost.setSCALE(0.035);
 		Ghost.setSPEED(.01);

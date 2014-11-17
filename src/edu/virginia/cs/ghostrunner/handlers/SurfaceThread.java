@@ -43,22 +43,19 @@ public class SurfaceThread extends Thread {
 			try {
 				c = sh.lockCanvas(null);
 				synchronized (sh) {
+					double spawn = gameView.getGhostSpawnConstant();
+					double freq = gameView.getGhostFrequencyConstant();
 
 					// update Animation Entities
 					// gameView.aGhost.update(System.currentTimeMillis());
 
 					// update ghosts
-					if (gameView.size() < (15 * gameView
-							.getGhostspawnconstant())) {
-						if (Math.random() > (.96 * gameView
-								.getGhostfrequencyconstant())
-								&& Math.random() > (.40 * gameView
-										.getGhostfrequencyconstant())) {
+					if (gameView.size() < (15 * spawn)) {
+						if (Math.random() > (.96 * freq)
+								&& Math.random() > (.40 * freq)) {
 							gameView.add(new Ghost(
 									(float) (Math.random() * gameView
-											.getWidthPixels()), 0, gameView
-
-							));
+											.getWidthPixels()), 0, gameView));
 						}
 					}
 					// Spawn Items

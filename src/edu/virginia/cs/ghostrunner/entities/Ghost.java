@@ -35,7 +35,7 @@ public class Ghost extends Entity {
 	@Override
 	public void draw(Canvas c) {
 		// update the ghosts position
-		this.pos_y += (int) (gameView.getWidthPixels() * Ghost.SPEED) * gameView.getGhostspeedconstant();
+		this.pos_y += (int) (gameView.getWidthPixels() * Ghost.SPEED) * gameView.getGhostSpeedConstant();
 		// set the ghost's position based on updated values
 		this.rect.set(
 				(int) pos_x - (int) (gameView.getWidthPixels() * Ghost.SCALE),

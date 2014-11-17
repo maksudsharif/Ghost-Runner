@@ -24,7 +24,7 @@ public class HalfScoreItem extends Item {
 	@Override
 	public void draw(Canvas c) {
 		this.pos_y += (int) (gameView.getWidthPixels() * Entity.SPEED)
-				* gameView.getGhostspeedconstant();
+				* gameView.getGhostSpeedConstant();
 		this.rect.set((int) pos_x
 				- (int) (gameView.getWidthPixels() * Entity.SCALE), (int) pos_y
 				- (int) (gameView.getWidthPixels() * Entity.SCALE),
@@ -41,8 +41,8 @@ public class HalfScoreItem extends Item {
 
 	@Override
 	public void intersected() {
-		if (GameView.getSCORECONSTANT() > .5)
-			GameView.setSCORECONSTANT(GameView.getSCORECONSTANT() * .5);
+		if (gameView.getScoreConstant() > .5)
+			gameView.setScoreConstant(gameView.getScoreConstant() * .5);
 		
 	}
 }

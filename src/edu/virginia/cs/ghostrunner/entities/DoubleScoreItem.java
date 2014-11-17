@@ -23,7 +23,7 @@ public class DoubleScoreItem extends Item {
 	@Override
 	public void draw(Canvas c) {
 		this.pos_y += (int) (gameView.getWidthPixels() * Entity.SPEED)
-				* gameView.getGhostspeedconstant();
+				* gameView.getGhostSpeedConstant();
 		this.rect.set((int) pos_x
 				- (int) (gameView.getWidthPixels() * Entity.SCALE), (int) pos_y
 				- (int) (gameView.getWidthPixels() * Entity.SCALE),
@@ -40,8 +40,8 @@ public class DoubleScoreItem extends Item {
 
 	@Override
 	public void intersected() {
-		if (GameView.getSCORECONSTANT() < 2)
-			GameView.setSCORECONSTANT(GameView.getSCORECONSTANT() * 2);
+		if (gameView.getScoreConstant() < 2)
+			gameView.setScoreConstant(gameView.getScoreConstant() * 2);
 		
 	}
 }

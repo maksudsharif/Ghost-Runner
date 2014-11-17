@@ -6,7 +6,6 @@ import java.util.StringTokenizer;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -19,20 +18,7 @@ public class GameOver extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_game_over);
-
-		// retrieve high scores
-		try { // in a try statement for now in order to not break anything for
-				// now
-			SharedPreferences data = getSharedPreferences("data", 0);
-			scores = new ArrayList<Integer>();
-			String str = data.getString("scores", "");
-			StringTokenizer st = new StringTokenizer(str, ",");
-			while (st.hasMoreTokens()) {
-				scores.add(Integer.parseInt(st.nextToken()));
-			}
-		} catch (Exception e) {
-			Log.v("HIGH SCORE", "Problem in high scores");
-		}
+		load();
 		// TODO: show scores somehow
 	}
 
@@ -53,5 +39,15 @@ public class GameOver extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	public void load() {
+		SharedPreferences data = getSharedPreferences("data", 0);
+		scores = new ArrayList<Integer>();
+		String str = data.getString("scores", "");
+		StringTokenizer st = new StringTokenizer(str, ",");
+		while (st.hasMoreTokens()) {
+			scores.add(Integer.parseInt(st.nextToken()));
+		}
 	}
 }
