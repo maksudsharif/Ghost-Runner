@@ -52,16 +52,30 @@ public class GhostFriend extends Item {
 	public void intersected() {
 		Rect playerRect;
 		Iterator<Entity> iter = ghosts.iterator();
+		Canvas c = new Canvas();
+		float x = (int) (gameView.getWidthPixels() * Player.getSCALE())
+				+ (int) pos_x;
+		float y = (int) (gameView.getWidthPixels() * Player.getSCALE())
+				+ (int) pos_y;
+		float r = (float) (.5 * Math.sqrt(x * x + y * y));
+		Paint alpha = new Paint();
+		((Paint) alpha).setAlpha(0);
+		boolean supposedToBeThere = true;
+
 		while (iter.hasNext()) {
 			Entity tmp = iter.next();
 			playerRect = player.getRect();
+			if (supposedToBeThere)
+				c.drawCircle(x, y, r, alpha);
 			if (playerRect.intersect(tmp.getRect())) {
 				iter.remove();
 				Log.v("ENTITY", "ghost removed");
+				supposedToBeThere = false;
 				gameView.setCurrentScore(gameView.getCurrentScore() + 5);
 			}
 			for (Entity e : gameView.getItems()) {
 				gameView.getItems().remove(e);
+				supposedToBeThere = false;
 			}
 		}
 
