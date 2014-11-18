@@ -328,7 +328,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 			if (e.getY() > dm.heightPixels) {
 				ghosts.remove(e);
 				Log.v("ENTITY", "ghost removed");
-				currentScore += 2 * scoreConstant;
+				if (((Ghost) e).getDrawRect()) 
+					currentScore += 2 * scoreConstant;
 				lastScore = (int) (2 * scoreConstant);
 			}
 		}
