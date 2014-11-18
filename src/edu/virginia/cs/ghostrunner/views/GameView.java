@@ -16,6 +16,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -25,6 +27,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import edu.virginia.cs.ghostrunner.GameOver;
+import edu.virginia.cs.ghostrunner.R;
 import edu.virginia.cs.ghostrunner.entities.AnimatedEntity;
 import edu.virginia.cs.ghostrunner.entities.Entity;
 import edu.virginia.cs.ghostrunner.entities.Ghost;
@@ -65,6 +68,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	private double scoreConstant = 1;
 	private static ArrayList<Integer> scores = new ArrayList<Integer>();
 
+	// sounds
+	private SoundPool effects;
+	private int ghostkilled;
+	
 	private void init() {
 		scores = load();
 		if (scores == null) {
@@ -138,6 +145,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		difficulty = ((Activity) context).getIntent().getStringExtra(
 				"difficulty");
 		Log.v("GV INTENT", "GameView diff: " + difficulty);
+		
+		effects = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+		ghostkilled = effects.load(context, R.raw.blockhit, 1);
+		
 		init();
 	}
 
@@ -462,6 +473,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 			Log.v("REMOVE", "ghost removed touch");
 			currentScore += 5 * scoreConstant;
 			lastScore = 5;
+			effects.play(ghostkilled, 1.0f, 1.0f, 0, 0, 1.5f);
 		}
 		return true;
 	}
