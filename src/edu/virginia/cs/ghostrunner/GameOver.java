@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import android.app.Activity;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,11 +17,14 @@ import android.widget.TextView;
 public class GameOver extends Activity {
 	private final String FILENAME = "scores_file";
 
-
+	MediaPlayer mp;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		mp = MediaPlayer.create(GameOver.this, R.raw.playerdied);
+		mp.start();
 		setContentView(R.layout.activity_game_over);
 		
 		//Load scores from file
