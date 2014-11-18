@@ -13,6 +13,9 @@ public class Ghost extends Entity {
 	protected static double SCALE = 0.035;
 	protected static double SPEED = .01;
 	String scoreDisplay;
+	boolean DrawRect = true;
+	int [] touchLocation;
+	
 	public Ghost() {
 		super();
 	}
@@ -26,9 +29,11 @@ public class Ghost extends Entity {
 		p.setStyle(Style.FILL);
 		p.setStrokeWidth(3);
 		scoreDisplay = new String ();
+		int [] touchLocation = new int [2];
 		bm = BitmapFactory.decodeResource(gameView.getContext().getResources(),
 				R.drawable.ic_launcher);
 	}
+	
 	
 	
 
@@ -43,6 +48,11 @@ public class Ghost extends Entity {
 				(int) (gameView.getWidthPixels() * Ghost.SCALE) + (int) pos_x,
 				(int) (gameView.getWidthPixels() * Ghost.SCALE) + (int) pos_y);// this sets the size of the rectangle
 //		c.drawBitmap(bm, pos_x - 25, pos_y - 25, p);
+		c.drawRect(this.rect, this.p);
+	}
+	public void drawString (Canvas c) {
+		this.pos_y += (int) (gameView.getWidthPixels() * Ghost.SPEED) * gameView.getGhostSpeedConstant();
+		c.drawText(scoreDisplay, touchLocation[0], touchLocation[1], this.p);
 		c.drawRect(this.rect, this.p);
 	}
 	
@@ -72,6 +82,22 @@ public class Ghost extends Entity {
 	public void setScoreDisplay(String scoreDisplay) {
 		this.scoreDisplay = scoreDisplay;
 	}
-	
+
+	public boolean getDrawRect() {
+		return DrawRect;
+	}
+
+	public void setDrawRect(boolean drawRect) {
+		DrawRect = drawRect;
+	}
+
+	public int[] getTouchLocation() {
+		return touchLocation;
+	}
+
+	public void setTouchLocation(int[] touchLocation) {
+		this.touchLocation = touchLocation;
+	}
+
 
 }

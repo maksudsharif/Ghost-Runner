@@ -389,7 +389,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		 */
 
 		for (Entity e : ghosts) {
-			e.draw(c);
+			if ( ((Ghost)e).getDrawRect()) {
+				e.draw(c);
+			} else {
+				((Ghost) e).drawString(c);
+			}
 		}
 
 		for (Item i : items) {
@@ -444,9 +448,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		for (Entity g : ghosts) {
 			Rect tmp = g.getRect();
 			if (tmp.contains(x, y)) {
+				((Ghost) g).setScoreDisplay("+" + 5 * this.scoreConstant);
+				int[] location = {x, y};
+				((Ghost) g).setTouchLocation(location);
+				
 				return performClick((Ghost) g);
 			}
 		}
+		/*
+		 * items are not clickable. Remove this.
+		 */
 		for (Item i : items) {
 			Rect tmp = i.getRect();
 			if (tmp.contains(x, y)) {
@@ -469,7 +480,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 			/*
 			 * Make the string appear, make the ghost's rect 0x0
 			 */
-			ghosts.remove(e);
+			((Ghost) e).getRect().setEmpty();
+			((Ghost) e).setDrawRect(false);
 			Log.v("REMOVE", "ghost removed touch");
 			currentScore += 5 * scoreConstant;
 			lastScore = 5;
