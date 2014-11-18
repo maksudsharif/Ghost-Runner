@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
@@ -15,6 +16,8 @@ public class Game extends Activity {
 	private Sensor accelerometerSensor;
 	private MySensorListener sensorListener;
 	private GameView gameView;
+	
+	private MediaPlayer mp;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,10 @@ public class Game extends Activity {
 				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		sensorManager.registerListener(sensorListener, accelerometerSensor,
 				SensorManager.SENSOR_DELAY_GAME);
+		
+		mp = MediaPlayer.create(Game.this, R.raw.smb3hammer);
+		mp.setLooping(true);
+		mp.start();
 
 		setContentView(gameView);
 	}
@@ -53,6 +60,7 @@ public class Game extends Activity {
 
 	@Override
 	protected void onStop() {
+		mp.stop();
 		super.onStop();
 	}
 
