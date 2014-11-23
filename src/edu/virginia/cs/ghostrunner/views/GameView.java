@@ -57,6 +57,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	private int currentScore;
 	private int lastScore;
 	private String score;
+	private String scoreMultiplier;
 
 	private String difficulty;
 	// changed with difficulty
@@ -95,6 +96,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		currentScore = 0;
 		lastScore = 0;
 		score = "";
+		scoreMultiplier = "";
 		sPaint = new Paint();
 		sPaint.setColor(Color.BLACK);
 		sPaint.setTextSize(100);
@@ -402,18 +404,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		}
 
 		score = "Score: " + currentScore;
-
-		sPaint.setTextSize(35f);
+		scoreMultiplier = "x" + this.scoreConstant;
+		sPaint.setTextSize(this.getMeasuredHeight() * .02f);
 		sPaint.setTypeface(tf);
 		c.drawText(score, 0, score.length(),
+				(float) (this.getMeasuredWidth() / 2),
+				(float) (0 + (.05 * this.getMeasuredHeight())), sPaint);
+		c.drawText(scoreMultiplier, 0, scoreMultiplier.length(),
 				(float) (this.getMeasuredWidth() - score.length() * 15),
-				(float) (Entity.SCALE * this.getMeasuredHeight()), sPaint);
-		if (lastScore >= 0) {
-			c.drawText("+ " + lastScore,
-					(float) (this.getMeasuredWidth() - score.length() * 15),
-					(float) (Entity.SCALE * this.getMeasuredHeight()) + 30,
-					sPaint);
-		}
+				(float) (0 + (.09 * this.getMeasuredHeight() *.9)), sPaint);
 
 	}
 
