@@ -28,6 +28,7 @@ public class Ghost extends Entity {
 		this.p.setColor(Color.BLACK);
 		p.setStyle(Style.FILL);
 		p.setStrokeWidth(3);
+		p.setTextSize(gameView.getMeasuredHeight() * .03f);
 		scoreDisplay = new String ();
 		int [] touchLocation = new int [2];
 		bm = BitmapFactory.decodeResource(gameView.getContext().getResources(),

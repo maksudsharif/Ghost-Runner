@@ -26,6 +26,11 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
 import edu.virginia.cs.ghostrunner.GameOver;
 import edu.virginia.cs.ghostrunner.R;
 import edu.virginia.cs.ghostrunner.entities.AnimatedEntity;
@@ -58,6 +63,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	private int lastScore;
 	private String score;
 	private String scoreMultiplier;
+	private TextView hud;
+	private RelativeLayout.LayoutParams params;
+	private RelativeLayout rl;
 
 	private String difficulty;
 	// changed with difficulty
@@ -74,6 +82,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	private int ghostkilled;
 	
 	private void init() {
+		
 		scores = load();
 		if (scores == null) {
 			scores = new ArrayList<Integer>();
@@ -97,6 +106,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		lastScore = 0;
 		score = "";
 		scoreMultiplier = "";
+		
+		/*
+		 * New HUD init
+		 */
+//		params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+//		params.leftMargin = this.getMeasuredWidth() / 2; //Your X coordinate
+//		params.topMargin = (int) (0 + (.05 *this.getMeasuredHeight())); //Your Y coordinate
+//		// initialize the hud
+//		ViewParent parentView = null;
+//		parentView= this.getParent();
+//		while (rl instanceof ViewGroup) 
+//			parentView = this.getParent();
+//		rl = (RelativeLayout) parentView;
+//		hud = (TextView) this.rl.getChildAt(0);
+		
+		
 		sPaint = new Paint();
 		sPaint.setColor(Color.BLACK);
 		sPaint.setTextSize(100);
@@ -402,9 +427,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		for (Item i : items) {
 			i.draw(c);
 		}
-
+		/*
+		 * OLD WORKING HUD
+		 */
 		score = "Score: " + currentScore;
-		scoreMultiplier = "x" + this.scoreConstant;
+		scoreMultiplier = "Multiplier: x" + this.scoreConstant;
 		sPaint.setTextSize(this.getMeasuredHeight() * .02f);
 		sPaint.setTypeface(tf);
 		c.drawText(score, 0, score.length(),
@@ -413,6 +440,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		c.drawText(scoreMultiplier, 0, scoreMultiplier.length(),
 				(float) (this.getMeasuredWidth() - score.length() * 15),
 				(float) (0 + (.09 * this.getMeasuredHeight() *.9)), sPaint);
+
+		/*
+		 * NEW (AND NON-WORKING) HUD
+		 */
+//		//set HUD values
+////		hud.invalidate();
+//		hud.setText("Score: " + currentScore + "/n" + "x" + this.scoreConstant);
+//		hud.setTextAlignment(TEXT_ALIGNMENT_CENTER);
+//		hud.setTextColor(Color.WHITE);
+//		hud.setTextSize(this.getMeasuredHeight() * .02f);
+//	//	hud.setTypeface(tf);
+//		
+//		//draw the hud
+//		rl.draw(c);
+		
 
 	}
 
@@ -443,7 +485,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		int x = (int) event.getX();
 		int y = (int) event.getY();
 		Log.v("TOUCH", "touch registered");
-		// Probably should make this Synchronized
 		// Check if the click lands within a ghost
 		for (Entity g : ghosts) {
 			Rect tmp = g.getRect();
