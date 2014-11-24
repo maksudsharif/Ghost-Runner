@@ -6,6 +6,7 @@ import edu.virginia.cs.ghostrunner.views.GameView;
 public class Item extends Entity {
 	protected int timer;
 	
+	
 	public Item(float x, float y, GameView gameView) {
 		super(x, y, gameView);
 		this.timer = 0;

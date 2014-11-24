@@ -438,7 +438,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 				(float) (this.getMeasuredWidth() / 2),
 				(float) (0 + (.05 * this.getMeasuredHeight())), sPaint);
 		c.drawText(scoreMultiplier, 0, scoreMultiplier.length(),
-				(float) (this.getMeasuredWidth() - score.length() * 15),
+				(float) (this.getMeasuredWidth() - scoreMultiplier.length() * 15),
 				(float) (0 + (.09 * this.getMeasuredHeight() *.9)), sPaint);
 
 		/*
@@ -489,7 +489,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		for (Entity g : ghosts) {
 			Rect tmp = g.getRect();
 			if (tmp.contains(x, y)) {
-				((Ghost) g).setScoreDisplay("+" + 5 * this.scoreConstant);
+				((Ghost) g).setScoreDisplay("+" + (int) (5 * this.scoreConstant));
 				int[] location = {x, y};
 				((Ghost) g).setTouchLocation(location);
 				
