@@ -12,5 +12,8 @@
     <string name="start">Start Game</string>
     <string name="gameover">GAME OVER!</string>
     <string name="title_activity_splash">Splash</string>
+    <string name="back">GO BACK</string>
+    <string name="gameRl">gameRl</string>
+    <string name="hud">hud</string> 
 
 </resources>

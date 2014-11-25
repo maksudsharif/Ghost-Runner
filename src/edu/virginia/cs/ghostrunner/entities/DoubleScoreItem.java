@@ -12,7 +12,7 @@ public class DoubleScoreItem extends Item {
 	public DoubleScoreItem(float x, float y, GameView gameView) {
 		super(x, y, gameView);
 		this.p = new Paint();
-		this.p.setColor(Color.argb(256, 17, 174, 67));
+		this.p.setColor(Color.argb(256, 47, 174, 67));
 		this.p.setStyle(Style.FILL);
 
 		bm = BitmapFactory.decodeResource(gameView.getContext().getResources(),

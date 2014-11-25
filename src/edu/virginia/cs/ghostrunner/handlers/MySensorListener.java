@@ -34,11 +34,11 @@ public class MySensorListener implements SensorEventListener {
 
 			gameView.getPlayer()
 					.setY(gameView.getPlayer().getY() + (int) y * 6);
-			if (gameView.getPlayer().getY() > gameView.getMeasuredHeight()) {
-				gameView.getPlayer().setY(gameView.getMeasuredHeight());
+			if (gameView.getPlayer().getY() > gameView.getMeasuredHeight() - (gameView.getPlayer().getRect().height() /2)) {
+				gameView.getPlayer().setY(gameView.getMeasuredHeight() - (gameView.getPlayer().getRect().height() /2));
 			}
-			if (gameView.getPlayer().getY() < 0) {
-				gameView.getPlayer().setY(0);
+			if (gameView.getPlayer().getY() < 0+ (gameView.getPlayer().getRect().height() /2)) {
+				gameView.getPlayer().setY(0 + (gameView.getPlayer().getRect().height() /2));
 			}
 		}
 	}
