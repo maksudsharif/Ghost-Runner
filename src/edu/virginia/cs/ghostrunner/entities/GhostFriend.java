@@ -64,18 +64,14 @@ public class GhostFriend extends Item {
 
 		Entity tmp = iter.next();
 		playerRect = player.getRect();
-		if (supposedToBeThere)
+		if (supposedToBeThere) {
 			c.drawCircle(x, y, r, alpha);
-		if (playerRect.intersect(tmp.getRect())) {
-			iter.remove();
-			Log.v("ENTITY", "ghost removed");
-			supposedToBeThere = false;
-			gameView.setCurrentScore(gameView.getCurrentScore() + 5);
+			if (playerRect.intersect(tmp.getRect())) {
+				iter.remove();
+				Log.v("ENTITY", "ghost removed");
+				supposedToBeThere = false;
+				gameView.setCurrentScore(gameView.getCurrentScore() + 5);
+			}
 		}
-		for (Entity e : gameView.getItems()) {
-			gameView.getItems().remove(e);
-			supposedToBeThere = false;
-		}
-
 	}
 }
