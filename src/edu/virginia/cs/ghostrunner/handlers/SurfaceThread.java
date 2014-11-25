@@ -69,7 +69,7 @@ public class SurfaceThread extends Thread {
 							 * handle the frequency each item spawns
 							 */
 							double rndItem = Math.random();
-							float numItems = 9;
+							float numItems = 10;
 							if (rndItem < (1 / numItems)) {
 								gameView.add(new SmallGhostsItem((float) Math
 										.random() * gameView.getWidthPixels(),
