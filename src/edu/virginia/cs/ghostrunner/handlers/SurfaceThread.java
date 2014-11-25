@@ -12,6 +12,7 @@ import edu.virginia.cs.ghostrunner.entities.BombItem;
 import edu.virginia.cs.ghostrunner.entities.DoubleScoreItem;
 import edu.virginia.cs.ghostrunner.entities.FastGhostsItem;
 import edu.virginia.cs.ghostrunner.entities.Ghost;
+import edu.virginia.cs.ghostrunner.entities.GhostFriend;
 import edu.virginia.cs.ghostrunner.entities.HalfScoreItem;
 import edu.virginia.cs.ghostrunner.entities.SlowGhostsItem;
 import edu.virginia.cs.ghostrunner.entities.SmallGhostsItem;
@@ -130,6 +131,13 @@ public class SurfaceThread extends Thread {
 										.random() * gameView.getWidthPixels(),
 										0, gameView));
 								Log.d("ItemAdded", "BombItem");
+							}
+							if (rndItem > 9 * (1 / numItems)
+									&& rndItem < 10 * (1 / numItems)) {
+								gameView.add(new GhostFriend((float) Math
+										.random() * gameView.getWidthPixels(),
+										0, gameView));
+								Log.d("ItemAdded", "GhostFriend");
 							}
 						}
 					}
