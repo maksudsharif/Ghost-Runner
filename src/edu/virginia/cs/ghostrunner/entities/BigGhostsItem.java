@@ -10,7 +10,8 @@ import android.graphics.Paint.Style;
 
 public class BigGhostsItem extends Item {
 	
-
+	private boolean hasBeenIntersected;
+	
 	public BigGhostsItem(float x, float y, GameView gameView) {
 		super(x, y, gameView);
 		this.pos_x = (int) (Math.random() * gameView.getWidthPixels());
@@ -43,6 +44,11 @@ public class BigGhostsItem extends Item {
 		Ghost.SCALE = 1.02 * Ghost.SCALE;
 		// hard coded implementation
 	//	Ghost.SCALE = .040;
+		this.hasBeenIntersected = true;
+	}
+	
+	public boolean getIntersected() {
+		return this.hasBeenIntersected;
 	}
 
 }

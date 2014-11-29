@@ -9,6 +9,9 @@ import edu.virginia.cs.ghostrunner.R;
 import edu.virginia.cs.ghostrunner.views.GameView;
 
 public class SlowGhostsItem extends Item {
+	
+	private boolean hasBeenIntersected;
+	
 	public SlowGhostsItem(float x, float y, GameView gameView) {
 		super(x, y, gameView);
 		this.p = new Paint();
@@ -41,9 +44,13 @@ public class SlowGhostsItem extends Item {
 	@Override
 	public void intersected() {
 		// progressive implementation *note* can't remove
-		Ghost.SPEED = .99 * Ghost.SPEED;
-		
+		Ghost.SPEED = .99 * Ghost.SPEED;		
 		// hard coded implementation
 		// Ghost.SCALE = .040;
+		this.hasBeenIntersected = true;
+	}
+	
+	public boolean getIntersected() {
+		return this.hasBeenIntersected;
 	}
 }

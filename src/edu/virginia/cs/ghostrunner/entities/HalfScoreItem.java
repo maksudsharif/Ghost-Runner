@@ -9,6 +9,9 @@ import edu.virginia.cs.ghostrunner.R;
 import edu.virginia.cs.ghostrunner.views.GameView;
 
 public class HalfScoreItem extends Item {
+	
+	private boolean hasBeenIntersected;
+	
 	public HalfScoreItem (float x, float y, GameView gameView) {
 		super(x, y, gameView);
 		this.p = new Paint();
@@ -43,6 +46,10 @@ public class HalfScoreItem extends Item {
 	public void intersected() {
 		if (gameView.getScoreConstant() > .5)
 			gameView.setScoreConstant(gameView.getScoreConstant() * .5);
-		
+		this.hasBeenIntersected = true;
+	}
+	
+	public boolean getIntersected() {
+		return this.hasBeenIntersected;
 	}
 }

@@ -34,11 +34,20 @@ import android.widget.TextView;
 import edu.virginia.cs.ghostrunner.GameOver;
 import edu.virginia.cs.ghostrunner.R;
 import edu.virginia.cs.ghostrunner.entities.AnimatedEntity;
+import edu.virginia.cs.ghostrunner.entities.BigGhostsItem;
+import edu.virginia.cs.ghostrunner.entities.BigPlayerItem;
+import edu.virginia.cs.ghostrunner.entities.BombItem;
+import edu.virginia.cs.ghostrunner.entities.DoubleScoreItem;
 import edu.virginia.cs.ghostrunner.entities.Entity;
+import edu.virginia.cs.ghostrunner.entities.FastGhostsItem;
 import edu.virginia.cs.ghostrunner.entities.Ghost;
 import edu.virginia.cs.ghostrunner.entities.GhostFriend;
+import edu.virginia.cs.ghostrunner.entities.HalfScoreItem;
 import edu.virginia.cs.ghostrunner.entities.Item;
 import edu.virginia.cs.ghostrunner.entities.Player;
+import edu.virginia.cs.ghostrunner.entities.SlowGhostsItem;
+import edu.virginia.cs.ghostrunner.entities.SmallGhostsItem;
+import edu.virginia.cs.ghostrunner.entities.SmallPlayerItem;
 import edu.virginia.cs.ghostrunner.handlers.SurfaceThread;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback,
@@ -80,6 +89,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	// sounds
 	private SoundPool effects;
 	private int ghostkilled;
+	private int bombsound;
+	private int bigghostsound;
+	private int bigplayersound;
+	private int slowghostsound;
+	private int smallghostsound;
+	private int smallplayersound;
+	private int fastghostsound;
+	private int doublescoresound;
+	private int halfscoresound;
 	
 	private void init() {
 		
@@ -175,6 +193,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		
 		effects = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
 		ghostkilled = effects.load(context, R.raw.blockhit, 1);
+		bombsound = effects.load(context, R.raw.fireworks, 1);
+		bigghostsound = effects.load(context, R.raw.boot, 1);
+		bigplayersound = effects.load(context, R.raw.hasitem, 1);
+		slowghostsound = effects.load(context, R.raw.spring, 1);
+		smallghostsound = effects.load(context, R.raw.stomped, 1);
+		smallplayersound = effects.load(context, R.raw.playershrink, 1);
+		fastghostsound = effects.load(context, R.raw.fireball, 1);
+		doublescoresound = effects.load(context, R.raw.coin, 1);
+		halfscoresound = effects.load(context, R.raw.itemdropped, 1);
+		
 		
 		init();
 	}
@@ -360,6 +388,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		for (Item i : items) {
 			playerRect = player.getRect();
 			if (playerRect.intersect(i.getRect())) {
+				playSound(i);
 				i.intersected();
 			}
 			if (i.getY() > dm.heightPixels) {
@@ -549,4 +578,45 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		Ghost.setSCALE(0.035);
 		Ghost.setSPEED(.01);
 	}
+	
+	public void playSound(Object i) {
+		if (i instanceof BombItem) {
+			BombItem o = (BombItem) i;
+			if (!o.getIntersected())
+				effects.play(bombsound, 1.0f, 1.0f, 0, 0, 1.5f);
+		} if (i instanceof BigGhostsItem) {
+			BigGhostsItem o = (BigGhostsItem) i;
+			if (!o.getIntersected())
+				effects.play(bigghostsound, 1.0f, 1.0f, 0, 0, 1.5f);
+		} if (i instanceof BigPlayerItem) {
+			BigPlayerItem o = (BigPlayerItem) i;
+			if (!o.getIntersected())
+				effects.play(bigplayersound, 1.0f, 1.0f, 0, 0, 1.5f);
+		} if (i instanceof FastGhostsItem) {
+			FastGhostsItem o = (FastGhostsItem) i;
+			if (!o.getIntersected())
+				effects.play(fastghostsound, 1.0f, 1.0f, 0, 0, 1.5f);		
+		} if (i instanceof SlowGhostsItem) {
+			SlowGhostsItem o = (SlowGhostsItem) i;
+			if (!o.getIntersected())
+				effects.play(slowghostsound, 1.0f, 1.0f, 0, 0, 1.5f);			
+		} if (i instanceof SmallGhostsItem) {
+			SmallGhostsItem o = (SmallGhostsItem) i;
+			if (!o.getIntersected())
+				effects.play(smallghostsound, 1.0f, 1.0f, 0, 0, 1.5f);				
+		} if (i instanceof SmallPlayerItem) {
+			SmallPlayerItem o = (SmallPlayerItem) i;
+			if (!o.getIntersected())
+				effects.play(smallplayersound, 1.0f, 1.0f, 0, 0, 1.5f);
+		} if (i instanceof DoubleScoreItem) {
+			DoubleScoreItem o = (DoubleScoreItem) i;
+			if (!o.getIntersected())
+				effects.play(doublescoresound, 1.0f, 1.0f, 0, 0, 1.5f);
+		} if (i instanceof HalfScoreItem) {
+			HalfScoreItem o = (HalfScoreItem) i;
+			if (!o.getIntersected())
+				effects.play(halfscoresound, 1.0f, 1.0f, 0, 0, 1.5f);
+		}
+	}
+
 }

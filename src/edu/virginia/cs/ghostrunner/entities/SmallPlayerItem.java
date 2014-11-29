@@ -9,6 +9,9 @@ import edu.virginia.cs.ghostrunner.R;
 import edu.virginia.cs.ghostrunner.views.GameView;
 
 public class SmallPlayerItem extends Item {
+	
+	private boolean hasBeenIntersected;
+	
 	public SmallPlayerItem(float x, float y, GameView gameView) {
 		super(x, y, gameView);
 		this.p = new Paint();
@@ -42,5 +45,10 @@ public class SmallPlayerItem extends Item {
 		Player.setSCALE(.98 * Player.getSCALE());
 		// hard coded implementation
 		//Player.SCALE = .030;
+		this.hasBeenIntersected = true;
+	}
+	
+	public boolean getIntersected() {
+		return this.hasBeenIntersected;
 	}
 }

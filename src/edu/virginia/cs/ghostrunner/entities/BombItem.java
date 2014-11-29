@@ -12,6 +12,9 @@ import edu.virginia.cs.ghostrunner.views.GameView;
 public class BombItem extends Item {
 	Rect innerRect;
 	private Paint p2;
+	
+	private boolean hasBeenIntersected;
+	
 	public BombItem(float x, float y, GameView gameView) {
 		super(x, y, gameView);
 		innerRect = new Rect();
@@ -58,5 +61,10 @@ public class BombItem extends Item {
 		/*
 		 * TODO: DISPLAY SOME MESSAGE LIKE "BOMB"
 		 */
+		this.hasBeenIntersected = true;
+	}
+	
+	public boolean getIntersected() {
+		return this.hasBeenIntersected;
 	}
 }
