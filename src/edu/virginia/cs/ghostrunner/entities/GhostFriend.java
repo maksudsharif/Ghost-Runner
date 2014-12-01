@@ -15,19 +15,35 @@ import edu.virginia.cs.ghostrunner.R;
 import edu.virginia.cs.ghostrunner.views.GameView;
 
 public class GhostFriend extends Item {
-
-	private Player player;
-	private ArrayList<Entity> ghosts;
-	private DisplayMetrics dm;
-
+	Rect innerRect;
+	private boolean acitvated = false;
+	private boolean killed = false;
+	private Paint p2;
 	public GhostFriend(float x, float y, GameView gameView) {
 		super(x, y, gameView);
+		innerRect = new Rect();
 		this.p = new Paint();
-		this.p.setColor(Color.MAGENTA);
+		this.p.setColor(Color.parseColor("#FF8800"));
 		this.p.setStyle(Style.FILL);
+		this.p2 = new Paint();
+		this.p.setColor(Color.CYAN);
+		this.p.setStyle(Style.STROKE);
+	}
+	
+	public boolean isAcitvated() {
+		return acitvated;
+	}
 
-		bm = BitmapFactory.decodeResource(gameView.getContext().getResources(),
-				R.drawable.ic_launcher);
+	public void setAcitvated(boolean acitvated) {
+		this.acitvated = acitvated;
+	}
+
+	public boolean isKilled() {
+		return killed;
+	}
+
+	public void setKilled(boolean killed) {
+		this.killed = killed;
 	}
 
 	@Override
@@ -41,37 +57,26 @@ public class GhostFriend extends Item {
 				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_y);
 
 		c.drawRect(this.rect, this.p);
-
+		c.drawRect(this.innerRect, this.p2);
 		// c.drawBitmap(bm, (float) (pos_x - gameView.getWidthPixels()
 		// * Entity.SCALE), (float) (pos_y - gameView.getWidthPixels()
 		// * Entity.SCALE), p);
 
 	}
+	public void drawActivated(Canvas c) {
+		if (this.killed == true) {
+			gameView.getGhosts().remove(this);
+		}
+		if (this.acitvated == true) {
+			c.drawCircle(gameView.getPlayer().pos_x, gameView.getPlayer().pos_y, gameView.getPlayer().getRect().width(), this.p);
+			
+		}
+		
+		
+	}
 
 	@Override
 	public void intersected() {
-		Rect playerRect;
-		Iterator<Entity> iter = ghosts.iterator();
-		Canvas c = new Canvas();
-		float x = (int) (gameView.getWidthPixels() * Player.getSCALE())
-				+ (int) pos_x;
-		float y = (int) (gameView.getWidthPixels() * Player.getSCALE())
-				+ (int) pos_y;
-		float r = (float) (.5 * Math.sqrt(x * x + y * y));
-		Paint alpha = new Paint();
-		((Paint) alpha).setAlpha(0);
-		boolean supposedToBeThere = true;
-
-		Entity tmp = iter.next();
-		playerRect = player.getRect();
-		if (supposedToBeThere) {
-			c.drawCircle(x, y, r, alpha);
-			if (playerRect.intersect(tmp.getRect())) {
-				iter.remove();
-				Log.v("ENTITY", "ghost removed");
-				supposedToBeThere = false;
-				gameView.setCurrentScore(gameView.getCurrentScore() + 5);
-			}
-		}
+		this.acitvated = true;
 	}
 }

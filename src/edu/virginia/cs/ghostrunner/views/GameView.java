@@ -369,6 +369,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		playerRect = player.getRect();
 		for (Entity e : ghosts) {
 			if (playerRect.intersect(e.getRect())) {
+				boolean ghostFriendActive = false; // boolean to see if there is an active GhostFriend
+				for (Item i : items) {
+					if (i instanceof GhostFriend) {
+						if (((GhostFriend)i).isAcitvated())
+							((GhostFriend)i).setKilled(true);
+							items.remove(i);
+							ghostFriendActive = true; 
+					}
+				}
+				if(ghostFriendActive == true) {
+					ghosts.remove(e); 
+					continue; //if there is an active GhostFriend, remove ghost, ignore this intersection
+				}
 				stop();
 				scores.add(currentScore);
 				save();
@@ -451,7 +464,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		}
 
 		for (Item i : items) {
-			i.draw(c);
+			if (i instanceof GhostFriend) {
+				if (((GhostFriend)i).isAcitvated() == true) {
+					((GhostFriend)i).drawActivated(c);
+				}
+			} else {
+				i.draw(c);
+			}
+			
 		}
 		/*
 		 * OLD WORKING HUD

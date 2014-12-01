@@ -62,7 +62,7 @@ public class SurfaceThread extends Thread {
 					}
 					// Spawn Items
 					if (gameView.getItems().size() < 7) {
-						if (Math.random() > .96 && Math.random() > .90) { // spawn
+						if (Math.random() > .96 && Math.random() > .70) { // spawn
 																			// some
 																			// item
 							/*
