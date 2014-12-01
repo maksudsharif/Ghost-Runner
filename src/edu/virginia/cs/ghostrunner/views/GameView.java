@@ -370,6 +370,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		
 		for (Entity e : ghosts) {
 			if (playerRect.intersect(e.getRect())) {
+			//Problem Below
 				boolean ghostFriendActive = false; // boolean to see if there is an active GhostFriend
 				for (Item i : items) {
 					if (i instanceof GhostFriend) {
@@ -389,7 +390,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 					Intent intent = new Intent(getContext(), GameOver.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					getContext().startActivity(intent);
-//				}
+				}
 			}
 
 			if (e.getY() > dm.heightPixels) {
