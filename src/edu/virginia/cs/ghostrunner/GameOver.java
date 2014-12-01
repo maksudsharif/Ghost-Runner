@@ -20,22 +20,53 @@ public class GameOver extends Activity {
 	private final String FILENAME = "scores_file";
 
 	MediaPlayer mp;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		mp = MediaPlayer.create(GameOver.this, R.raw.playerdied);
 		mp.start();
-		setContentView(R.layout.activity_game_over);
-		
-		//Load scores from file
+
+		// Load scores from file
 		ArrayList<Integer> scores = load();
 		Collections.sort(scores, Collections.reverseOrder());
-		//Show scores somehow
+		// Show scores somehow
 		Log.v("GAME OVER", scores.toString());
 		TextView scoreList = (TextView) findViewById(R.id.scoreList);
 		scoreList.setText(scores.toString());
+
+		TextView score1 = (TextView) findViewById(R.id.score1);
+		TextView score2 = (TextView) findViewById(R.id.score2);
+		TextView score3 = (TextView) findViewById(R.id.score3);
+		TextView score4 = (TextView) findViewById(R.id.score4);
+		TextView score5 = (TextView) findViewById(R.id.score5);
+		switch (scores.size()) {
+		case 1:
+			score1.setText("1. " + scores.get(0));
+		case 2:
+			score1.setText("1. " + scores.get(0));
+			score2.setText("2. " + scores.get(1));
+		case 3:
+			score1.setText("1. " + scores.get(0));
+			score2.setText("2. " + scores.get(1));
+			score3.setText("3. " + scores.get(2));
+		case 4:
+			score1.setText("1. " + scores.get(0));
+			score2.setText("2. " + scores.get(1));
+			score3.setText("3. " + scores.get(2));
+			score4.setText("4. " + scores.get(3));
+		case 5:
+			score1.setText("1. " + scores.get(0));
+			score2.setText("2. " + scores.get(1));
+			score3.setText("3. " + scores.get(2));
+			score4.setText("4. " + scores.get(3));
+			score5.setText("5. " + scores.get(4));
+		default:
+
+		}
+
+		setContentView(R.layout.activity_game_over);
 	}
 
 	@Override
@@ -73,6 +104,7 @@ public class GameOver extends Activity {
 		return loaded;
 
 	}
+
 	public void goBack(View button) {
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);

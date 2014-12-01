@@ -16,21 +16,70 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="52dp"
-        android:textColor="#EBD4CE"
-        android:text="@string/gameover" />
+        android:text="@string/gameover"
+        android:textColor="#EBD4CE" />
 
     <TextView
         android:id="@+id/scoreList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
-  <Button
+        android:layout_centerInParent="true"
+        android:text="List"
+        android:textColor="#EBD4CE" />
+
+    <TextView
+        android:id="@+id/score1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/scoreList"
+        android:layout_centerInParent="true"
+        android:text="1. No score."
+        android:textColor="#EBD4CE" />
+
+    <TextView
+        android:id="@+id/score2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/score1"
+        android:layout_centerInParent="true"
+        android:text="2. No score."
+        android:textColor="#EBD4CE" />
+
+    <TextView
+        android:id="@+id/score3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/score2"
+        android:layout_centerInParent="true"
+        android:text="3. No score."
+        android:textColor="#EBD4CE" />
+
+    <TextView
+        android:id="@+id/score4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/score3"
+        android:layout_centerInParent="true"
+        android:text="4. No score."
+        android:textColor="#EBD4CE" />
+
+    <TextView
+        android:id="@+id/score5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/score4"
+        android:layout_centerInParent="true"
+        android:text="5. No score."
+        android:textColor="#EBD4CE" />
+
+    <Button
         android:id="@+id/backbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/scoreList"
+        android:layout_below="@+id/score5"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
         android:onClick="goBack"
         android:text="@string/back" />
+
 </RelativeLayout>
