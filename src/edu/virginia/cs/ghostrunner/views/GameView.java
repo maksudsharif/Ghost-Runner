@@ -303,12 +303,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	}
 
 	public void save() {
+		
 		try {
 			FileOutputStream fo = getContext().openFileOutput(FILENAME,
 					Context.MODE_PRIVATE);
 			ObjectOutputStream os = new ObjectOutputStream(fo);
 			//Only show keep top 5
-			if(scores.size() > 0){
+			if(scores.size() > 5){
 				Collections.sort(scores);
 				scores.remove(0);
 			}
