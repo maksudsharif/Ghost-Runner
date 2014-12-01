@@ -65,12 +65,9 @@ public class GhostFriend extends Item {
 
 	}
 	public void drawActivated(Canvas c) {
-		if (this.killed == true) {
-			gameView.getGhosts().remove(this);
-		}
+		
 		if (this.acitvated == true) {
-			c.drawCircle(gameView.getPlayer().pos_x, gameView.getPlayer().pos_y, gameView.getPlayer().getRect().width(), this.p);
-			Log.d("GhostFriend" , "GhostFriendDrawn");
+			c.drawCircle(gameView.getPlayer().pos_x, gameView.getPlayer().pos_y, (int)(gameView.getPlayer().getRect().width() / 2), this.p);
 		}
 		
 		

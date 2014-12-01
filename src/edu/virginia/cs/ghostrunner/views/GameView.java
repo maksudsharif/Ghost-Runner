@@ -367,27 +367,29 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 
 		// Sync fix
 		playerRect = player.getRect();
+		
 		for (Entity e : ghosts) {
 			if (playerRect.intersect(e.getRect())) {
 				boolean ghostFriendActive = false; // boolean to see if there is an active GhostFriend
 				for (Item i : items) {
 					if (i instanceof GhostFriend) {
 						if (((GhostFriend)i).isAcitvated())
-							((GhostFriend)i).setKilled(true);
 							items.remove(i);
 							ghostFriendActive = true; 
 					}
 				}
-				if (ghostFriendActive == true) {
+				if (ghostFriendActive) {
 					ghosts.remove(e); 
-					continue; //if there is an active GhostFriend, remove ghost, ignore this intersection
-				}
-				stop();
-				scores.add(currentScore);
-				save();
-				Intent intent = new Intent(getContext(), GameOver.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				getContext().startActivity(intent);
+					
+					//if there is an active GhostFriend, remove ghost, ignore this intersection
+				} else {
+					stop();
+					scores.add(currentScore);
+					save();
+					Intent intent = new Intent(getContext(), GameOver.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					getContext().startActivity(intent);
+//				}
 			}
 
 			if (e.getY() > dm.heightPixels) {
