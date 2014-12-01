@@ -12,9 +12,35 @@
         android:id="@+id/imgLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
         android:contentDescription="@string/title_activity_splash"
         android:src="@drawable/ghosthunter" />
+    
+    <TextView
+        android:id="@+id/textLogo"
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+       android:layout_centerHorizontal="true"
+        android:layout_below="@id/imgLogo"
+        android:text="Ghost Hunter" />
+    
+    <TextView
+        android:id="@+id/Names"
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/textLogo"
+        android:text="Jacob Freck, Maskud Sharif, Andrew McLenigan, Sean McElrath, Matt Whitesell" />
+    
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/Names"
+        android:text="University of Virginia, CS 2110, Fall 2014" />
+        
     
 
 </RelativeLayout>
