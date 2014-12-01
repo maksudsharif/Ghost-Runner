@@ -59,12 +59,9 @@ public class GhostFriend extends Item {
 
 	}
 	public void drawActivated(Canvas c) {
-		
 		if (this.acitvated == true) {
 			c.drawCircle(gameView.getPlayer().pos_x, gameView.getPlayer().pos_y, (int)(gameView.getPlayer().getRect().width() / 1.1), this.p);
-		}
-		
-		
+		} 
 	}
 
 	@Override
