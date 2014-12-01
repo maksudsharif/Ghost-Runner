@@ -21,6 +21,7 @@ public class GameOver extends Activity {
 
 	MediaPlayer mp;
 	TextView scoreList;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,39 +35,41 @@ public class GameOver extends Activity {
 		// Show scores somehow
 		Log.v("GAME OVER", scores.toString());
 		scoreList = (TextView) findViewById(R.id.scoreList);
-		scoreList.setText(scores.toString());
+		//scoreList.setText(scores.toString());
 
 		TextView score1 = (TextView) findViewById(R.id.score1);
 		TextView score2 = (TextView) findViewById(R.id.score2);
 		TextView score3 = (TextView) findViewById(R.id.score3);
 		TextView score4 = (TextView) findViewById(R.id.score4);
 		TextView score5 = (TextView) findViewById(R.id.score5);
-		switch (scores.size()) {
-		case 1:
-			score1.setText("1. " + scores.get(0));
-		case 2:
-			score1.setText("1. " + scores.get(0));
-			score2.setText("2. " + scores.get(1));
-		case 3:
-			score1.setText("1. " + scores.get(0));
-			score2.setText("2. " + scores.get(1));
-			score3.setText("3. " + scores.get(2));
-		case 4:
-			score1.setText("1. " + scores.get(0));
-			score2.setText("2. " + scores.get(1));
-			score3.setText("3. " + scores.get(2));
-			score4.setText("4. " + scores.get(3));
-		case 5:
-			score1.setText("1. " + scores.get(0));
-			score2.setText("2. " + scores.get(1));
-			score3.setText("3. " + scores.get(2));
-			score4.setText("4. " + scores.get(3));
-			score5.setText("5. " + scores.get(4));
-		default:
+
+		int size = scores.size();
+
+		if (size == 1) {
+			score1.setText("1. "+String.valueOf(scores.get(0)));
+		} else if (size == 2) {
+			score1.setText("1. "+String.valueOf(scores.get(0)));
+			score2.setText("2. "+String.valueOf(scores.get(1)));
+		} else if (size == 3) {
+			score1.setText("1. "+String.valueOf(scores.get(0)));
+			score2.setText("2. "+String.valueOf(scores.get(1)));
+			score3.setText("3. "+String.valueOf(scores.get(2)));
+		} else if (size == 4) {
+			score1.setText("1. "+String.valueOf(scores.get(0)));
+			score2.setText("2. "+String.valueOf(scores.get(1)));
+			score3.setText("3. "+String.valueOf(scores.get(2)));
+			score4.setText("4. "+String.valueOf(scores.get(3)));
+		} else if (size == 5) {
+			// Log.v("SIZE = 5", scores.toString());
+			score1.setText("1. "+String.valueOf(scores.get(0)));
+			score2.setText("2. "+String.valueOf(scores.get(1)));
+			score3.setText("3. "+String.valueOf(scores.get(2)));
+			score4.setText("4. "+String.valueOf(scores.get(3)));
+			score5.setText("5. "+String.valueOf(scores.get(4)));
+		} else {
 
 		}
 
-		
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import edu.virginia.cs.ghostrunner.entities.BigGhostsItem;
 import edu.virginia.cs.ghostrunner.entities.BigPlayerItem;
 import edu.virginia.cs.ghostrunner.entities.BombItem;
 import edu.virginia.cs.ghostrunner.entities.DoubleScoreItem;
+import edu.virginia.cs.ghostrunner.entities.Entity;
 import edu.virginia.cs.ghostrunner.entities.FastGhostsItem;
 import edu.virginia.cs.ghostrunner.entities.Ghost;
 import edu.virginia.cs.ghostrunner.entities.GhostFriend;
@@ -50,7 +51,9 @@ public class SurfaceThread extends Thread {
 
 					// update Animation Entities
 					// gameView.aGhost.update(System.currentTimeMillis());
-
+					for(Entity e : gameView.getGhosts()){
+						((Ghost)e).update(System.currentTimeMillis());
+					}
 					// update ghosts
 					if (gameView.size() < (15 * spawn)) {
 						if (Math.random() > (.96 * freq)

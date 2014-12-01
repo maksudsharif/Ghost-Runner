@@ -11,6 +11,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -26,11 +28,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
-import android.widget.TextView;
 import edu.virginia.cs.ghostrunner.GameOver;
 import edu.virginia.cs.ghostrunner.R;
 import edu.virginia.cs.ghostrunner.entities.AnimatedEntity;
@@ -72,11 +69,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	private int lastScore;
 	private String score;
 	private String scoreMultiplier;
-	private TextView hud;
-	private RelativeLayout.LayoutParams params;
-	private RelativeLayout rl;
+	private Bitmap bg;
 
 	private String difficulty;
+
 	// changed with difficulty
 	private double ghostSpawnConstant;
 	private double ghostFrequencyConstant;
@@ -98,14 +94,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	private int fastghostsound;
 	private int doublescoresound;
 	private int halfscoresound;
-	
+
 	private void init() {
-		
+
 		scores = load();
 		if (scores == null) {
 			scores = new ArrayList<Integer>();
 		}
 
+		bg = BitmapFactory.decodeResource(getContext().getResources(),
+				R.drawable.activity_game_bg);
 		p = new Paint();
 
 		getHolder().addCallback(this); // Needed for SurfaceView to render
@@ -124,24 +122,25 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		lastScore = 0;
 		score = "";
 		scoreMultiplier = "";
-		
+
 		/*
 		 * New HUD init
 		 */
-//		params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
-//		params.leftMargin = this.getMeasuredWidth() / 2; //Your X coordinate
-//		params.topMargin = (int) (0 + (.05 *this.getMeasuredHeight())); //Your Y coordinate
-//		// initialize the hud
-//		ViewParent parentView = null;
-//		parentView= this.getParent();
-//		while (rl instanceof ViewGroup) 
-//			parentView = this.getParent();
-//		rl = (RelativeLayout) parentView;
-//		hud = (TextView) this.rl.getChildAt(0);
-		
-		
+		// params = new
+		// RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+		// params.leftMargin = this.getMeasuredWidth() / 2; //Your X coordinate
+		// params.topMargin = (int) (0 + (.05 *this.getMeasuredHeight()));
+		// //Your Y coordinate
+		// // initialize the hud
+		// ViewParent parentView = null;
+		// parentView= this.getParent();
+		// while (rl instanceof ViewGroup)
+		// parentView = this.getParent();
+		// rl = (RelativeLayout) parentView;
+		// hud = (TextView) this.rl.getChildAt(0);
+
 		sPaint = new Paint();
-		sPaint.setColor(Color.BLACK);
+		sPaint.setColor(Color.WHITE);
 		sPaint.setTextSize(100);
 		sPaint.setTextAlign(Paint.Align.CENTER);
 
@@ -190,7 +189,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		difficulty = ((Activity) context).getIntent().getStringExtra(
 				"difficulty");
 		Log.v("GV INTENT", "GameView diff: " + difficulty);
-		
+
 		effects = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
 		ghostkilled = effects.load(context, R.raw.blockhit, 1);
 		bombsound = effects.load(context, R.raw.fireworks, 1);
@@ -202,8 +201,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		fastghostsound = effects.load(context, R.raw.fireball, 1);
 		doublescoresound = effects.load(context, R.raw.coin, 1);
 		halfscoresound = effects.load(context, R.raw.itemdropped, 1);
-		
-		
+
 		init();
 	}
 
@@ -303,13 +301,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 	}
 
 	public void save() {
-		
+
 		try {
 			FileOutputStream fo = getContext().openFileOutput(FILENAME,
 					Context.MODE_PRIVATE);
 			ObjectOutputStream os = new ObjectOutputStream(fo);
-			//Only show keep top 5
-			if(scores.size() > 5){
+			// Only show keep top 5
+			if (scores.size() > 5) {
 				Collections.sort(scores);
 				scores.remove(0);
 			}
@@ -368,23 +366,27 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 
 		// Sync fix
 		playerRect = player.getRect();
-		
+
 		for (Entity e : ghosts) {
 			if (playerRect.intersect(e.getRect())) {
-			//Problem Below
-				boolean ghostFriendActive = false; // boolean to see if there is an active GhostFriend
+				// Problem Below
+				boolean ghostFriendActive = false; // boolean to see if there is
+													// an active GhostFriend
 				for (Item i : items) {
 					if (i instanceof GhostFriend) {
-						if (((GhostFriend)i).isAcitvated()){ //always returns true for some reason
+						if (((GhostFriend) i).isAcitvated()) { // always returns
+																// true for some
+																// reason
 							items.remove(i);
 							ghostFriendActive = true;
 						}
 					}
 				}
 				if (ghostFriendActive) {
-					ghosts.remove(e); 
-					
-					//if there is an active GhostFriend, remove ghost, ignore this intersection
+					ghosts.remove(e);
+
+					// if there is an active GhostFriend, remove ghost, ignore
+					// this intersection
 				} else {
 					stop();
 					scores.add(currentScore);
@@ -398,7 +400,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 			if (e.getY() > dm.heightPixels) {
 				ghosts.remove(e);
 				Log.v("ENTITY", "ghost removed");
-				if (((Ghost) e).getDrawRect()) 
+				if (((Ghost) e).getDrawRect())
 					currentScore += 2 * scoreConstant;
 				lastScore = (int) (2 * scoreConstant);
 			}
@@ -446,8 +448,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		super.onDraw(c);
 
 		// Draw Background
-		c.drawColor(Color.parseColor("#34495e"));
-
+		//c.drawColor(Color.parseColor("#34495e"));
+		c.drawBitmap(bg,  0,  0,  p);
 		// Check bounds
 		checkBounds();
 
@@ -461,7 +463,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		 */
 
 		for (Entity e : ghosts) {
-			if ( ((Ghost)e).getDrawRect()) {
+			if (((Ghost) e).getDrawRect()) {
 				e.draw(c);
 			} else {
 				((Ghost) e).drawString(c);
@@ -469,16 +471,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		}
 
 		for (Item i : items) {
-			if(!(i instanceof GhostFriend)) {
+			if (!(i instanceof GhostFriend)) {
 				i.draw(c);
 			} else {
-				if (((GhostFriend)i).isAcitvated() == true) 
-					((GhostFriend)i).drawActivated(c);
-				else 
-					i.draw(c);	
+				if (((GhostFriend) i).isAcitvated() == true)
+					((GhostFriend) i).drawActivated(c);
+				else
+					i.draw(c);
 			}
-			
-			
+
 		}
 		/*
 		 * OLD WORKING HUD
@@ -490,24 +491,27 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		c.drawText(score, 0, score.length(),
 				(float) (this.getMeasuredWidth() / 2),
 				(float) (0 + (.05 * this.getMeasuredHeight())), sPaint);
-		c.drawText(scoreMultiplier, 0, scoreMultiplier.length(),
+		c.drawText(
+				scoreMultiplier,
+				0,
+				scoreMultiplier.length(),
 				(float) (this.getMeasuredWidth() - scoreMultiplier.length() * 20),
-				(float) (0 + (.09 * this.getMeasuredHeight() *.9)), sPaint);
+				(float) (0 + (.09 * this.getMeasuredHeight() * .9)), sPaint);
 
 		/*
 		 * NEW (AND NON-WORKING) HUD
 		 */
-//		//set HUD values
-////		hud.invalidate();
-//		hud.setText("Score: " + currentScore + "/n" + "x" + this.scoreConstant);
-//		hud.setTextAlignment(TEXT_ALIGNMENT_CENTER);
-//		hud.setTextColor(Color.WHITE);
-//		hud.setTextSize(this.getMeasuredHeight() * .02f);
-//	//	hud.setTypeface(tf);
-//		
-//		//draw the hud
-//		rl.draw(c);
-		
+		// //set HUD values
+		// // hud.invalidate();
+		// hud.setText("Score: " + currentScore + "/n" + "x" +
+		// this.scoreConstant);
+		// hud.setTextAlignment(TEXT_ALIGNMENT_CENTER);
+		// hud.setTextColor(Color.WHITE);
+		// hud.setTextSize(this.getMeasuredHeight() * .02f);
+		// // hud.setTypeface(tf);
+		//
+		// //draw the hud
+		// rl.draw(c);
 
 	}
 
@@ -542,10 +546,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		for (Entity g : ghosts) {
 			Rect tmp = g.getRect();
 			if (tmp.contains(x, y)) {
-				((Ghost) g).setScoreDisplay("+" + (int) (5 * this.scoreConstant));
-				int[] location = {x, y};
+				((Ghost) g).setScoreDisplay("+"
+						+ (int) (5 * this.scoreConstant));
+				int[] location = { x, y };
 				((Ghost) g).setTouchLocation(location);
-				
+
 				return performClick((Ghost) g);
 			}
 		}
@@ -605,41 +610,49 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		Ghost.setSCALE(0.035);
 		Ghost.setSPEED(.01);
 	}
-	
+
 	public void playSound(Object i) {
 		if (i instanceof BombItem) {
 			BombItem o = (BombItem) i;
 			if (!o.getIntersected())
 				effects.play(bombsound, 1.0f, 1.0f, 0, 0, 1.5f);
-		} if (i instanceof BigGhostsItem) {
+		}
+		if (i instanceof BigGhostsItem) {
 			BigGhostsItem o = (BigGhostsItem) i;
 			if (!o.getIntersected())
 				effects.play(bigghostsound, 1.0f, 1.0f, 0, 0, 1.5f);
-		} if (i instanceof BigPlayerItem) {
+		}
+		if (i instanceof BigPlayerItem) {
 			BigPlayerItem o = (BigPlayerItem) i;
 			if (!o.getIntersected())
 				effects.play(bigplayersound, 1.0f, 1.0f, 0, 0, 1.5f);
-		} if (i instanceof FastGhostsItem) {
+		}
+		if (i instanceof FastGhostsItem) {
 			FastGhostsItem o = (FastGhostsItem) i;
 			if (!o.getIntersected())
-				effects.play(fastghostsound, 1.0f, 1.0f, 0, 0, 1.5f);		
-		} if (i instanceof SlowGhostsItem) {
+				effects.play(fastghostsound, 1.0f, 1.0f, 0, 0, 1.5f);
+		}
+		if (i instanceof SlowGhostsItem) {
 			SlowGhostsItem o = (SlowGhostsItem) i;
 			if (!o.getIntersected())
-				effects.play(slowghostsound, 1.0f, 1.0f, 0, 0, 1.5f);			
-		} if (i instanceof SmallGhostsItem) {
+				effects.play(slowghostsound, 1.0f, 1.0f, 0, 0, 1.5f);
+		}
+		if (i instanceof SmallGhostsItem) {
 			SmallGhostsItem o = (SmallGhostsItem) i;
 			if (!o.getIntersected())
-				effects.play(smallghostsound, 1.0f, 1.0f, 0, 0, 1.5f);				
-		} if (i instanceof SmallPlayerItem) {
+				effects.play(smallghostsound, 1.0f, 1.0f, 0, 0, 1.5f);
+		}
+		if (i instanceof SmallPlayerItem) {
 			SmallPlayerItem o = (SmallPlayerItem) i;
 			if (!o.getIntersected())
 				effects.play(smallplayersound, 1.0f, 1.0f, 0, 0, 1.5f);
-		} if (i instanceof DoubleScoreItem) {
+		}
+		if (i instanceof DoubleScoreItem) {
 			DoubleScoreItem o = (DoubleScoreItem) i;
 			if (!o.getIntersected())
 				effects.play(doublescoresound, 1.0f, 1.0f, 0, 0, 1.5f);
-		} if (i instanceof HalfScoreItem) {
+		}
+		if (i instanceof HalfScoreItem) {
 			HalfScoreItem o = (HalfScoreItem) i;
 			if (!o.getIntersected())
 				effects.play(halfscoresound, 1.0f, 1.0f, 0, 0, 1.5f);
