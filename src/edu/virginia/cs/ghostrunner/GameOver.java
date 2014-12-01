@@ -20,20 +20,20 @@ public class GameOver extends Activity {
 	private final String FILENAME = "scores_file";
 
 	MediaPlayer mp;
-
+	TextView scoreList;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		mp = MediaPlayer.create(GameOver.this, R.raw.playerdied);
 		mp.start();
-
+		setContentView(R.layout.activity_game_over);
 		// Load scores from file
 		ArrayList<Integer> scores = load();
 		Collections.sort(scores, Collections.reverseOrder());
 		// Show scores somehow
 		Log.v("GAME OVER", scores.toString());
-		TextView scoreList = (TextView) findViewById(R.id.scoreList);
+		scoreList = (TextView) findViewById(R.id.scoreList);
 		scoreList.setText(scores.toString());
 
 		TextView score1 = (TextView) findViewById(R.id.score1);
@@ -66,7 +66,7 @@ public class GameOver extends Activity {
 
 		}
 
-		setContentView(R.layout.activity_game_over);
+		
 	}
 
 	@Override
