@@ -62,7 +62,8 @@ public class SurfaceThread extends Thread {
 					}
 					// Spawn Items
 					if (gameView.getItems().size() < 3) {
-						gameView.add(new GhostFriend((float) Math
+						
+						gameView.add(new BombItem((float) Math
 								.random() * gameView.getWidthPixels(),
 								0, gameView));
 /*						if (Math.random() > .96 && Math.random() > .70) { // spawn

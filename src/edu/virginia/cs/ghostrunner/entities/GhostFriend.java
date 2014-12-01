@@ -17,7 +17,7 @@ import edu.virginia.cs.ghostrunner.views.GameView;
 public class GhostFriend extends Item {
 	Rect innerRect;
 	private boolean acitvated = false;
-	private boolean killed = false;
+	
 	private Paint p2;
 	
 	public GhostFriend(float x, float y, GameView gameView) {
@@ -27,7 +27,7 @@ public class GhostFriend extends Item {
 		this.p.setColor(Color.parseColor("#FF8800"));
 		this.p.setStyle(Style.FILL);
 		this.p2 = new Paint();
-		this.p.setColor(Color.CYAN);
+		this.p2.setColor(Color.CYAN);
 		this.p2.setStyle(Style.FILL);
 	}
 	
@@ -39,13 +39,6 @@ public class GhostFriend extends Item {
 		this.acitvated = acitvated;
 	}
 
-	public boolean isKilled() {
-		return killed;
-	}
-
-	public void setKilled(boolean killed) {
-		this.killed = killed;
-	}
 
 	@Override
 	public void draw(Canvas c) {
@@ -56,8 +49,9 @@ public class GhostFriend extends Item {
 				- (int) (gameView.getWidthPixels() * Entity.SCALE),
 				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_x,
 				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_y);
-
 		c.drawRect(this.rect, this.p);
+		this.innerRect = this.rect;
+		innerRect.inset((int) (this.rect.width() * .1), (int) (this.rect.width()* .1));
 		c.drawRect(this.innerRect, this.p2);
 		// c.drawBitmap(bm, (float) (pos_x - gameView.getWidthPixels()
 		// * Entity.SCALE), (float) (pos_y - gameView.getWidthPixels()

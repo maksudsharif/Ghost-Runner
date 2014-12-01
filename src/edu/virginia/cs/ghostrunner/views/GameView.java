@@ -374,9 +374,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 				boolean ghostFriendActive = false; // boolean to see if there is an active GhostFriend
 				for (Item i : items) {
 					if (i instanceof GhostFriend) {
-						if (((GhostFriend)i).isAcitvated())
+						if (((GhostFriend)i).isAcitvated()){ //always returns true for some reason
 							items.remove(i);
-							ghostFriendActive = true; 
+							ghostFriendActive = true;
+						}
 					}
 				}
 				if (ghostFriendActive) {

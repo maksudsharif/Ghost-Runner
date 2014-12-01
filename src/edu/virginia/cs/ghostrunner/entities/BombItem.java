@@ -18,12 +18,15 @@ public class BombItem extends Item {
 	public BombItem(float x, float y, GameView gameView) {
 		super(x, y, gameView);
 		innerRect = new Rect();
+		
 		this.p = new Paint();
 		this.p.setColor(Color.RED);
 		this.p.setStyle(Style.FILL);
+		
 		this.p2 = new Paint();
-		this.p.setColor(Color.GRAY);
-		this.p.setStyle(Style.FILL);
+		this.p2.setColor(Color.BLACK);
+		this.p2.setStyle(Style.FILL);
+		
 		bm = BitmapFactory.decodeResource(gameView.getContext().getResources(),
 				R.drawable.ic_launcher);
 
@@ -38,9 +41,9 @@ public class BombItem extends Item {
 				- (int) (gameView.getWidthPixels() * Entity.SCALE),
 				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_x,
 				(int) (gameView.getWidthPixels() * Entity.SCALE) + (int) pos_y);
-//		this.innerRect.set(this.rect);
-		innerRect.inset((int) (this.rect.width() * .3), (int) (this.rect.height() * .3));
 		c.drawRect(this.rect, this.p);
+		this.innerRect = this.rect;
+		innerRect.inset((int) (this.rect.width() * .1), (int) (this.rect.width()* .1));
 		c.drawRect(this.innerRect, this.p2);
 
 		// c.drawBitmap(bm, (float) (pos_x - gameView.getWidthPixels()
