@@ -61,13 +61,16 @@ public class SurfaceThread extends Thread {
 						}
 					}
 					// Spawn Items
-					if (gameView.getItems().size() < 7) {
-						if (Math.random() > .96 && Math.random() > .70) { // spawn
+					if (gameView.getItems().size() < 3) {
+						gameView.add(new GhostFriend((float) Math
+								.random() * gameView.getWidthPixels(),
+								0, gameView));
+/*						if (Math.random() > .96 && Math.random() > .70) { // spawn
 																			// some
 																			// item
 							/*
 							 * handle the frequency each item spawns
-							 */
+							 *
 							double rndItem = Math.random();
 							float numItems = 10;
 							if (rndItem < (1 / numItems)) {
@@ -139,7 +142,7 @@ public class SurfaceThread extends Thread {
 										0, gameView));
 								Log.d("ItemAdded", "GhostFriend");
 							}
-						}
+						} */
 					}
 
 				}

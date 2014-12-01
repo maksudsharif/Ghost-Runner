@@ -19,6 +19,7 @@ public class GhostFriend extends Item {
 	private boolean acitvated = false;
 	private boolean killed = false;
 	private Paint p2;
+	
 	public GhostFriend(float x, float y, GameView gameView) {
 		super(x, y, gameView);
 		innerRect = new Rect();
@@ -27,7 +28,7 @@ public class GhostFriend extends Item {
 		this.p.setStyle(Style.FILL);
 		this.p2 = new Paint();
 		this.p.setColor(Color.CYAN);
-		this.p.setStyle(Style.STROKE);
+		this.p2.setStyle(Style.FILL);
 	}
 	
 	public boolean isAcitvated() {
@@ -69,7 +70,7 @@ public class GhostFriend extends Item {
 		}
 		if (this.acitvated == true) {
 			c.drawCircle(gameView.getPlayer().pos_x, gameView.getPlayer().pos_y, gameView.getPlayer().getRect().width(), this.p);
-			
+			Log.d("GhostFriend" , "GhostFriendDrawn");
 		}
 		
 		
@@ -78,5 +79,6 @@ public class GhostFriend extends Item {
 	@Override
 	public void intersected() {
 		this.acitvated = true;
+		this.p.setStyle(Style.STROKE);
 	}
 }

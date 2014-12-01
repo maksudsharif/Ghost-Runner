@@ -23,7 +23,7 @@ public class BombItem extends Item {
 		this.p.setStyle(Style.FILL);
 		this.p2 = new Paint();
 		this.p.setColor(Color.GRAY);
-		this.p.setStyle(Style.STROKE);
+		this.p.setStyle(Style.FILL);
 		bm = BitmapFactory.decodeResource(gameView.getContext().getResources(),
 				R.drawable.ic_launcher);
 

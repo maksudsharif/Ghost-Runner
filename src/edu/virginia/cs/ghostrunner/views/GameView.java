@@ -378,7 +378,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 							ghostFriendActive = true; 
 					}
 				}
-				if(ghostFriendActive == true) {
+				if (ghostFriendActive == true) {
 					ghosts.remove(e); 
 					continue; //if there is an active GhostFriend, remove ghost, ignore this intersection
 				}
@@ -464,13 +464,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 		}
 
 		for (Item i : items) {
-			if (i instanceof GhostFriend) {
-				if (((GhostFriend)i).isAcitvated() == true) {
-					((GhostFriend)i).drawActivated(c);
-				}
-			} else {
+			if(!(i instanceof GhostFriend)) {
 				i.draw(c);
+			} else {
+				if (((GhostFriend)i).isAcitvated() == true) 
+					((GhostFriend)i).drawActivated(c);
+				else 
+					i.draw(c);	
 			}
+			
 			
 		}
 		/*
