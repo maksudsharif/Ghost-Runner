@@ -44,7 +44,7 @@ public class Ghost extends Entity {
 		bm = BitmapFactory.decodeResource(gameView.getContext().getResources(),
 				R.drawable.ghostanim2);
 		curFrame = 0;
-		frameNum = 14;
+		frameNum = 5;
 		spriteWidth = bm.getWidth() / frameNum;
 		spriteHeight = bm.getHeight();
 		src = new Rect(0, 0, spriteWidth, spriteHeight);
@@ -88,10 +88,12 @@ public class Ghost extends Entity {
 	}
 
 	public void drawString(Canvas c) {
+		p.setColor(Color.WHITE);
 		this.pos_y += (int) (gameView.getWidthPixels() * Ghost.SPEED)
 				* gameView.getGhostSpeedConstant();
 		c.drawText(scoreDisplay, touchLocation[0], touchLocation[1], this.p);
 		c.drawRect(this.rect, this.p);
+		p.setColor(Color.BLACK);
 	}
 
 	public static double getSPEED() {
