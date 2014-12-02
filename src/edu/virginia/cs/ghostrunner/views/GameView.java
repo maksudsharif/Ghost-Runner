@@ -392,6 +392,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,
 					scores.add(currentScore);
 					save();
 					Intent intent = new Intent(getContext(), GameOver.class);
+					
 					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					getContext().startActivity(intent);
 				}

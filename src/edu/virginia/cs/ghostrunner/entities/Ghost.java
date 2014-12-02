@@ -1,6 +1,5 @@
 package edu.virginia.cs.ghostrunner.entities;
 
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -35,7 +34,7 @@ public class Ghost extends Entity {
 		this.pos_x = (int) (Math.random() * gameView.getWidthPixels());
 		this.pos_y = 0;
 		this.p = new Paint();
-		this.p.setColor(Color.BLACK);
+		this.p.setColor(Color.WHITE);
 		p.setStyle(Style.FILL);
 		p.setStrokeWidth(3);
 		p.setTextSize(gameView.getMeasuredHeight() * .03f);
@@ -44,7 +43,7 @@ public class Ghost extends Entity {
 		bm = BitmapFactory.decodeResource(gameView.getContext().getResources(),
 				R.drawable.ghostanim2);
 		curFrame = 0;
-		frameNum = 5;
+		frameNum = 14;
 		spriteWidth = bm.getWidth() / frameNum;
 		spriteHeight = bm.getHeight();
 		src = new Rect(0, 0, spriteWidth, spriteHeight);
@@ -83,8 +82,8 @@ public class Ghost extends Entity {
 																				// the
 																				// rectangle
 		// c.drawBitmap(bm, pos_x - 25, pos_y - 25, p);
-		// c.drawRect(this.rect, this.p);
-		c.drawBitmap(bm, src, rect, null);
+		 c.drawRect(this.rect, this.p);
+		//c.drawBitmap(bm, src, rect, null);
 	}
 
 	public void drawString(Canvas c) {
