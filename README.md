@@ -1,4 +1,4 @@
 GhostRunner
 ===================
 
-A Android game created for CS2110.
+An Android game created for CS2110.
